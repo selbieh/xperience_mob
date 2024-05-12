@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/config/app_environment.dart';
-import 'package:xperience/splash_screen.dart';
+import 'package:xperience/model/config/logger.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
+import 'package:xperience/model/services/providers/provider_setup.dart';
+import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/model/services/shared_preference.dart';
+import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/model/services/theme/app_theme.dart';
+import 'package:xperience/model/services/theme/dark_theme.dart';
+import 'package:xperience/view/screens/auth/splash_screen.dart';
 
-void main() {
-  AppEnvironment.initialize(EnvironmentType.development);
+void main() async {
+  try {
+    AppEnvironment.initialize(EnvironmentType.development);
+    WidgetsFlutterBinding.ensureInitialized();
+    await Future.wait([
+      SharedPref.initialize(),
+    ]);
+    setupLocator();
+  } catch (error) {
+    Logger.printt(error, isError: true);
+  }
 
   runApp(const MyApp());
 }
@@ -14,28 +33,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: providers,
+      child: Consumer2<AppLanguage, AppTheme>(
+        builder: (context, language, theme, _) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: AppEnvironment.instance.appName,
+
+            // Theme
+            // theme: ThemeData(
+            //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            //   useMaterial3: true,
+            // ),
+            color: AppColors.primaryColorLight,
+            theme: darkTheme(context),
+            darkTheme: darkTheme(context),
+            themeMode: theme.themeMode,
+
+            // Navigation
+            navigatorKey: NavService().navigationKey,
+            home: const SplashScreen(),
+
+            // Localizations
+            locale: language.appLocale,
+            supportedLocales: language.supportedLocales,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+          );
+        },
       ),
-      home: const SplashScreen(),
     );
   }
 }

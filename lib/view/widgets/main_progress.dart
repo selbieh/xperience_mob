@@ -15,7 +15,7 @@ class MainProgress extends StatelessWidget {
 
   const MainProgress({
     Key? key,
-    this.color = AppColors.primaryColor,
+    this.color = AppColors.primaryColorLight,
     this.stroke = 4,
     this.diameter = 35,
     this.height = 4,

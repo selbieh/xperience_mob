@@ -23,7 +23,7 @@ class SharedPref {
 
   static void setDefaultValues(bool isNullValue) {
     if (isNullValue) {
-      setString(SharedPrefKeys.theme, "Light");
+      setString(SharedPrefKeys.theme, "Dark");
       setString(SharedPrefKeys.languageCode, "en");
       setBool(SharedPrefKeys.isFirstLaunch, true);
       setBool(SharedPrefKeys.isUserLoggedIn, false);
