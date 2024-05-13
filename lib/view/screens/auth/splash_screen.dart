@@ -7,6 +7,7 @@ import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:xperience/view/screens/auth/onbording_screen.dart';
 import 'package:xperience/view/screens/home_screen.dart';
 import 'package:xperience/view/widgets/animations/fade_transition_widget.dart';
 
@@ -56,7 +57,7 @@ class SplashScreenViewModel extends BaseNotifier {
         await auth.loadUser();
         NavService().pushReplacementKey(const HomeScreen());
       } else {
-        NavService().pushReplacementKey(const HomeScreen());
+        NavService().pushReplacementKey(const OnboardingScreen());
       }
     });
   }
