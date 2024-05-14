@@ -3,7 +3,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/home_screen.dart';
+import 'package:xperience/view/screens/auth/login_screen.dart';
 import 'package:xperience/view/widgets/main_button.dart';
 import 'package:xperience/view/widgets/onboarding_page_item.dart';
 
@@ -80,7 +80,7 @@ class OnboardingScreen extends StatelessWidget {
                               title: model.currentPage == model.pageCount - 1 ? "START NOW" : "Next",
                               onPressed: () {
                                 if (model.currentPage == model.pageCount - 1) {
-                                  NavService().pushKey(const HomeScreen());
+                                  NavService().pushAndRemoveUntilKey(const LoginScreen());
                                 } else {
                                   model.animateToPage(model.currentPage + 1);
                                 }
