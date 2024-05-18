@@ -8,7 +8,7 @@ import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/view/screens/auth/login_screen.dart';
-import 'package:xperience/view/screens/home_screen.dart';
+import 'package:xperience/view/screens/main_screen.dart';
 import 'package:xperience/view/widgets/animations/fade_transition_widget.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -55,7 +55,7 @@ class SplashScreenViewModel extends BaseNotifier {
     Future.delayed(const Duration(milliseconds: 2000), () async {
       if (auth.isLogged) {
         await auth.loadUser();
-        NavService().pushReplacementKey(const HomeScreen());
+        NavService().pushReplacementKey(const MainScreen());
       } else {
         // NavService().pushReplacementKey(const OnboardingScreen());
         NavService().pushReplacementKey(const LoginScreen());

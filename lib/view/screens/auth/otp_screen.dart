@@ -6,7 +6,7 @@ import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/home_screen.dart';
+import 'package:xperience/view/screens/main_screen.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
 import 'package:xperience/view/widgets/have_problem_widget.dart';
 import 'package:xperience/view/widgets/otp_widget.dart';
@@ -87,7 +87,7 @@ class OTPScreenModel extends BaseNotifier {
   Future<void> sendOtp() async {
     if (formKey.currentState!.validate()) {
       Logger.printObject(pinCode);
-      NavService().pushAndRemoveUntilKey(const HomeScreen());
+      NavService().pushAndRemoveUntilKey(const MainScreen());
     } else {
       autovalidateMode = AutovalidateMode.always;
     }

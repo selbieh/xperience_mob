@@ -7,7 +7,7 @@ import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/auth/otp_screen.dart';
+import 'package:xperience/view/screens/main_screen.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
 import 'package:xperience/view/widgets/have_problem_widget.dart';
 
@@ -116,7 +116,8 @@ class LoginScreenModel extends BaseNotifier {
   Future<void> sendOtp() async {
     if (phoneController?.value.isValid() ?? false) {
       Logger.printObject(phoneController?.value.toJson());
-      NavService().pushKey(const OTPScreen());
+      // NavService().pushKey(const OTPScreen());
+      NavService().pushReplacementKey(const MainScreen());
     } else {
       Logger.printt("Not valid", isError: true);
     }

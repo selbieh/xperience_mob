@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum ButtonType { elevated, outlined, text, icon }
+enum ButtonType { elevated, outlined, text }
 
 class MainButton extends StatelessWidget {
   final double? height;
@@ -77,7 +77,7 @@ class MainButton extends StatelessWidget {
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(
                 elevation: elevation,
-                side: BorderSide(color: butColor, style: BorderStyle.solid, width: 2),
+                side: BorderSide(color: butColor, style: BorderStyle.solid, width: 1),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius!)),
               ),
               onPressed: onPressed,
@@ -120,19 +120,6 @@ class MainButton extends StatelessWidget {
                     ),
               ),
             ),
-          );
-        }
-
-      ///==================================================================================
-      ///========================================================================= [ Icon ]
-      case ButtonType.icon:
-        {
-          return IconButton(
-            icon: child ?? const Icon(Icons.error),
-            color: butColor,
-            padding: const EdgeInsets.all(8),
-            constraints: const BoxConstraints(),
-            onPressed: onPressed,
           );
         }
     }
