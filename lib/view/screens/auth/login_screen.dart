@@ -111,7 +111,8 @@ class LoginScreen extends StatelessWidget {
 }
 
 class LoginScreenModel extends BaseNotifier {
-  PhoneController? phoneController = PhoneController(initialValue: const PhoneNumber(isoCode: IsoCode.EG, nsn: "1009658566"));
+  // PhoneController? phoneController = PhoneController(initialValue: const PhoneNumber(isoCode: IsoCode.EG, nsn: "1009658566"));
+  PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+201009658566"));
 
   Future<void> sendOtp() async {
     if (phoneController?.value.isValid() ?? false) {

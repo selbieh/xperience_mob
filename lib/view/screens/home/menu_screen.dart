@@ -6,6 +6,8 @@ import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/login_screen.dart';
+import 'package:xperience/view/screens/menu/about_screen.dart';
+import 'package:xperience/view/screens/menu/help_screen.dart';
 import 'package:xperience/view/widgets/main_button.dart';
 import 'package:xperience/view/widgets/main_image.dart';
 
@@ -71,12 +73,16 @@ class MenuScreen extends StatelessWidget {
                       menuItem(
                         title: "About",
                         icon: "assets/svgs/ic_about.svg",
-                        onTap: () {},
+                        onTap: () {
+                          NavService().pushKey(const AboutScreen());
+                        },
                       ),
                       menuItem(
                         title: "Help",
                         icon: "assets/svgs/ic_help.svg",
-                        onTap: () {},
+                        onTap: () {
+                          NavService().pushKey(const HelpScreen());
+                        },
                       ),
                       const SizedBox(height: 20),
                       menuTitleItem("More"),
