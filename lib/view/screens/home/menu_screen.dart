@@ -8,8 +8,9 @@ import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/login_screen.dart';
 import 'package:xperience/view/screens/menu/about_screen.dart';
 import 'package:xperience/view/screens/menu/help_screen.dart';
-import 'package:xperience/view/widgets/main_button.dart';
-import 'package:xperience/view/widgets/main_image.dart';
+import 'package:xperience/view/screens/menu/myreservations_screen.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
+import 'package:xperience/view/widgets/components/main_image.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -66,7 +67,9 @@ class MenuScreen extends StatelessWidget {
                       menuItem(
                         title: "My reservations",
                         icon: "assets/svgs/ic_reservations.svg",
-                        onTap: () {},
+                        onTap: () {
+                          NavService().pushKey(const MyReservationsScreen());
+                        },
                       ),
                       const SizedBox(height: 20),
                       menuTitleItem("App"),

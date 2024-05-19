@@ -9,7 +9,7 @@ import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/main_screen.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
 import 'package:xperience/view/widgets/have_problem_widget.dart';
-import 'package:xperience/view/widgets/otp_widget.dart';
+import 'package:xperience/view/widgets/components/otp_widget.dart';
 
 class OTPScreen extends StatelessWidget {
   const OTPScreen({Key? key}) : super(key: key);

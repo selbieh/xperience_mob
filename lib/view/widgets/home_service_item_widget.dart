@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/widgets/main_image.dart';
+import 'package:xperience/view/widgets/components/main_image.dart';
 
 class HomeServiceItemWidget extends StatelessWidget {
   const HomeServiceItemWidget({

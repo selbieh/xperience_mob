@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/view/widgets/main_button.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
 
 class TestingScreen extends StatelessWidget {
   const TestingScreen({Key? key}) : super(key: key);

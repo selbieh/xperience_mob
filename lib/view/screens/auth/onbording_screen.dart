@@ -4,7 +4,7 @@ import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/login_screen.dart';
-import 'package:xperience/view/widgets/main_button.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/onboarding_page_item.dart';
 
 class OnboardingScreen extends StatelessWidget {

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/menu/notifications_screen.dart';
+import 'package:xperience/view/widgets/components/main_image.dart';
 import 'package:xperience/view/widgets/home_service_item_widget.dart';
-import 'package:xperience/view/widgets/main_image.dart';
-import 'package:xperience/view/widgets/main_image_slider.dart';
+import 'package:xperience/view/widgets/components/main_image_slider.dart';
 
 class HomeTabScreen extends StatelessWidget {
   const HomeTabScreen({Key? key}) : super(key: key);
@@ -24,7 +26,9 @@ class HomeTabScreen extends StatelessWidget {
             actions: [
               IconButton(
                 icon: SvgPicture.asset("assets/svgs/ic_bell.svg"),
-                onPressed: () {},
+                onPressed: () {
+                  NavService().pushKey(const NotificationsScreen());
+                },
               ),
             ],
           ),

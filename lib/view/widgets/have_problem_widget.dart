@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/widgets/main_button.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
 
 class HaveProblemWidget extends StatelessWidget {
   const HaveProblemWidget({

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/widgets/main_progress.dart';
+import 'package:xperience/view/widgets/components/main_progress.dart';
 
 enum ImageType {
   network,
