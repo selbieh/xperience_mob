@@ -18,6 +18,7 @@ class MainImage extends StatelessWidget {
   final double? width;
   final double? height;
   final double? radius;
+  final BorderRadiusGeometry? borderRadius;
   final double? opacity;
   final double progressDiameter;
   final double progressStroke;
@@ -31,6 +32,7 @@ class MainImage extends StatelessWidget {
     this.width,
     this.height,
     this.radius = 0,
+    this.borderRadius,
     this.opacity = 1,
     this.fit = BoxFit.contain,
     this.progressDiameter = 35,
@@ -45,6 +47,7 @@ class MainImage extends StatelessWidget {
     this.width,
     this.height,
     this.radius = 0,
+    this.borderRadius,
     this.opacity = 1,
     this.fit = BoxFit.contain,
     this.progressDiameter = 35,
@@ -59,6 +62,7 @@ class MainImage extends StatelessWidget {
     this.width,
     this.height,
     this.radius = 0,
+    this.borderRadius,
     this.opacity = 1,
     this.fit = BoxFit.contain,
     this.errorWidget,
@@ -73,6 +77,7 @@ class MainImage extends StatelessWidget {
     this.width,
     this.height,
     this.radius = 0,
+    this.borderRadius,
     this.opacity = 1,
     this.fit = BoxFit.contain,
     this.errorWidget,
@@ -87,6 +92,7 @@ class MainImage extends StatelessWidget {
     this.width,
     this.height,
     this.radius = 0,
+    this.borderRadius,
     this.opacity = 1,
     this.fit = BoxFit.contain,
     this.errorWidget,
@@ -102,7 +108,7 @@ class MainImage extends StatelessWidget {
       height: height,
       width: width,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(radius!),
+        borderRadius: borderRadius ?? BorderRadius.circular(radius!),
         child: Opacity(
           opacity: opacity!,
           child: _getImage(),
@@ -113,7 +119,7 @@ class MainImage extends StatelessWidget {
 
   Widget _getImage() {
     final brokenImageIcon = Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(radius!), border: Border.all(color: Colors.grey)),
+      decoration: BoxDecoration(borderRadius: borderRadius?? BorderRadius.circular(radius!), border: Border.all(color: Colors.grey)),
       child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
     );
 

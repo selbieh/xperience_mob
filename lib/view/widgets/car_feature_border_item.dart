@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 
-class FeatureBoarderItem extends StatelessWidget {
-  const FeatureBoarderItem({
+class CarFeatureBoarderItem extends StatelessWidget {
+  const CarFeatureBoarderItem({
     required this.icon,
     required this.title,
     required this.value,

@@ -66,7 +66,10 @@ class OTPScreen extends StatelessWidget {
                   SizedBox(height: 0.10.h),
                   CustomButton(
                     title: "VERIFY",
-                    onPressed: model.sendOtp,
+                    // onPressed: model.sendOtp,
+                    onPressed: () {
+                      NavService().pushReplacementKey(const MainScreen());
+                    },
                   ),
                 ],
               ),

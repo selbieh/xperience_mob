@@ -7,7 +7,7 @@ import 'package:xperience/view/screens/home/car/car_booking_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/car_info_item.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
-import 'package:xperience/view/widgets/feature_border_item.dart';
+import 'package:xperience/view/widgets/car_feature_border_item.dart';
 
 class CarDetailsScreen extends StatelessWidget {
   const CarDetailsScreen({Key? key}) : super(key: key);
@@ -100,19 +100,19 @@ class CarDetailsScreen extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: [
-                                    FeatureBoarderItem(
+                                    CarFeatureBoarderItem(
                                       icon: "assets/svgs/ic_car.svg",
                                       title: "Type",
                                       value: "SUV",
                                     ),
                                     SizedBox(width: 10),
-                                    FeatureBoarderItem(
+                                    CarFeatureBoarderItem(
                                       icon: "assets/svgs/ic_people.svg",
                                       title: "Capacity",
                                       value: "6 People",
                                     ),
                                     SizedBox(width: 10),
-                                    FeatureBoarderItem(
+                                    CarFeatureBoarderItem(
                                       icon: "assets/svgs/ic_cool_seat.svg",
                                       title: "Cool Seat",
                                       value: "Temp Control on seat",

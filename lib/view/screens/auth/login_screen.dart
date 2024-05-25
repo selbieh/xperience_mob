@@ -7,6 +7,7 @@ import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/auth/otp_screen.dart';
 import 'package:xperience/view/screens/main_screen.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
 import 'package:xperience/view/widgets/have_problem_widget.dart';
@@ -97,7 +98,10 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   CustomButton(
                     title: "SEND OTP",
-                    onPressed: model.sendOtp,
+                    // onPressed: model.sendOtp,
+                    onPressed: () {
+                      NavService().pushReplacementKey(const OTPScreen());
+                    },
                   ),
                 ],
               ),
