@@ -9,6 +9,7 @@ import 'package:xperience/view/screens/auth/login_screen.dart';
 import 'package:xperience/view/screens/menu/about_screen.dart';
 import 'package:xperience/view/screens/menu/help_screen.dart';
 import 'package:xperience/view/screens/menu/myreservations_screen.dart';
+import 'package:xperience/view/screens/menu/wallet_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
 
@@ -62,7 +63,9 @@ class MenuDrawerScreen extends StatelessWidget {
                       menuItem(
                         title: "Wallet",
                         icon: "assets/svgs/ic_wallet.svg",
-                        onTap: () {},
+                        onTap: () {
+                          NavService().pushKey(const WalletScreen());
+                        },
                       ),
                       menuItem(
                         title: "My reservations",

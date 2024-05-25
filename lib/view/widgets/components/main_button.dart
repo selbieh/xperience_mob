@@ -27,7 +27,7 @@ class MainButton extends StatelessWidget {
     this.color,
     this.type = ButtonType.elevated,
     this.textStyle = const TextStyle(
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: FontWeight.normal,
     ),
     this.padding = const EdgeInsets.all(0),
