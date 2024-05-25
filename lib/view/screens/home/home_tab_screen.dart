@@ -100,7 +100,8 @@ class HomeTabScreen extends StatelessWidget {
                             HomeServiceItemWidget(
                               title: "Car Experience",
                               subtitle: "Book A Ride!",
-                              imageUrl: "https://japan-land-service.com/wp-content/uploads/2019/02/AdobeStock_180552191-2-478x360.jpg",
+                              // imageUrl: "https://japan-land-service.com/wp-content/uploads/2019/02/AdobeStock_180552191-2-478x360.jpg",
+                              imageUrl: "assets/images/car_exp.jpeg",
                               onTap: () {
                                 NavService().pushKey(
                                   const CarExperienceScreen(),
@@ -112,7 +113,8 @@ class HomeTabScreen extends StatelessWidget {
                             HomeServiceItemWidget(
                               title: "Hotel Experience",
                               subtitle: "Book An Hotel Apartment",
-                              imageUrl: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iyix1OYhVxdA/v2/-1x-1.jpg",
+                              // imageUrl: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iyix1OYhVxdA/v2/-1x-1.jpg",
+                              imageUrl: "assets/images/hotel_exp.jpeg",
                               onTap: () {},
                             ),
                           ],

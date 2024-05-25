@@ -3,8 +3,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/home/car/checkout_screen.dart';
-import 'package:xperience/view/widgets/components/main_button.dart';
+import 'package:xperience/view/screens/home/car/complete_info_screen.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
 
@@ -46,7 +45,7 @@ class CarBookingScreen extends StatelessWidget {
                 CustomButton(
                   title: "CONTINUE",
                   onPressed: () {
-                    NavService().pushKey(const CheckoutScreen());
+                    NavService().pushKey(const CompleteInfoScreen());
                   },
                 )
               ],

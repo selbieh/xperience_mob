@@ -30,7 +30,14 @@ class HomeServiceItemWidget extends StatelessWidget {
         child: Stack(
           alignment: AlignmentDirectional.bottomStart,
           children: [
-            MainImage.network(
+            // MainImage.network(
+            //   imagePath: imageUrl,
+            //   height: 0.50.h,
+            //   width: 0.75.w,
+            //   fit: BoxFit.cover,
+            //   radius: 10,
+            // ),
+            MainImage.asset(
               imagePath: imageUrl,
               height: 0.50.h,
               width: 0.75.w,

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/menu/help_screen.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({Key? key}) : super(key: key);
@@ -28,13 +26,27 @@ class AboutScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        aboutItem("FAQ", () => NavService().pushKey(const HelpScreen())),
+                        aboutItem(
+                          "FAQ",
+                          () {
+                            // NavService().pushKey(const HelpScreen());
+                          },
+                        ),
                         const Divider(height: 0, thickness: 0.2),
-                        aboutItem("Privacy Policy", () => NavService().pushKey(const HelpScreen())),
+                        aboutItem(
+                          "Privacy Policy",
+                          () {},
+                        ),
                         const Divider(height: 0, thickness: 0.2),
-                        aboutItem("Terms of use", () => NavService().pushKey(const HelpScreen())),
+                        aboutItem(
+                          "Terms of use",
+                          () {},
+                        ),
                         const Divider(height: 0, thickness: 0.2),
-                        aboutItem("Cancelation Policy", () => NavService().pushKey(const HelpScreen())),
+                        aboutItem(
+                          "Cancelation Policy",
+                          () {},
+                        ),
                         const Divider(height: 0, thickness: 0.2),
                       ],
                     ),
