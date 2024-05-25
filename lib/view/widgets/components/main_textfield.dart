@@ -79,8 +79,8 @@ class MainTextField extends StatelessWidget {
     this.cursorColor = AppColors.primaryColorDark,
     this.maxLines = 1,
     this.letterSpacing = 0,
-    this.borderRadius = 10,
-    this.borderWidth = 1.2,
+    this.borderRadius = 5,
+    this.borderWidth = 1,
     this.borderType = BorderType.outline,
     this.border,
     this.enabledBorder,
@@ -153,7 +153,8 @@ class MainTextField extends StatelessWidget {
           focusedBorder = this.focusedBorder ??
               OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: BorderSide(color: AppColors.primaryColorLight, width: borderWidth),
+                // borderSide: BorderSide(color: AppColors.primaryColorLight, width: borderWidth),
+                borderSide: BorderSide(color: AppColors.goldColor2, width: borderWidth),
               );
           errorBorder = this.errorBorder ??
               OutlineInputBorder(

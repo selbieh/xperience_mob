@@ -7,7 +7,7 @@ import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/home_tab_screen.dart';
-import 'package:xperience/view/screens/home/menu_screen.dart';
+import 'package:xperience/view/screens/home/menu_drawer_screen.dart';
 import 'package:xperience/view/screens/home/more_tab_screen.dart';
 
 class MainScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class MainScreen extends StatelessWidget {
         //   child: Scaffold(
         return Scaffold(
           key: model.scaffoldKey,
-          drawer: const MenuScreen(),
+          drawer: const MenuDrawerScreen(),
           onDrawerChanged: model.onDrawerChanged,
           body: model.listTabs[model.pageIndex],
           bottomNavigationBar: SizedBox(

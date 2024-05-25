@@ -3,13 +3,13 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 
-class TestingScreen extends StatelessWidget {
-  const TestingScreen({Key? key}) : super(key: key);
+class CarDetailsScreen extends StatelessWidget {
+  const CarDetailsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<TestingViewModel>(
-      model: TestingViewModel(),
+    return BaseWidget<CarDetailsViewModel>(
+      model: CarDetailsViewModel(),
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(title: const Text("Testing Screen")),
@@ -32,4 +32,4 @@ class TestingScreen extends StatelessWidget {
   }
 }
 
-class TestingViewModel extends BaseNotifier {}
+class CarDetailsViewModel extends BaseNotifier {}

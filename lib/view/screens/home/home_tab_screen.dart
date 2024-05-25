@@ -4,6 +4,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/home/car/car_experience_screen.dart';
 import 'package:xperience/view/screens/menu/notifications_screen.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
 import 'package:xperience/view/widgets/home_service_item_widget.dart';
@@ -90,21 +91,25 @@ class HomeTabScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const SingleChildScrollView(
+                      SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        physics: PageScrollPhysics(),
+                        physics: const PageScrollPhysics(),
                         child: Row(
                           children: [
                             HomeServiceItemWidget(
                               title: "Car Experience",
                               subtitle: "Book A Ride!",
                               imageUrl: "https://japan-land-service.com/wp-content/uploads/2019/02/AdobeStock_180552191-2-478x360.jpg",
+                              onTap: () {
+                                NavService().pushKey(const CarExperienceScreen());
+                              },
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             HomeServiceItemWidget(
                               title: "Hotel Experience",
                               subtitle: "Book An Hotel Apartment",
                               imageUrl: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iyix1OYhVxdA/v2/-1x-1.jpg",
+                              onTap: () {},
                             ),
                           ],
                         ),

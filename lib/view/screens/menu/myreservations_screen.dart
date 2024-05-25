@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/widgets/booknow_button.dart';
 
 class MyReservationsScreen extends StatelessWidget {
   const MyReservationsScreen({Key? key}) : super(key: key);
@@ -90,25 +91,29 @@ class ReservationItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColors.goldColor),
-                      ),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColorLight,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                        ),
-                        child: const Text(
-                          "BOOK AGAIN",
-                          style: TextStyle(fontSize: 10),
-                        ),
-                        onPressed: () {},
-                      ),
+                    // Container(
+                    //   height: 35,
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(10),
+                    //     border: Border.all(color: AppColors.goldColor),
+                    //   ),
+                    //   child: ElevatedButton(
+                    //     style: ElevatedButton.styleFrom(
+                    //       backgroundColor: AppColors.primaryColorLight,
+                    //       elevation: 0,
+                    //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    //       padding: const EdgeInsets.symmetric(horizontal: 15),
+                    //     ),
+                    //     child: const Text(
+                    //       "BOOK AGAIN",
+                    //       style: TextStyle(fontSize: 10),
+                    //     ),
+                    //     onPressed: () {},
+                    //   ),
+                    // ),
+                    BookNowButton(
+                      title: "BOOK AGAIN",
+                      onPressed: () {},
                     ),
                   ],
                 ),

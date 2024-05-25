@@ -12,13 +12,13 @@ import 'package:xperience/view/screens/menu/myreservations_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
 
-class MenuScreen extends StatelessWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+class MenuDrawerScreen extends StatelessWidget {
+  const MenuDrawerScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<MenuViewModel>(
-      model: MenuViewModel(),
+    return BaseWidget<MenuDrawerViewModel>(
+      model: MenuDrawerViewModel(),
       builder: (_, model, child) {
         return Drawer(
           backgroundColor: AppColors.primaryColorLight,
@@ -143,4 +143,4 @@ class MenuScreen extends StatelessWidget {
   }
 }
 
-class MenuViewModel extends BaseNotifier {}
+class MenuDrawerViewModel extends BaseNotifier {}
