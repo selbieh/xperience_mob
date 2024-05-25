@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/car/car_experience_screen.dart';
 import 'package:xperience/view/screens/menu/notifications_screen.dart';
@@ -101,7 +102,10 @@ class HomeTabScreen extends StatelessWidget {
                               subtitle: "Book A Ride!",
                               imageUrl: "https://japan-land-service.com/wp-content/uploads/2019/02/AdobeStock_180552191-2-478x360.jpg",
                               onTap: () {
-                                NavService().pushKey(const CarExperienceScreen());
+                                NavService().pushKey(
+                                  const CarExperienceScreen(),
+                                  settings: const RouteSettings(name: RouteNames.carExperience),
+                                );
                               },
                             ),
                             const SizedBox(width: 20),

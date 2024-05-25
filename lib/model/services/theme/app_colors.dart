@@ -6,8 +6,9 @@ class AppColors {
   static const Color black = Colors.black;
   static const Color grey = Colors.grey;
 
-  static const Color primaryColorLight = Color(0xFF292d4a);
   static const Color primaryColorDark = Color(0xFF181c33);
+  static const Color primaryColorLight = Color(0xFF292d4a);
+  static const Color primaryColorLight2 = Color(0xFF383c5c);
   static const Color goldColor = Color(0xFFfcdd70);
   static const Color goldColor2 = Color(0xFFc08b05);
   static const Color greyText = Color(0xFF707281);

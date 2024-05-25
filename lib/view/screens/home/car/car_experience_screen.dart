@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/home/car/car_details_screen.dart';
 import 'package:xperience/view/widgets/car_experience_item_widget.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/components/main_textfield_dropdown.dart';
@@ -107,7 +109,10 @@ class CarExperienceScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (ctx, index) {
-                      return const CarExperienceItemWidget();
+                      return  CarExperienceItemWidget(onPressed: ()
+                      {
+                        NavService().pushKey(const CarDetailsScreen());
+                      },);
                     },
                   ),
                   const SizedBox(height: 20),

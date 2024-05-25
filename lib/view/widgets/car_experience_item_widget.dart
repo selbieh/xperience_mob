@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/config/size_config.dart';
-import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/home/car/car_details_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
 import 'package:xperience/view/widgets/feature_item.dart';
 
 class CarExperienceItemWidget extends StatelessWidget {
   const CarExperienceItemWidget({
+    this.onPressed,
     super.key,
   });
+
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        NavService().pushKey(const CarDetailsScreen());
-      },
+      // onTap: () {
+      //   NavService().pushKey(const CarDetailsScreen());
+      // },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
         children: [
@@ -73,7 +74,7 @@ class CarExperienceItemWidget extends StatelessWidget {
                         alignment: AlignmentDirectional.bottomEnd,
                         child: BookNowButton(
                           title: "BOOK NOW",
-                          onPressed: () {},
+                          onPressed: onPressed,
                         ),
                       ),
                     ),

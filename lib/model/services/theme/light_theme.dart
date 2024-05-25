@@ -46,6 +46,7 @@ ThemeData? lightTheme(BuildContext context) {
       backgroundColor: AppColors.primaryColorLight,
       foregroundColor: Colors.white,
       centerTitle: false,
+      surfaceTintColor: Colors.transparent,
       iconTheme: IconThemeData(color: Colors.white),
       titleTextStyle: TextStyle(
         fontWeight: FontWeight.normal,

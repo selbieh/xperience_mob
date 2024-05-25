@@ -41,6 +41,7 @@ ThemeData? darkTheme(BuildContext context) {
       // backgroundColor: Colors.blueGrey.shade900,
       backgroundColor: AppColors.primaryColorLight,
       foregroundColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
       centerTitle: false,
       iconTheme: IconThemeData(color: Colors.white),
       titleTextStyle: TextStyle(
