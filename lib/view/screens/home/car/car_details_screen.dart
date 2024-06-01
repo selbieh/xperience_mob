@@ -149,7 +149,7 @@ class CarDetailsScreen extends StatelessWidget {
                                         margin: const EdgeInsets.symmetric(horizontal: 5),
                                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
                                         decoration: BoxDecoration(
-                                          color: isSelected ? AppColors.primaryColorLight2 : null,
+                                          color: isSelected ? AppColors.primaryColorDark : null,
                                           borderRadius: BorderRadius.circular(10),
                                           border: Border.all(color: AppColors.grey, width: 0.5),
                                         ),

@@ -96,7 +96,7 @@ class MainTextFieldDropdown<T> extends StatelessWidget {
           focusedBorder = OutlineInputBorder(
             borderRadius: BorderRadius.circular(borderRadius),
             // borderSide: BorderSide(color: AppColors.primaryColorLight, width: borderWidth),
-            borderSide: BorderSide(color: AppColors.goldColor2, width: borderWidth),
+            borderSide: BorderSide(color: AppColors.goldColor, width: borderWidth),
           );
           errorBorder = OutlineInputBorder(
             borderRadius: BorderRadius.circular(borderRadius),

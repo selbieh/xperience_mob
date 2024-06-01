@@ -22,7 +22,8 @@ class MenuDrawerScreen extends StatelessWidget {
       model: MenuDrawerViewModel(),
       builder: (_, model, child) {
         return Drawer(
-          backgroundColor: AppColors.primaryColorLight,
+          // backgroundColor: AppColors.primaryColorLight,
+          backgroundColor: AppColors.primaryColorDark,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0),
           ),
@@ -34,24 +35,35 @@ class MenuDrawerScreen extends StatelessWidget {
                 child: SvgPicture.asset("assets/svgs/xperience_logo.svg"),
               ),
               const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Row(
                   children: [
-                    MainImage.network(
-                      height: 40,
-                      width: 40,
-                      radius: 25,
-                      imagePath: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.goldColor, width: 3),
+                      ),
+                      child: const MainImage.network(
+                        height: 45,
+                        width: 45,
+                        radius: 25,
+                        imagePath: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                      ),
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text("Mohamed Ahmed", maxLines: 1),
+                    const SizedBox(width: 10),
+                    const Expanded(
+                      child: Text(
+                        "Mohamed Ahmed",
+                        maxLines: 1,
+                        style: TextStyle(color: AppColors.goldColor),
+                      ),
                     ),
                   ],
                 ),
               ),
-              const Divider(height: 0),
+              // const Divider(height: 0),
+              const Divider(height: 0, color: AppColors.goldColor),
               Expanded(
                 child: SingleChildScrollView(
                   // physics: const BouncingScrollPhysics(),
@@ -110,7 +122,8 @@ class MenuDrawerScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 55,
                   title: "LOGOUT",
-                  color: AppColors.white,
+                  // color: AppColors.white,
+                  color: AppColors.goldColor,
                   radius: 10,
                   onPressed: () {
                     NavService().pushReplacementKey(const LoginScreen());
@@ -137,10 +150,14 @@ class MenuDrawerScreen extends StatelessWidget {
 
   ListTile menuItem({required String title, required String icon, Function()? onTap}) {
     return ListTile(
-      leading: SvgPicture.asset(icon),
+      // ignore: deprecated_member_use
+      leading: SvgPicture.asset(icon, color: AppColors.goldColor),
       contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
       dense: true,
-      title: Text(title),
+      title: Text(
+        title,
+        style: const TextStyle(color: AppColors.goldColor),
+      ),
       onTap: onTap,
     );
   }

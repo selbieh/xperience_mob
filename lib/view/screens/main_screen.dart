@@ -133,7 +133,7 @@ class _TopIndicatorBox extends BoxPainter {
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
     Paint paint = Paint()
-      ..color = AppColors.goldColor2
+      ..color = AppColors.goldColor
       ..strokeWidth = 2.0
       ..isAntiAlias = true;
 

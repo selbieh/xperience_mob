@@ -61,7 +61,7 @@ class MessageDialog extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).dialogBackgroundColor,
               borderRadius: BorderRadius.circular(radius),
-              border: Border.all(color: AppColors.goldColor2),
+              border: Border.all(color: AppColors.goldColor),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,

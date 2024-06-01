@@ -40,14 +40,17 @@ ThemeData? darkTheme(BuildContext context) {
     appBarTheme: const AppBarTheme(
       // backgroundColor: Colors.blueGrey.shade900,
       backgroundColor: AppColors.primaryColorLight,
-      foregroundColor: Colors.white,
+      // foregroundColor: Colors.white,
+      foregroundColor: AppColors.goldColor,
       surfaceTintColor: Colors.transparent,
       centerTitle: false,
       iconTheme: IconThemeData(color: Colors.white),
+      // iconTheme: IconThemeData(color: AppColors.goldColor),
       titleTextStyle: TextStyle(
         fontWeight: FontWeight.normal,
         fontSize: 16,
         color: Colors.white,
+        // color: AppColors.goldColor,
       ),
     ),
 
