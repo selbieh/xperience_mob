@@ -22,7 +22,7 @@ class AppEnvironment {
     EnvironmentType.production: "MyTemp",
   };
   final serverURLsMap = {
-    EnvironmentType.development: "https://jsonplaceholder.typicode.com",
+    EnvironmentType.development: "https://impressive-domini-royals-1be52931.koyeb.app",
     EnvironmentType.staging: "",
     EnvironmentType.production: "",
   };

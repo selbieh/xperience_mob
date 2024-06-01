@@ -4,7 +4,7 @@ class Headers {
   static Map<String, String> get guestHeader => {
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Authorization": "Bearer ========== Bearer Guest_Token ==========",
+        // "Authorization": "Bearer ========== Bearer Guest_Token ==========",
       };
 
   static Map<String, String> get userHeader => {

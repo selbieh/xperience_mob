@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/config/size_config.dart';
+import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/auth/otp_screen.dart';
 import 'package:xperience/view/screens/main_screen.dart';
+import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
+import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 import 'package:xperience/view/widgets/have_problem_widget.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,93 +20,94 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<LoginScreenModel>(
-      model: LoginScreenModel(),
+    return BaseWidget<LoginScreenViewModel>(
+      model: LoginScreenViewModel(
+        auth: Provider.of<AuthService>(context),
+      ),
       builder: (_, model, child) {
         return Scaffold(
           body: Container(
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(height: 0.05.h),
-                  const Text(
-                    "Login / Register",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.greyText,
+              child: Form(
+                key: model.formKey,
+                autovalidateMode: model.autovalidateMode,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(height: 0.05.h),
+                    const Text(
+                      "Login / Register",
+                      style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.greyText),
                     ),
-                  ),
-                  SizedBox(height: 0.05.h),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset("assets/svgs/vi_login.svg"),
-                      const Text(
-                        "Please Enter your Mobile number",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                      const Text(
-                        "We will send you an OTP message",
-                        style: TextStyle(color: AppColors.greyText),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 0.10.h),
-                  const Align(
-                    alignment: AlignmentDirectional.topStart,
-                    child: Text(
-                      "Mobile Number",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.greyText,
-                      ),
-                    ),
-                  ),
-                  PhoneFormField(
-                    // initialValue: PhoneNumber.parse("+201009658566"),
-                    // initialValue: PhoneNumber.parse("+20"),
-                    controller: model.phoneController,
-                    validator: PhoneValidator.compose([
-                      PhoneValidator.required(context),
-                      PhoneValidator.validMobile(context),
-                    ]),
-                    countrySelectorNavigator: CountrySelectorNavigator.dialog(
-                      height: 0.60.h,
-                      countries: [
-                        IsoCode.EG,
-                        IsoCode.SA,
-                        IsoCode.AE,
-                        IsoCode.JO,
+                    SizedBox(height: 0.05.h),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset("assets/svgs/vi_login.svg"),
+                        const Text(
+                          "Please Enter your Mobile number",
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        const Text(
+                          "We will send you an OTP message",
+                          style: TextStyle(color: AppColors.greyText),
+                        ),
                       ],
                     ),
-                    onChanged: (phoneNumber) {
-                      Logger.printt('changed into $phoneNumber');
-                    },
-                    enabled: true,
-                    isCountrySelectionEnabled: true,
-                    isCountryButtonPersistent: true,
-                    countryButtonStyle: const CountryButtonStyle(
-                      showDialCode: true,
-                      showIsoCode: false,
-                      showFlag: false,
-                      flagSize: 20,
+                    SizedBox(height: 0.10.h),
+                    const Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: Text(
+                        "Mobile Number",
+                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.greyText),
+                      ),
                     ),
-                    style: const TextStyle(color: AppColors.greyText),
-                    cursorColor: AppColors.greyText,
-                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                  ),
-                  const SizedBox(height: 20),
-                  CustomButton(
-                    title: "SEND OTP",
-                    // onPressed: model.sendOtp,
-                    onPressed: () {
-                      NavService().pushReplacementKey(const OTPScreen());
-                    },
-                  ),
-                ],
+                    PhoneFormField(
+                      // initialValue: PhoneNumber.parse("+201009658566"),
+                      // initialValue: PhoneNumber.parse("+20"),
+
+                      controller: model.phoneController,
+                      validator: PhoneValidator.compose([
+                        PhoneValidator.required(context),
+                        PhoneValidator.validMobile(context),
+                      ]),
+
+                      countrySelectorNavigator: CountrySelectorNavigator.dialog(
+                        height: 0.60.h,
+                        countries: [
+                          IsoCode.EG,
+                          IsoCode.SA,
+                          IsoCode.AE,
+                          IsoCode.JO,
+                        ],
+                      ),
+                      // onChanged: (phoneNumber) {
+                      //   Logger.printt('changed into $phoneNumber');
+                      // },
+                      enabled: true,
+                      isCountrySelectionEnabled: true,
+                      isCountryButtonPersistent: true,
+                      countryButtonStyle: const CountryButtonStyle(
+                        showDialCode: true,
+                        showIsoCode: false,
+                        showFlag: false,
+                        flagSize: 20,
+                      ),
+                      style: const TextStyle(color: AppColors.greyText),
+                      cursorColor: AppColors.greyText,
+                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    ),
+                    const SizedBox(height: 20),
+                    model.isBusy
+                        ? const MainProgress()
+                        : CustomButton(
+                            title: "SEND OTP",
+                            onPressed: model.submitFun,
+                          ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -114,17 +118,40 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class LoginScreenModel extends BaseNotifier {
-  // PhoneController? phoneController = PhoneController(initialValue: const PhoneNumber(isoCode: IsoCode.EG, nsn: "1009658566"));
-  PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+201009658566"));
+class LoginScreenViewModel extends BaseNotifier {
+  LoginScreenViewModel({required this.auth});
+  final AuthService auth;
+
+  final formKey = GlobalKey<FormState>();
+  var autovalidateMode = AutovalidateMode.disabled;
+  // PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+201009658566"));
+  PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+20"));
+
+  void submitFun() async {
+    NavService().pushReplacementKey(const MainScreen());
+    // if (formKey.currentState!.validate()) {
+    //   sendOtp();
+    // } else {
+    //   autovalidateMode = AutovalidateMode.always;
+    // }
+  }
 
   Future<void> sendOtp() async {
-    if (phoneController?.value.isValid() ?? false) {
-      Logger.printObject(phoneController?.value.toJson());
+    setBusy();
+    Logger.printObject(phoneController?.value.international);
+
+    final res = await auth.loginRegister(
+      body: {
+        "mobile": phoneController?.value.international,
+      },
+    );
+    if (res.left != null) {
+      setError();
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+    } else {
+      setIdle();
       // NavService().pushKey(const OTPScreen());
       NavService().pushReplacementKey(const MainScreen());
-    } else {
-      Logger.printt("Not valid", isError: true);
     }
   }
 }

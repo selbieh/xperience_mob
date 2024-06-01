@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/services/shared_preference.dart';
 
 class AppTheme with ChangeNotifier {
@@ -18,7 +17,6 @@ class AppTheme with ChangeNotifier {
   ///======================================================== Fetch AppTheme from Device
   fetchAppTheme() async {
     changeThemeMode(SharedPref.getString(SharedPrefKeys.theme) ?? "Dark");
-    Logger.log("*** AppTheme init ***");
   }
 
   ///======================================================== getThemeName

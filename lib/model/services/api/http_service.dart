@@ -119,7 +119,19 @@ class HttpService {
         default:
           Logger.printt("❌❌ Request Failed (${response.statusCode}) ❌❌");
           Logger.printObject(responseJson, title: "HTTP request 🛎️🛎️");
-          String message = responseJson["message"] ?? "Something went wrong";
+
+          String message = "";
+          if (responseJson["detail"] is String) {
+            message = responseJson["detail"];
+          } else if (responseJson["errors"] is List) {
+            for (var errorItem in responseJson["errors"]) {
+              message = "$message \n${errorItem["detail"]}";
+            }
+          } else {
+            message = "Something went wrong!";
+          }
+
+          // String message = responseJson["message"] ?? "Something went wrong";
           responseResult = Either(left: ApiFailure(message: message, statusCode: response.statusCode));
       }
       return responseResult;

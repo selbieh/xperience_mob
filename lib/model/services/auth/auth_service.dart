@@ -78,8 +78,8 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  ///============================================================================== SignIn
-  Future<Either<AppFailure, dynamic>> signIn({required Map<String, dynamic> body}) async {
+  ///============================================================================== Login / Register
+  Future<Either<AppFailure, dynamic>> loginRegister({required Map<String, dynamic> body}) async {
     try {
       final res = await HttpService.request(
         endPoint: EndPoints.login,
@@ -88,7 +88,7 @@ class AuthService extends ChangeNotifier {
         body: body,
       );
       if (res.right != null) {
-        // await saveUser(UserModel.fromJson(res.right));
+        await saveUser(UserModel.fromJson(res.right));
         return Either(right: true);
       } else {
         return Either(left: res.left);
@@ -98,74 +98,74 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  ///============================================================================== SignUp
-  Future<Either<AppFailure, dynamic>> signUp(
-    BuildContext context, {
-    required Map<String, dynamic> body,
-  }) async {
-    try {
-      final res = await HttpService.request(
-        endPoint: EndPoints.register,
-        requestType: RequestType.post,
-        header: Headers.guestHeader,
-        body: body,
-      );
-      if (res.right != null) {
-        return Either(right: true);
-      } else {
-        return Either(left: res.left);
-      }
-    } catch (error) {
-      return Either(left: AppFailure(message: error.toString()));
-    }
-  }
+  // ///============================================================================== SignUp
+  // Future<Either<AppFailure, dynamic>> signUp(
+  //   BuildContext context, {
+  //   required Map<String, dynamic> body,
+  // }) async {
+  //   try {
+  //     final res = await HttpService.request(
+  //       endPoint: EndPoints.register,
+  //       requestType: RequestType.post,
+  //       header: Headers.guestHeader,
+  //       body: body,
+  //     );
+  //     if (res.right != null) {
+  //       return Either(right: true);
+  //     } else {
+  //       return Either(left: res.left);
+  //     }
+  //   } catch (error) {
+  //     return Either(left: AppFailure(message: error.toString()));
+  //   }
+  // }
 
-  ///============================================================================== Update Profile
-  Future<Either<AppFailure, dynamic>> updateProfile(
-    BuildContext context, {
-    required Map<String, dynamic> body,
-  }) async {
-    try {
-      final res = await HttpService.request(
-        endPoint: EndPoints.test,
-        requestType: RequestType.post,
-        header: Headers.userHeader,
-        body: body,
-      );
-      if (res.right != null) {
-        UserModel? tempUser = UserModel.fromJson(res.right["data"]);
-        tempUser.token = _userModel?.token;
-        await saveUser(tempUser);
-        return Either(right: true);
-      } else {
-        return Either(left: res.left);
-      }
-    } catch (error) {
-      return Either(left: AppFailure(message: error.toString()));
-    }
-  }
+  // ///============================================================================== Update Profile
+  // Future<Either<AppFailure, dynamic>> updateProfile(
+  //   BuildContext context, {
+  //   required Map<String, dynamic> body,
+  // }) async {
+  //   try {
+  //     final res = await HttpService.request(
+  //       endPoint: EndPoints.test,
+  //       requestType: RequestType.post,
+  //       header: Headers.userHeader,
+  //       body: body,
+  //     );
+  //     if (res.right != null) {
+  //       UserModel? tempUser = UserModel.fromJson(res.right["data"]);
+  //       tempUser.token = _userModel?.token;
+  //       await saveUser(tempUser);
+  //       return Either(right: true);
+  //     } else {
+  //       return Either(left: res.left);
+  //     }
+  //   } catch (error) {
+  //     return Either(left: AppFailure(message: error.toString()));
+  //   }
+  // }
 
-  ///============================================================================== Change Password
-  Future<Either<AppFailure, dynamic>> changePassword(
-    BuildContext context, {
-    required Map<String, dynamic> body,
-  }) async {
-    try {
-      final res = await HttpService.request(
-        endPoint: EndPoints.test,
-        requestType: RequestType.post,
-        header: Headers.guestHeader,
-        body: body,
-      );
-      if (res.right != null) {
-        return Either(right: true);
-      } else {
-        return Either(left: res.left);
-      }
-    } catch (error) {
-      return Either(left: AppFailure(message: error.toString()));
-    }
-  }
+  // ///============================================================================== Change Password
+  // Future<Either<AppFailure, dynamic>> changePassword(
+  //   BuildContext context, {
+  //   required Map<String, dynamic> body,
+  // }) async {
+  //   try {
+  //     final res = await HttpService.request(
+  //       endPoint: EndPoints.test,
+  //       requestType: RequestType.post,
+  //       header: Headers.guestHeader,
+  //       body: body,
+  //     );
+  //     if (res.right != null) {
+  //       return Either(right: true);
+  //     } else {
+  //       return Either(left: res.left);
+  //     }
+  //   } catch (error) {
+  //     return Either(left: AppFailure(message: error.toString()));
+  //   }
+  // }
 
   ///============================================================================================================
   ///============================================================================================================

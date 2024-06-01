@@ -8,7 +8,7 @@ import 'package:xperience/model/services/api/http_service.dart';
 class HttpApi {
   Future<Either<AppFailure, dynamic>> getUsers() async {
     final res = await HttpService.request(
-      endPoint: EndPoints.test,
+      endPoint: EndPoints.login,
       requestType: RequestType.get,
       header: Headers.userHeader,
     );
