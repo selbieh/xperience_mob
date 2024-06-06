@@ -6,7 +6,7 @@ import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/login_screen.dart';
-import 'package:xperience/view/screens/menu/about_screen.dart';
+import 'package:xperience/view/screens/menu/info_screen.dart';
 import 'package:xperience/view/screens/menu/help_screen.dart';
 import 'package:xperience/view/screens/menu/myreservations_screen.dart';
 import 'package:xperience/view/screens/menu/settings_screen.dart';
@@ -90,10 +90,11 @@ class MenuDrawerScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       menuTitleItem("App"),
                       menuItem(
-                        title: "About",
+                        // title: "About",
+                        title: "Info",
                         icon: "assets/svgs/ic_about.svg",
                         onTap: () {
-                          NavService().pushKey(const AboutScreen());
+                          NavService().pushKey(const InfoScreen());
                         },
                       ),
                       menuItem(

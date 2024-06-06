@@ -5,17 +5,17 @@ import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 
-class AboutScreen extends StatelessWidget {
-  const AboutScreen({Key? key}) : super(key: key);
+class CancelationPolicyScreen extends StatelessWidget {
+  const CancelationPolicyScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<AboutScreenModel>(
-      model: AboutScreenModel(),
+    return BaseWidget<CancelationPolicyScreenModel>(
+      model: CancelationPolicyScreenModel(),
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("About").localize(context),
+            title: const Text("Cancelation policy").localize(context),
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: ListView(
@@ -41,4 +41,4 @@ class AboutScreen extends StatelessWidget {
   }
 }
 
-class AboutScreenModel extends BaseNotifier {}
+class CancelationPolicyScreenModel extends BaseNotifier {}

@@ -11,7 +11,6 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context);
     final appLanguage = Provider.of<AppLanguage>(context);
 
     return BaseWidget<SettingsScreenModel>(
