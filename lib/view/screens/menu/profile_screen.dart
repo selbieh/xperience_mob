@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
+import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
+import 'package:xperience/view/widgets/dialogs/message_dialog.dart';
 
-class HelpScreen extends StatelessWidget {
-  const HelpScreen({Key? key}) : super(key: key);
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<HelpScreenModel>(
-      model: HelpScreenModel(),
+    return BaseWidget<ProfileScreenModel>(
+      model: ProfileScreenModel(auth: Provider.of<AuthService>(context)),
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Help"),
+            title: const Text("Profile"),
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: Form(
@@ -29,20 +34,21 @@ class HelpScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
-                    const Text(
-                      "How can we help you?",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.greyText,
-                        fontSize: 20,
+                    MainTextField(
+                      controller: model.phoneController,
+                      hint: "Phone",
+                      isReadOnly: true,
+                      isFilled: true,
+                      fillColor: AppColors.grey.withOpacity(0.5),
+                      prefixIcon: const Icon(Icons.phone),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1),
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    textFieldTitile("Full name"),
-                    const SizedBox(height: 5),
                     MainTextField(
                       controller: model.nameController,
-                      hint: "Full name",
+                      hint: "Name",
                       validator: Validator.name,
                       keyboardType: TextInputType.name,
                       isFilled: true,
@@ -52,9 +58,6 @@ class HelpScreen extends StatelessWidget {
                         child: SvgPicture.asset("assets/svgs/ic_fullname.svg"),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    textFieldTitile("Email"),
-                    const SizedBox(height: 5),
                     MainTextField(
                       controller: model.emailController,
                       hint: "E-mail",
@@ -67,24 +70,13 @@ class HelpScreen extends StatelessWidget {
                         child: SvgPicture.asset("assets/svgs/ic_email.svg"),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    textFieldTitile("Message"),
-                    const SizedBox(height: 5),
-                    MainTextField(
-                      controller: model.messageController,
-                      validator: Validator.required,
-                      keyboardType: TextInputType.multiline,
-                      textInputAction: TextInputAction.newline,
-                      hint: "Write here!",
-                      isFilled: true,
-                      fillColor: AppColors.primaryColorLight,
-                      maxLines: 7,
-                    ),
                     const SizedBox(height: 40),
-                    CustomButton(
-                      title: "SEND",
-                      onPressed: model.submitFun,
-                    )
+                    model.isBusy
+                        ? const MainProgress()
+                        : CustomButton(
+                            title: "SAVE",
+                            onPressed: model.submitFun,
+                          )
                   ],
                 ),
               ),
@@ -94,31 +86,48 @@ class HelpScreen extends StatelessWidget {
       },
     );
   }
-
-  Text textFieldTitile(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        color: AppColors.greyText,
-        fontSize: 14,
-      ),
-    );
-  }
 }
 
-class HelpScreenModel extends BaseNotifier {
+class ProfileScreenModel extends BaseNotifier {
+  ProfileScreenModel({required this.auth}) {
+    phoneController.text = auth.userModel?.user?.mobile ?? "";
+    nameController.text = auth.userModel?.user?.name ?? "";
+    emailController.text = auth.userModel?.user?.email ?? "";
+  }
+  final AuthService auth;
+
   final formKey = GlobalKey<FormState>();
   var autovalidateMode = AutovalidateMode.disabled;
+  final phoneController = TextEditingController();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
-  final messageController = TextEditingController();
 
   void submitFun() {
     if (formKey.currentState!.validate()) {
+      updateProfile();
     } else {
       autovalidateMode = AutovalidateMode.always;
       setState();
+    }
+  }
+
+  Future<void> updateProfile() async {
+    setBusy();
+    final res = await auth.updateUserProfile(
+      body: {
+        "name": nameController.text,
+        "email": emailController.text,
+      },
+    );
+    if (res.left != null) {
+      setError();
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+    } else {
+      setIdle();
+      DialogsHelper.messageDialog(
+        type: MessageDialogType.success,
+        message: "Profile updated successfully",
+      );
     }
   }
 }

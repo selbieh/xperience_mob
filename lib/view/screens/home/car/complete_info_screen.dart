@@ -103,6 +103,7 @@ class CompleteInfoViewModel extends BaseNotifier {
     if (formKey.currentState!.validate()) {
     } else {
       autovalidateMode = AutovalidateMode.always;
+      setState();
     }
   }
 }

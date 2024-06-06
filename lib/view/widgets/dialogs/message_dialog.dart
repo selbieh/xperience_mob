@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/config/size_config.dart';
-import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 
 enum MessageDialogType {
@@ -61,7 +60,8 @@ class MessageDialog extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).dialogBackgroundColor,
               borderRadius: BorderRadius.circular(radius),
-              border: Border.all(color: AppColors.goldColor),
+              // border: Border.all(color: AppColors.goldColor),
+              border: Border.all(color: color),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,

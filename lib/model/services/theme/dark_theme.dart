@@ -148,8 +148,9 @@ ThemeData? darkTheme(BuildContext context) {
 
     //============================================ TextSelection Theme
     textSelectionTheme: const TextSelectionThemeData(
-      cursorColor: AppColors.primaryColorLight,
-      selectionHandleColor: AppColors.primaryColorLight,
+      cursorColor: AppColors.grey,
+      selectionHandleColor: AppColors.goldColor,
+      selectionColor: Colors.blue,
     ),
 
     //============================================ InputDecoration Theme

@@ -4,15 +4,13 @@ import 'package:phone_form_field/phone_form_field.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/main_screen.dart';
+import 'package:xperience/view/screens/auth/otp_screen.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
-import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 import 'package:xperience/view/widgets/have_problem_widget.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -67,13 +65,11 @@ class LoginScreen extends StatelessWidget {
                     PhoneFormField(
                       // initialValue: PhoneNumber.parse("+201009658566"),
                       // initialValue: PhoneNumber.parse("+20"),
-
                       controller: model.phoneController,
                       validator: PhoneValidator.compose([
                         PhoneValidator.required(context),
                         PhoneValidator.validMobile(context),
                       ]),
-
                       countrySelectorNavigator: CountrySelectorNavigator.dialog(
                         height: 0.60.h,
                         countries: [
@@ -92,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                       countryButtonStyle: const CountryButtonStyle(
                         showDialCode: true,
                         showIsoCode: false,
-                        showFlag: false,
+                        showFlag: true,
                         flagSize: 20,
                       ),
                       style: const TextStyle(color: AppColors.greyText),
@@ -124,34 +120,33 @@ class LoginScreenViewModel extends BaseNotifier {
 
   final formKey = GlobalKey<FormState>();
   var autovalidateMode = AutovalidateMode.disabled;
-  // PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+201009658566"));
-  PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+20"));
+  // PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+20"));
+  PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+201009658566"));
 
   void submitFun() async {
-    NavService().pushReplacementKey(const MainScreen());
-    // if (formKey.currentState!.validate()) {
-    //   sendOtp();
-    // } else {
-    //   autovalidateMode = AutovalidateMode.always;
-    // }
+    if (formKey.currentState!.validate()) {
+      sendOtp();
+    } else {
+      autovalidateMode = AutovalidateMode.always;
+      setState();
+    }
   }
 
   Future<void> sendOtp() async {
     setBusy();
-    Logger.printObject(phoneController?.value.international);
-
-    final res = await auth.loginRegister(
+    final res = await auth.phoneLoginRegister(
       body: {
         "mobile": phoneController?.value.international,
       },
     );
     if (res.left != null) {
       setError();
-      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      // failure = res.left?.message;
+      // DialogsHelper.messageDialog(message: "${res.left?.message}");
+      NavService().pushKey(OTPScreen(mobile: "${phoneController?.value.international}")); // Temp
     } else {
       setIdle();
-      // NavService().pushKey(const OTPScreen());
-      NavService().pushReplacementKey(const MainScreen());
+      NavService().pushKey(OTPScreen(mobile: "${phoneController?.value.international}"));
     }
   }
 }

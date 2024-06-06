@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
@@ -18,13 +20,14 @@ class HomeTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<HomeTabViewModel>(
-      model: HomeTabViewModel(),
+      model: HomeTabViewModel(auth: Provider.of<AuthService>(context)),
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text(
-              "Hello, Sir 👋",
-              style: TextStyle(color: AppColors.greyText),
+            title: Text(
+              // "Hello, Sir 👋",
+              "Hello, ${model.auth.userModel?.user?.name ?? ""} 👋",
+              style: const TextStyle(color: AppColors.greyText),
             ),
             actions: [
               IconButton(
@@ -140,7 +143,9 @@ class HomeTabScreen extends StatelessWidget {
 }
 
 class HomeTabViewModel extends BaseNotifier {
-  HomeTabViewModel();
+  HomeTabViewModel({required this.auth});
+
+  final AuthService auth;
 
   List<String> imageList = [
     "https://hare-media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/11/fe/57/80.jpg",

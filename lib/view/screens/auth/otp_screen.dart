@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/config/size_config.dart';
+import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/main_screen.dart';
+import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
+import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 import 'package:xperience/view/widgets/have_problem_widget.dart';
 import 'package:xperience/view/widgets/components/otp_widget.dart';
 
 class OTPScreen extends StatelessWidget {
-  const OTPScreen({Key? key}) : super(key: key);
+  const OTPScreen({required this.mobile, Key? key}) : super(key: key);
+  final String mobile;
 
   @override
   Widget build(BuildContext context) {
     return BaseWidget<OTPScreenModel>(
-      model: OTPScreenModel(),
+      model: OTPScreenModel(
+        auth: Provider.of<AuthService>(context),
+        mobile: mobile,
+      ),
       builder: (_, model, child) {
         return Scaffold(
           body: Container(
@@ -30,10 +37,7 @@ class OTPScreen extends StatelessWidget {
                   SizedBox(height: 0.05.h),
                   const Text(
                     "OTP",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.greyText,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.greyText),
                   ),
                   SizedBox(height: 0.05.h),
                   Column(
@@ -52,7 +56,7 @@ class OTPScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     child: OTPWidget(
-                      codeLength: 4,
+                      codeLength: 6,
                       formKey: model.formKey,
                       autovalidateMode: model.autovalidateMode,
                       keyboardType: TextInputType.number,
@@ -64,13 +68,12 @@ class OTPScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 0.10.h),
-                  CustomButton(
-                    title: "VERIFY",
-                    // onPressed: model.sendOtp,
-                    onPressed: () {
-                      NavService().pushReplacementKey(const MainScreen());
-                    },
-                  ),
+                  model.isBusy
+                      ? const MainProgress()
+                      : CustomButton(
+                          title: "VERIFY",
+                          onPressed: model.submitFun,
+                        ),
                 ],
               ),
             ),
@@ -83,16 +86,37 @@ class OTPScreen extends StatelessWidget {
 }
 
 class OTPScreenModel extends BaseNotifier {
-  String pinCode = "";
+  OTPScreenModel({required this.auth, required this.mobile});
+  final AuthService auth;
+  final String mobile;
+
   final formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  String pinCode = "";
 
-  Future<void> sendOtp() async {
+  void submitFun() async {
     if (formKey.currentState!.validate()) {
-      Logger.printObject(pinCode);
-      NavService().pushAndRemoveUntilKey(const MainScreen());
+      sendOtp();
     } else {
       autovalidateMode = AutovalidateMode.always;
+      setState();
+    }
+  }
+
+  Future<void> sendOtp() async {
+    setBusy();
+    final res = await auth.phoneVerify(
+      body: {
+        "mobile": mobile,
+        "token": pinCode,
+      },
+    );
+    if (res.left != null) {
+      setError();
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+    } else {
+      setIdle();
+      NavService().pushAndRemoveUntilKey(const MainScreen());
     }
   }
 }

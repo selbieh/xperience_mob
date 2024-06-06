@@ -76,7 +76,7 @@ class MainTextField extends StatelessWidget {
     this.isDense = false,
     this.enableInteractiveSelection,
     this.fillColor,
-    this.cursorColor = AppColors.primaryColorDark,
+    this.cursorColor = AppColors.grey,
     this.maxLines = 1,
     this.letterSpacing = 0,
     this.borderRadius = 5,

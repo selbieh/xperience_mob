@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/model/services/shared_preference.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/auth/login_screen.dart';
+import 'package:xperience/view/screens/main_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/onboarding_page_item.dart';
 
@@ -14,6 +15,9 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget<OnboardingScreenViewModel>(
       model: OnboardingScreenViewModel(),
+      initState: (model) {
+        SharedPref.sharedPref?.setBool(SharedPrefKeys.isFirstLaunch, false);
+      },
       builder: (context, model, child) {
         return Scaffold(
           body: SafeArea(
@@ -80,7 +84,7 @@ class OnboardingScreen extends StatelessWidget {
                               title: model.currentPage == model.pageCount - 1 ? "START NOW" : "Next",
                               onPressed: () {
                                 if (model.currentPage == model.pageCount - 1) {
-                                  NavService().pushAndRemoveUntilKey(const LoginScreen());
+                                  NavService().pushAndRemoveUntilKey(const MainScreen());
                                 } else {
                                   model.animateToPage(model.currentPage + 1);
                                 }

@@ -5,9 +5,10 @@ import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/model/services/shared_preference.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:xperience/view/screens/auth/login_screen.dart';
+import 'package:xperience/view/screens/auth/onbording_screen.dart';
 import 'package:xperience/view/screens/main_screen.dart';
 import 'package:xperience/view/widgets/animations/fade_transition_widget.dart';
 
@@ -53,13 +54,15 @@ class SplashScreenViewModel extends BaseNotifier {
 
   void delayFun() {
     Future.delayed(const Duration(milliseconds: 2000), () async {
-      if (auth.isLogged) {
-        await auth.loadUser();
-        NavService().pushReplacementKey(const MainScreen());
+      await auth.loadUser();
+      if (SharedPref.sharedPref?.getBool(SharedPrefKeys.isFirstLaunch) ?? false) {
+        NavService().pushReplacementKey(const OnboardingScreen());
       } else {
-        // NavService().pushReplacementKey(const OnboardingScreen());
-        // NavService().pushReplacementKey(const MainScreen());
-        NavService().pushReplacementKey(const LoginScreen());
+        if (auth.isLogged) {
+          NavService().pushReplacementKey(const MainScreen());
+        } else {
+          NavService().pushReplacementKey(const MainScreen());
+        }
       }
     });
   }

@@ -13,14 +13,15 @@ import 'package:xperience/model/services/shared_preference.dart';
 class AuthService extends ChangeNotifier {
   UserModel? _userModel;
   UserModel? get userModel => _userModel;
-  bool get isLogged => SharedPref.getBool(SharedPrefKeys.isUserLoggedIn) ?? false == true;
+  // bool get isLogged => SharedPref.getBool(SharedPrefKeys.isUserLoggedIn) ?? false == true;
+  bool get isLogged => userModel != null;
 
   ///============================================================================== Save User
   Future<bool> saveUser(UserModel user) async {
     try {
       await Future.wait([
         SharedPref.setString(SharedPrefKeys.user, json.encode(user.toJson())),
-        SharedPref.setString(SharedPrefKeys.tokenAccess, "=== USER_TOKEN ==="),
+        SharedPref.setString(SharedPrefKeys.tokenAccess, user.access ?? "=== NOT_FOUND_TOKEN ==="),
         SharedPref.setBool(SharedPrefKeys.isUserLoggedIn, true),
       ]);
       _userModel = user;
@@ -37,12 +38,16 @@ class AuthService extends ChangeNotifier {
   ///============================================================================== Load User
   Future<bool> loadUser() async {
     try {
-      Map<String, dynamic> userMap = json.decode(SharedPref.getString(SharedPrefKeys.user)!);
-      _userModel = UserModel.fromJson(userMap);
-      Logger.printObject(_userModel, title: "loadUser 👤👤");
-
-      notifyListeners();
-      return true;
+      final userString = SharedPref.getString(SharedPrefKeys.user);
+      if (userString != null) {
+        Map<String, dynamic> userMap = json.decode(userString);
+        _userModel = UserModel.fromJson(userMap);
+        Logger.printObject(_userModel, title: "loadUser 👤👤");
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       Logger.printt("loadUser error ---> ${error.toString()}");
       await SharedPref.clear();
@@ -79,16 +84,15 @@ class AuthService extends ChangeNotifier {
   }
 
   ///============================================================================== Login / Register
-  Future<Either<AppFailure, dynamic>> loginRegister({required Map<String, dynamic> body}) async {
+  Future<Either<AppFailure, bool>> phoneLoginRegister({required Map<String, dynamic> body}) async {
     try {
       final res = await HttpService.request(
-        endPoint: EndPoints.login,
+        endPoint: EndPoints.loginRegister,
         requestType: RequestType.post,
         header: Headers.guestHeader,
         body: body,
       );
       if (res.right != null) {
-        await saveUser(UserModel.fromJson(res.right));
         return Either(right: true);
       } else {
         return Either(left: res.left);
@@ -98,74 +102,55 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  // ///============================================================================== SignUp
-  // Future<Either<AppFailure, dynamic>> signUp(
-  //   BuildContext context, {
-  //   required Map<String, dynamic> body,
-  // }) async {
-  //   try {
-  //     final res = await HttpService.request(
-  //       endPoint: EndPoints.register,
-  //       requestType: RequestType.post,
-  //       header: Headers.guestHeader,
-  //       body: body,
-  //     );
-  //     if (res.right != null) {
-  //       return Either(right: true);
-  //     } else {
-  //       return Either(left: res.left);
-  //     }
-  //   } catch (error) {
-  //     return Either(left: AppFailure(message: error.toString()));
-  //   }
-  // }
+  ///============================================================================== Phone verify
+  Future<Either<AppFailure, UserModel>> phoneVerify({required Map<String, dynamic> body}) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: EndPoints.verifyPhone,
+        requestType: RequestType.post,
+        header: Headers.guestHeader,
+        body: body,
+      );
+      if (res.right != null) {
+        final resUser = UserModel.fromJson(res.right);
+        await saveUser(resUser);
+        return Either(right: resUser);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
 
   // ///============================================================================== Update Profile
-  // Future<Either<AppFailure, dynamic>> updateProfile(
-  //   BuildContext context, {
-  //   required Map<String, dynamic> body,
-  // }) async {
-  //   try {
-  //     final res = await HttpService.request(
-  //       endPoint: EndPoints.test,
-  //       requestType: RequestType.post,
-  //       header: Headers.userHeader,
-  //       body: body,
-  //     );
-  //     if (res.right != null) {
-  //       UserModel? tempUser = UserModel.fromJson(res.right["data"]);
-  //       tempUser.token = _userModel?.token;
-  //       await saveUser(tempUser);
-  //       return Either(right: true);
-  //     } else {
-  //       return Either(left: res.left);
-  //     }
-  //   } catch (error) {
-  //     return Either(left: AppFailure(message: error.toString()));
-  //   }
-  // }
+  Future<Either<AppFailure, UserModel>> updateUserProfile({
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: EndPoints.profile,
+        requestType: RequestType.patch,
+        header: Headers.userHeader,
+        body: body,
+      );
+      if (res.right != null) {
+        final resUserInfo = UserInfo.fromJson(res.right);
+        UserModel? tempUserModel = userModel;
 
-  // ///============================================================================== Change Password
-  // Future<Either<AppFailure, dynamic>> changePassword(
-  //   BuildContext context, {
-  //   required Map<String, dynamic> body,
-  // }) async {
-  //   try {
-  //     final res = await HttpService.request(
-  //       endPoint: EndPoints.test,
-  //       requestType: RequestType.post,
-  //       header: Headers.guestHeader,
-  //       body: body,
-  //     );
-  //     if (res.right != null) {
-  //       return Either(right: true);
-  //     } else {
-  //       return Either(left: res.left);
-  //     }
-  //   } catch (error) {
-  //     return Either(left: AppFailure(message: error.toString()));
-  //   }
-  // }
+        tempUserModel?.user?.name = resUserInfo.name;
+        tempUserModel?.user?.email = resUserInfo.email;
+        if (tempUserModel != null) {
+          await saveUser(tempUserModel);
+        }
+        return Either(right: tempUserModel);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
 
   ///============================================================================================================
   ///============================================================================================================

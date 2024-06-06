@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/size_config.dart';
+import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/login_screen.dart';
+import 'package:xperience/view/screens/auth/splash_screen.dart';
 import 'package:xperience/view/screens/menu/info_screen.dart';
 import 'package:xperience/view/screens/menu/help_screen.dart';
 import 'package:xperience/view/screens/menu/myreservations_screen.dart';
+import 'package:xperience/view/screens/menu/profile_screen.dart';
 import 'package:xperience/view/screens/menu/settings_screen.dart';
 import 'package:xperience/view/screens/menu/wallet_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
+import 'package:xperience/view/widgets/menu_listtile_item.dart';
+import 'package:xperience/view/widgets/menu_title_item.dart';
 
 class MenuDrawerScreen extends StatelessWidget {
   const MenuDrawerScreen({Key? key}) : super(key: key);
@@ -20,7 +26,9 @@ class MenuDrawerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<MenuDrawerViewModel>(
-      model: MenuDrawerViewModel(),
+      model: MenuDrawerViewModel(
+        auth: Provider.of<AuthService>(context),
+      ),
       builder: (_, model, child) {
         return Drawer(
           // backgroundColor: AppColors.primaryColorLight,
@@ -36,33 +44,69 @@ class MenuDrawerScreen extends StatelessWidget {
                 child: SvgPicture.asset("assets/svgs/xperience_logo.svg"),
               ),
               const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.goldColor, width: 3),
-                      ),
-                      child: const MainImage.network(
-                        height: 45,
-                        width: 45,
-                        radius: 25,
-                        imagePath: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-                      ),
+              // if (model.auth.isLogged)
+              // InkWell(
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              //     child: Row(
+              //       children: [
+              //         Container(
+              //           decoration: BoxDecoration(
+              //             shape: BoxShape.circle,
+              //             border: Border.all(color: AppColors.goldColor, width: 3),
+              //           ),
+              //           child: const MainImage.network(
+              //             height: 45,
+              //             width: 45,
+              //             radius: 25,
+              //             imagePath: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+              //           ),
+              //         ),
+              //         const SizedBox(width: 10),
+              //         Expanded(
+              //           child: Text(
+              //             model.auth.userModel?.user?.name ?? "-",
+              //             maxLines: 1,
+              //             style: const TextStyle(color: AppColors.goldColor),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              //   onTap: () {
+              //     // NavService().pushKey(const WalletScreen());
+              //   },
+              // ),
+              if (model.auth.isLogged)
+                ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppColors.goldColor, width: 3),
                     ),
-                    const SizedBox(width: 10),
-                    const Expanded(
-                      child: Text(
-                        "Mohamed Ahmed",
-                        maxLines: 1,
-                        style: TextStyle(color: AppColors.goldColor),
-                      ),
+                    child: const MainImage.network(
+                      height: 45,
+                      width: 45,
+                      radius: 25,
+                      imagePath: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
                     ),
-                  ],
+                  ),
+                  title: Text(
+                    model.auth.userModel?.user?.name ?? "Profile",
+                    maxLines: 1,
+                    style: const TextStyle(color: AppColors.goldColor),
+                  ),
+                  subtitle: (model.auth.userModel?.user?.email ?? "") == ""
+                      ? null
+                      : Text(
+                          model.auth.userModel?.user?.email ?? "-",
+                          maxLines: 2,
+                        ),
+                  onTap: () {
+                    NavService().pushKey(const ProfileScreen());
+                  },
                 ),
-              ),
               // const Divider(height: 0),
               const Divider(height: 0, color: AppColors.goldColor),
               Expanded(
@@ -72,15 +116,15 @@ class MenuDrawerScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-                      menuTitleItem("Account"),
-                      menuItem(
+                      const MenuTitleItem("Account"),
+                      MenuListTileItemWidget(
                         title: "Wallet",
                         icon: "assets/svgs/ic_wallet.svg",
                         onTap: () {
                           NavService().pushKey(const WalletScreen());
                         },
                       ),
-                      menuItem(
+                      MenuListTileItemWidget(
                         title: "My reservations",
                         icon: "assets/svgs/ic_reservations.svg",
                         onTap: () {
@@ -88,8 +132,8 @@ class MenuDrawerScreen extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 20),
-                      menuTitleItem("App"),
-                      menuItem(
+                      const MenuTitleItem("App"),
+                      MenuListTileItemWidget(
                         // title: "About",
                         title: "Info",
                         icon: "assets/svgs/ic_about.svg",
@@ -97,7 +141,7 @@ class MenuDrawerScreen extends StatelessWidget {
                           NavService().pushKey(const InfoScreen());
                         },
                       ),
-                      menuItem(
+                      MenuListTileItemWidget(
                         title: "Help",
                         icon: "assets/svgs/ic_help.svg",
                         onTap: () {
@@ -105,8 +149,8 @@ class MenuDrawerScreen extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 20),
-                      menuTitleItem("More"),
-                      menuItem(
+                      const MenuTitleItem("More"),
+                      MenuListTileItemWidget(
                         title: "Settings",
                         icon: "assets/svgs/ic_settings.svg",
                         onTap: () {
@@ -125,12 +169,17 @@ class MenuDrawerScreen extends StatelessWidget {
                   type: ButtonType.outlined,
                   width: double.infinity,
                   height: 55,
-                  title: "LOGOUT",
+                  title: model.auth.isLogged ? "LOGOUT" : "LOGIN",
                   // color: AppColors.white,
                   color: AppColors.goldColor,
                   radius: 10,
-                  onPressed: () {
-                    NavService().pushReplacementKey(const LoginScreen());
+                  onPressed: () async {
+                    if (model.auth.isLogged) {
+                      await model.auth.signOut();
+                      NavService().pushAndRemoveUntilKey(const SplashScreen());
+                    } else {
+                      NavService().pushKey(const LoginScreen());
+                    }
                   },
                 ),
               ),
@@ -141,30 +190,15 @@ class MenuDrawerScreen extends StatelessWidget {
       },
     );
   }
-
-  Padding menuTitleItem(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Text(
-        title,
-        style: const TextStyle(color: AppColors.greyText, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
-  ListTile menuItem({required String title, required String icon, Function()? onTap}) {
-    return ListTile(
-      // ignore: deprecated_member_use
-      leading: SvgPicture.asset(icon, color: AppColors.goldColor),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-      dense: true,
-      title: Text(
-        title,
-        style: const TextStyle(color: AppColors.goldColor),
-      ),
-      onTap: onTap,
-    );
-  }
 }
 
-class MenuDrawerViewModel extends BaseNotifier {}
+class MenuDrawerViewModel extends BaseNotifier {
+  MenuDrawerViewModel({required this.auth});
+
+  final AuthService auth;
+
+  void logout() async {
+    await auth.signOut();
+    NavService().pushAndRemoveUntilKey(const SplashScreen());
+  }
+}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/menu/help_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 
 class HaveProblemWidget extends StatelessWidget {
@@ -27,7 +29,9 @@ class HaveProblemWidget extends StatelessWidget {
           title: "Contact us",
           color: AppColors.greyText,
           textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-          onPressed: () {},
+          onPressed: () {
+            NavService().pushKey(const HelpScreen());
+          },
         ),
       ],
     );
