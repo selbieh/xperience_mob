@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/view/widgets/dialogs/language_dialog.dart';
 import 'package:xperience/view/widgets/dialogs/message_dialog.dart';
 
 class DialogsHelper {
@@ -20,6 +21,17 @@ class DialogsHelper {
           isRetry: isRetry!,
           type: type,
         );
+      },
+    );
+  }
+
+    static Future<dynamic> chooseLanguageDialog(
+    BuildContext context,
+  ) async {
+    return await showDialog(
+      context: context,
+      builder: (ctx) {
+        return const LanguageDialog();
       },
     );
   }

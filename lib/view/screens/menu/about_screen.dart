@@ -18,7 +18,7 @@ class AboutScreen extends StatelessWidget {
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               children: [
                 Expanded(
@@ -95,7 +95,7 @@ class AboutScreen extends StatelessWidget {
         color: AppColors.greyText,
       ),
       dense: true,
-      contentPadding: const EdgeInsets.only(top: 10),
+      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       onTap: onTap,
     );
   }

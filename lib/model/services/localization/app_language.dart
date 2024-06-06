@@ -41,7 +41,7 @@ class AppLanguage extends ChangeNotifier {
 
   ///======================================================== getLanguageName
   String getLanguageName() {
-    switch (_appLocale.countryCode) {
+    switch (_appLocale.languageCode) {
       case "en":
         return "English";
       case "ar":
