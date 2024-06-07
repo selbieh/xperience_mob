@@ -7,7 +7,7 @@ import 'package:xperience/model/services/api/headers.dart';
 import 'package:xperience/model/services/api/http_service.dart';
 
 class CarsRemoteDataSource {
-  static Future<Either<AppFailure, PaginationModel<CarServiceModel>>> getCarServices({
+  static Future<Either<AppFailure, PaginationModel<CarServiceModel>>> getCarsServices({
     Map<String, String>? queryParams,
   }) async {
     try {

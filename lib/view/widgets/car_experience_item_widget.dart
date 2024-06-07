@@ -13,7 +13,7 @@ class CarExperienceItemWidget extends StatelessWidget {
     super.key,
   });
 
-  final CarServiceModel carService;
+  final CarServiceModel? carService;
   final Function()? onPressed;
 
   @override
@@ -34,7 +34,7 @@ class CarExperienceItemWidget extends StatelessWidget {
             children: [
               Text(
                 // "GLA 250 SUV",
-                carService.model ?? "",
+                carService?.model ?? "",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -42,7 +42,7 @@ class CarExperienceItemWidget extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               // const Text("Mercedes"),
-              Text(carService.make ?? ""),
+              Text(carService?.make ?? ""),
               const SizedBox(height: 20),
               Row(
                 children: [
@@ -56,10 +56,10 @@ class CarExperienceItemWidget extends StatelessWidget {
                         FeatureItem(
                           icon: "assets/svgs/ic_people.svg",
                           // title: "6 People",
-                          title: "${carService.numberOfSeats} Seats",
+                          title: "${carService?.numberOfSeats} Seats",
                         ),
                         // SizedBox(width: 20),
-                        if (carService.cool == true)
+                        if (carService?.cool == true)
                           const FeatureItem(
                             icon: "assets/svgs/ic_cool_seat.svg",
                             title: "Cool Seat",
@@ -67,7 +67,7 @@ class CarExperienceItemWidget extends StatelessWidget {
                         FeatureItem(
                           icon: "assets/svgs/ic_car.svg",
                           // title: "SUV",
-                          title: carService.type ?? "",
+                          title: carService?.type ?? "",
                         ),
                       ],
                     ),

@@ -4,8 +4,11 @@ class EndPoints {
   static const String verifyPhone = "/api/token/";
   static const String profile = "/api/user/profile/";
 
-  // -------------------------------------------------------------------------------- Cars Exp
+  // -------------------------------------------------------------------------------- Cars services
   static const String carServices = "/api/car-services/";
+
+  // -------------------------------------------------------------------------------- Hotels services
+  static const String hotelServices = "/api/hotel-services/";
 
   // -------------------------------------------------------------------------------- Others
 

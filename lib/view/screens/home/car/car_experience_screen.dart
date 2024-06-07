@@ -128,7 +128,7 @@ class CarExperienceScreen extends StatelessWidget {
                             itemBuilder: (ctx, index) {
                               var item = model.carsRepo.carsServicesPaginated?.results?[index];
                               return CarExperienceItemWidget(
-                                carService: item!,
+                                carService: item,
                                 onPressed: () {
                                   NavService().pushKey(const CarDetailsScreen());
                                 },
@@ -215,7 +215,7 @@ class CarExperienceViewModel extends BaseNotifier {
       isLoadingMore = true;
       setState();
     }
-    var res = await carsRepo.getCarServices();
+    var res = await carsRepo.getCarsServices();
     if (res.left != null) {
       isLoadingMore = false;
       failure = res.left?.message;

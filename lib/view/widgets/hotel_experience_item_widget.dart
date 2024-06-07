@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
@@ -6,10 +7,12 @@ import 'package:xperience/view/widgets/feature_item.dart';
 
 class HotelExperienceItemWidget extends StatelessWidget {
   const HotelExperienceItemWidget({
+    required this.hotelService,
     this.onPressed,
     super.key,
   });
 
+  final HotelServiceModel? hotelService;
   final Function()? onPressed;
 
   @override
@@ -45,38 +48,41 @@ class HotelExperienceItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Eastern El-Galala Aquapark ",
-                    style: TextStyle(
-                      // fontWeight: FontWeight.bold,
+                  Text(
+                    // "Eastern El-Galala Aquapark ",
+                    hotelService?.name ?? "",
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Text(
-                    "Ain Sokhna",
-                    style: TextStyle(fontSize: 12, color: AppColors.grey),
+                  Text(
+                    // "Ain Sokhna",
+                    hotelService?.description ?? "",
+                    style: const TextStyle(fontSize: 12, color: AppColors.grey),
                   ),
                   const SizedBox(height: 20),
-                  const Wrap(
+                  Wrap(
                     alignment: WrapAlignment.start,
                     runAlignment: WrapAlignment.start,
                     crossAxisAlignment: WrapCrossAlignment.start,
                     children: [
                       FeatureItem(
                         icon: "assets/svgs/ic_room_door.svg",
-                        title: "2 Rooms",
-                        padding: EdgeInsets.symmetric(vertical: 5),
+                        // title: "2 Rooms",
+                        title: "${hotelService?.numberOfRooms ?? 0} Rooms",
+                        padding: const EdgeInsets.symmetric(vertical: 5),
                       ),
                       // SizedBox(width: 20),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       FeatureItem(
                         icon: "assets/svgs/ic_hotel.svg",
-                        title: "4 Beds",
-                        padding: EdgeInsets.symmetric(vertical: 5),
+                        // title: "4 Beds",
+                        title: "${hotelService?.numberOfBeds ?? 0} Beds",
+                        padding: const EdgeInsets.symmetric(vertical: 5),
                       ),
-                      SizedBox(width: 20),
-                      FeatureItem(
+                      const SizedBox(width: 20),
+                      const FeatureItem(
                         icon: "assets/svgs/ic_breakfast.svg",
                         title: "Breakfast",
                         padding: EdgeInsets.symmetric(vertical: 5),
@@ -85,11 +91,13 @@ class HotelExperienceItemWidget extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                         flex: 2,
                         child: Text(
-                          "EGP 5,590 per night",
-                          style: TextStyle(fontSize: 12, color: AppColors.grey),
+                          // "EGP 5,590 per night",
+                          "EGP ${hotelService?.dayPrice ?? 0} per night",
+                          style: const TextStyle(fontSize: 12, color: AppColors.grey),
+                          maxLines: 2,
                         ),
                       ),
                       BookNowButton(

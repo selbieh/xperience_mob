@@ -10,14 +10,14 @@ class CarsServiceRepo extends ChangeNotifier {
   int _pageOffset = 0;
   final int _pageLimit = 5;
 
-  Future<Either<AppFailure, PaginationModel<CarServiceModel>>> getCarServices() async {
+  Future<Either<AppFailure, PaginationModel<CarServiceModel>>> getCarsServices() async {
     try {
       if (carsServicesPaginated == null) {
         _pageOffset = 0;
       } else {
         _pageOffset += _pageLimit;
       }
-      var res = await CarsRemoteDataSource.getCarServices(
+      var res = await CarsRemoteDataSource.getCarsServices(
         queryParams: {
           "offset": "$_pageOffset",
           "limit": "$_pageLimit",
