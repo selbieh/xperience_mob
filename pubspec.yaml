@@ -46,6 +46,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   cached_network_image: ^3.3.1
   carousel_slider: ^4.2.1
+  pull_to_refresh_flutter3: ^2.0.2
 
   # ========================== Fields
   phone_form_field: ^9.2.3

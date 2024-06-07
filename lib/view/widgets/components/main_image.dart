@@ -119,7 +119,7 @@ class MainImage extends StatelessWidget {
 
   Widget _getImage() {
     final brokenImageIcon = Container(
-      decoration: BoxDecoration(borderRadius: borderRadius?? BorderRadius.circular(radius!), border: Border.all(color: Colors.grey)),
+      decoration: BoxDecoration(borderRadius: borderRadius ?? BorderRadius.circular(radius!), border: Border.all(color: Colors.grey)),
       child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
     );
 
@@ -135,7 +135,8 @@ class MainImage extends StatelessWidget {
           progressIndicatorBuilder: (context, url, progress) {
             return Center(
                 child: MainProgress(
-              color: AppColors.primaryColorLight,
+              // color: AppColors.primaryColorLight,
+              color: AppColors.goldColor,
               stroke: progressStroke,
               diameter: progressDiameter,
             ));
@@ -156,7 +157,8 @@ class MainImage extends StatelessWidget {
             } else {
               return Center(
                   child: MainProgress(
-                color: AppColors.primaryColorLight,
+                // color: AppColors.primaryColorLight,
+                color: AppColors.goldColor,
                 stroke: progressStroke,
                 diameter: progressDiameter,
               ));

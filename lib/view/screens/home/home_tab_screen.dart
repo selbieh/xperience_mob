@@ -10,9 +10,8 @@ import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/car/car_experience_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_experience_screen.dart';
 import 'package:xperience/view/screens/menu/notifications_screen.dart';
-import 'package:xperience/view/widgets/components/main_image.dart';
+import 'package:xperience/view/widgets/home_banner_widget.dart';
 import 'package:xperience/view/widgets/home_service_item_widget.dart';
-import 'package:xperience/view/widgets/components/main_image_slider.dart';
 
 class HomeTabScreen extends StatelessWidget {
   const HomeTabScreen({Key? key}) : super(key: key);
@@ -74,18 +73,7 @@ class HomeTabScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-                      MainImageSlider(
-                        aspectRatio: 24 / 9,
-                        items: model.imageList
-                            .map((e) => MainImage.network(
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  fit: BoxFit.cover,
-                                  imagePath: e,
-                                  radius: 10,
-                                ))
-                            .toList(),
-                      ),
+                      HomeBannerWidget(imageList: model.imageList),
                       const SizedBox(height: 20),
                       const Text(
                         "Services",
@@ -150,7 +138,7 @@ class HomeTabViewModel extends BaseNotifier {
   List<String> imageList = [
     "https://hare-media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/11/fe/57/80.jpg",
     "https://japan-land-service.com/wp-content/uploads/2019/02/AdobeStock_180552191-2-478x360.jpg",
-    "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/6a/b3/fa.jpg",
+    // "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/6a/b3/fa.jpg",
     "https://aurorahotels.vn/UploadFile/Article/Transfer1.jpg",
   ];
 }

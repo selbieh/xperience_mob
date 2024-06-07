@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:xperience/model/data/cars_service_repo.dart';
+import 'package:xperience/model/data/hotels_service_repo.dart';
 import 'package:xperience/model/services/api/http_api.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
@@ -21,4 +23,7 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => AppLanguage()),
   ChangeNotifierProvider(create: (_) => AppTheme()),
   ChangeNotifierProvider(create: (_) => AuthService(), lazy: false),
+  // --------------------------------------------------------------------
+  ChangeNotifierProvider(create: (_) => CarsServiceRepo()),
+  ChangeNotifierProvider(create: (_) => HotelsServiceRepo()),
 ];

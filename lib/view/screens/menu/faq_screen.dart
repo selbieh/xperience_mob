@@ -31,7 +31,7 @@ class FAQScreen extends StatelessWidget {
                 collapsedIconColor: AppColors.goldColor,
                 title: Text(
                   "How can I make a hotel reservation?",
-                  style: TextStyle(color: AppColors.goldColor),
+                  style: TextStyle(color: AppColors.goldColor, fontSize: 14),
                 ),
                 children: [
                   Text(

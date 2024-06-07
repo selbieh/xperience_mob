@@ -113,7 +113,7 @@ class HttpService {
         case 200:
         case 201:
           Logger.printt("✅ Request Success ( ${response.statusCode} ) ✅");
-          // Logger.printObject(responseJson, title: "HTTP request 🛎️🛎️");
+          Logger.printObject(responseJson, title: "HTTP request 🛎️🛎️");
           responseResult = Either(right: responseJson);
           break;
         default:

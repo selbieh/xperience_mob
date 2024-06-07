@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/data/cars_service_repo.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/car/car_details_screen.dart';
 import 'package:xperience/view/widgets/car_experience_item_widget.dart';
+import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/components/main_textfield_dropdown.dart';
+import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 
 class CarExperienceScreen extends StatelessWidget {
   const CarExperienceScreen({Key? key}) : super(key: key);
@@ -15,108 +19,130 @@ class CarExperienceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<CarExperienceViewModel>(
-      model: CarExperienceViewModel(),
+      model: CarExperienceViewModel(
+        carsRepo: Provider.of<CarsServiceRepo>(context),
+      ),
+      initState: (model) {
+        model.initScrollController();
+        if ((model.carsRepo.carsServicesPaginated?.results ?? []).isEmpty) {
+          model.getCarServices();
+        }
+      },
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.primaryColorDark,
             title: const Text("Car Experience"),
-            actions: [
-              IconButton(
-                icon: SvgPicture.asset("assets/svgs/ic_search.svg"),
-                onPressed: () {},
-              ),
-            ],
+            // actions: [
+            //   IconButton(
+            //     icon: SvgPicture.asset("assets/svgs/ic_search.svg"),
+            //     onPressed: () {},
+            //   ),
+            // ],
           ),
-          body: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MainTextField(
-                    controller: TextEditingController(),
-                    hint: "Search",
-                    hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
-                    borderRadius: 5,
-                    borderWidth: 0.5,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: SvgPicture.asset("assets/svgs/ic_search_2.svg"),
+          body: RefreshIndicator(
+            color: AppColors.goldColor,
+            onRefresh: model.refreshCarServices,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                controller: model.scrollController,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MainTextField(
+                      controller: TextEditingController(),
+                      hint: "Search",
+                      hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                      borderRadius: 5,
+                      borderWidth: 0.5,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: SvgPicture.asset("assets/svgs/ic_search_2.svg"),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Wrap(
-                    children: [
-                      SvgPicture.asset("assets/svgs/ic_filters.svg"),
-                      const SizedBox(width: 10),
-                      const Text(
-                        "Filters",
-                        style: TextStyle(color: AppColors.greyText),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: MainTextFieldDropdown<String>(
-                          items: model.carBrands
-                              .map(
-                                (e) => DropdownMenuItem(value: e, child: Text(e)),
-                              )
-                              .toList(),
-                          hint: "Brand",
-                          icon: const Icon(Icons.arrow_drop_down),
-                          style: const TextStyle(fontSize: 14, color: AppColors.white),
-                          hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
-                          borderWidth: 0.5,
-                          menuMaxHeight: 300,
-                          value: model.selectedCarBrand,
-                          onChanged: (value) {
-                            model.selectedCarBrand = value;
-                            model.setState();
-                          },
+                    const SizedBox(height: 20),
+                    Wrap(
+                      children: [
+                        SvgPicture.asset("assets/svgs/ic_filters.svg"),
+                        const SizedBox(width: 10),
+                        const Text(
+                          "Filters",
+                          style: TextStyle(color: AppColors.greyText),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: MainTextFieldDropdown<String>(
-                          items: model.carModels
-                              .map(
-                                (e) => DropdownMenuItem(value: e, child: Text(e)),
-                              )
-                              .toList(),
-                          hint: "Model",
-                          icon: const Icon(Icons.arrow_drop_down),
-                          style: const TextStyle(fontSize: 14, color: AppColors.white),
-                          hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
-                          borderWidth: 0.5,
-                          menuMaxHeight: 300,
-                          value: model.selectedCarModel,
-                          onChanged: (value) {
-                            model.selectedCarModel = value;
-                            model.setState();
-                          },
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: MainTextFieldDropdown<String>(
+                            items: model.carBrands
+                                .map(
+                                  (e) => DropdownMenuItem(value: e, child: Text(e)),
+                                )
+                                .toList(),
+                            hint: "Brand",
+                            icon: const Icon(Icons.arrow_drop_down),
+                            style: const TextStyle(fontSize: 14, color: AppColors.white),
+                            hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                            borderWidth: 0.5,
+                            menuMaxHeight: 300,
+                            value: model.selectedCarBrand,
+                            onChanged: (value) {
+                              model.selectedCarBrand = value;
+                              model.setState();
+                            },
+                          ),
                         ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: MainTextFieldDropdown<String>(
+                            items: model.carModels
+                                .map(
+                                  (e) => DropdownMenuItem(value: e, child: Text(e)),
+                                )
+                                .toList(),
+                            hint: "Model",
+                            icon: const Icon(Icons.arrow_drop_down),
+                            style: const TextStyle(fontSize: 14, color: AppColors.white),
+                            hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                            borderWidth: 0.5,
+                            menuMaxHeight: 300,
+                            value: model.selectedCarModel,
+                            onChanged: (value) {
+                              model.selectedCarModel = value;
+                              model.setState();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    // const SizedBox(height: 10),
+                    model.isBusy
+                        ? const MainProgress()
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: (model.carsRepo.carsServicesPaginated?.results ?? []).length,
+                            itemBuilder: (ctx, index) {
+                              var item = model.carsRepo.carsServicesPaginated?.results?[index];
+                              return CarExperienceItemWidget(
+                                carService: item!,
+                                onPressed: () {
+                                  NavService().pushKey(const CarDetailsScreen());
+                                },
+                              );
+                            },
+                          ),
+                    if (model.isLoadingMore)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: MainProgress(),
                       ),
-                    ],
-                  ),
-                  // const SizedBox(height: 10),
-                  ListView.builder(
-                    itemCount: 10,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (ctx, index) {
-                      return  CarExperienceItemWidget(onPressed: ()
-                      {
-                        NavService().pushKey(const CarDetailsScreen());
-                      },);
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           ),
@@ -127,6 +153,9 @@ class CarExperienceScreen extends StatelessWidget {
 }
 
 class CarExperienceViewModel extends BaseNotifier {
+  CarExperienceViewModel({required this.carsRepo});
+  final CarsServiceRepo carsRepo;
+
   String? selectedCarBrand;
   String? selectedCarModel;
 
@@ -160,4 +189,41 @@ class CarExperienceViewModel extends BaseNotifier {
     "KONA",
     "NEXO",
   ];
+
+  ScrollController scrollController = ScrollController();
+  bool isLoadingMore = false;
+
+  Future<void> initScrollController() async {
+    scrollController.addListener(() async {
+      if (scrollController.position.extentAfter == 0) {
+        if (!isLoadingMore && carsRepo.carsServicesPaginated?.next != null) {
+          await getCarServices();
+        }
+      }
+    });
+  }
+
+  Future<void> refreshCarServices() async {
+    carsRepo.carsServicesPaginated = null;
+    await getCarServices();
+  }
+
+  Future<void> getCarServices() async {
+    if (carsRepo.carsServicesPaginated == null) {
+      setBusy();
+    } else {
+      isLoadingMore = true;
+      setState();
+    }
+    var res = await carsRepo.getCarServices();
+    if (res.left != null) {
+      isLoadingMore = false;
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
+    } else {
+      isLoadingMore = false;
+      setIdle();
+    }
+  }
 }
