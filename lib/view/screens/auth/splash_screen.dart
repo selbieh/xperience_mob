@@ -4,6 +4,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
+import 'package:xperience/model/services/notifications/firebase_notification_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/shared_preference.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
@@ -54,6 +55,7 @@ class SplashScreenViewModel extends BaseNotifier {
 
   void delayFun() {
     Future.delayed(const Duration(milliseconds: 2000), () async {
+      FirebaseNotificationService.getFcmToken();
       await auth.loadUser();
       if (SharedPref.sharedPref?.getBool(SharedPrefKeys.isFirstLaunch) ?? false) {
         NavService().pushReplacementKey(const OnboardingScreen());

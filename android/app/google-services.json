@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "514143788543",
+    "project_id": "experience-9062b",
+    "storage_bucket": "experience-9062b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514143788543:android:4cdebdcf95e763d3025bca",
+        "android_client_info": {
+          "package_name": "com.codemaker.xperience"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo2pozKWpVhdSyCgZBr67iRfZ8l_CxqGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

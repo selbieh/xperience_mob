@@ -10,6 +10,7 @@ class SharedPrefKeys {
   static const String user = "user";
   static const String tokenAccess = "tokenAccess";
   static const String tokenRefresh = "tokenRefresh";
+  static const String fcmToken = "fcmToken";
 }
 
 class SharedPref {

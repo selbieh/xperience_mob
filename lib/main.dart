@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -5,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/config/app_environment.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
+import 'package:xperience/model/services/notifications/firebase_notification_service.dart';
+import 'package:xperience/model/services/notifications/firebase_options.dart';
 import 'package:xperience/model/services/providers/provider_setup.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/shared_preference.dart';
@@ -19,6 +22,9 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Future.wait([
       SharedPref.initialize(),
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) {
+        FirebaseNotificationService.initializeFirebaseMessagingListener();
+      }),
     ]);
     setupLocator();
   } catch (error) {
@@ -33,8 +39,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -78,18 +82,60 @@ class MyApp extends StatelessWidget {
 
 
 /*
+================================================================================== Todo
+ - Notifications
+ - Car 360 image 
+ - implement cars list 
+ - implement hotel list 
 
-
-
-
-
-
+==================================================================================
 {
-    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcyMTE0MDMyMiwiaWF0IjoxNzE3MjUyMzIyLCJqdGkiOiI0MjBhODZkYmM0MDU0YzBhYmY3YmRlNTJlYWE1YzU3MCIsInVzZXJfaWQiOjF9.dLUORVG72jWXLmo0XuttQSP49F20Pn65N_KzmbAn0kI",
-    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE5ODQ0MzIyLCJpYXQiOjE3MTcyNTIzMjIsImp0aSI6ImQwYmMzYWQ2OTlmYjQ1MDJhOGVjNWQ5NzBkZTlhZmU0IiwidXNlcl9pZCI6MX0.tXX1yrL6R073_PWb-Piju9DUWMYXdCPNQwWXf8o_Dvg"
+    "id": 10,
+    "model": "8Glld",
+    "make": "BMW",
+    "description": "Comfort Car",
+    "number_of_seats": 6,
+    "year": 2022,
+    "color": "Black",
+    "type": "SUV",
+    "cool": true,
+    "image": "http://impressive-domini-royals-1be52931.koyeb.app/media/car_image/Screenshot_from_2024-05-26_16-50-46.png",
+    "subscription_options": [ "" ],
+     "images": [
+    {
+      "id": 0,
+      "image": "string",
+      "car_service": 0
+    }
+  ]
 }
 
 
+Launching lib/main.dart on sdk gphone arm64 in debug mode...
+✓  Built build/app/outputs/flutter-apk/app-debug.apk.
+Connecting to VM Service at ws://127.0.0.1:49620/DQphuRCnIes=/ws
+[log] *** setDefaultValues is called ***
+I/FirebaseApp( 6468): Device unlocked: initializing all Firebase APIs for app [DEFAULT]
+I/TetheringManager( 6468): registerTetheringEventCallback:com.codemaker.xperience
+I/DynamiteModule( 6468): Considering local module com.google.android.gms.measurement.dynamite:115 and remote module com.google.android.gms.measurement.dynamite:109
+I/DynamiteModule( 6468): Selected local version of com.google.android.gms.measurement.dynamite
+I/FA      ( 6468): App measurement initialized, version: 95001
+I/FA      ( 6468): To enable debug logging run: adb shell setprop log.tag.FA VERBOSE
+I/FA      ( 6468): To enable faster debug mode event logging run:
+I/FA      ( 6468):   adb shell setprop debug.firebase.analytics.app com.codemaker.xperience
+E/FA      ( 6468): Missing google_app_id. Firebase Analytics disabled. See https://goo.gl/NAOOOI
+E/FA      ( 6468): Uploading is not possible. App measurement disabled
+[log] FCM Token From Preference ---> eF3KPzcGT4aEiHKpQ2jO2l:APA91bE9KRCqasDwraJu2jVCLSVEtIK-kKCH2mGsvK5DCKKZPE7JCg0aAju3bZKZhdyFKMV7PHzvB8j4PYmjGJQXdZCnzgvLi-wEBecps679rmlc2VDgeNQGrJAoCRzgy9PeUtAKTqI-
 
+D/FLTFireMsgReceiver( 6987): broadcast received for message
+W/maker.xperienc( 6987): Accessing hidden method Landroid/os/WorkSource;->add(I)Z (greylist,test-api, reflection, allowed)
+W/maker.xperienc( 6987): Accessing hidden method Landroid/os/WorkSource;->add(ILjava/lang/String;)Z (greylist,test-api, reflection, allowed)
+W/maker.xperienc( 6987): Accessing hidden method Landroid/os/WorkSource;->get(I)I (greylist, reflection, allowed)
+W/maker.xperienc( 6987): Accessing hidden method Landroid/os/WorkSource;->getName(I)Ljava/lang/String; (greylist, reflection, allowed)
+I/FA      ( 6987): Tag Manager is not found and thus will not be used
+E/FA      ( 6987): Missing google_app_id. Firebase Analytics disabled. See https://goo.gl/NAOOOI
+
+==================================================================================
+==================================================================================
 
 */
