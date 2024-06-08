@@ -67,13 +67,13 @@ class CarDetailsScreen extends StatelessWidget {
                             children: [
                               Text(
                                 // "GLA 250 SUV",
-                                carService?.model ?? "",
+                                carService?.model ?? "-",
                                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               const SizedBox(height: 10),
                               Text(
                                 // "Mercedes",
-                                carService?.make ?? "",
+                                carService?.make ?? "-",
                                 style: const TextStyle(color: AppColors.greyText, fontSize: 14),
                               ),
                               const SizedBox(height: 20),
@@ -84,12 +84,12 @@ class CarDetailsScreen extends StatelessWidget {
                                     CarInfoItem(
                                       title: "Make",
                                       // value: "Mercedes",
-                                      value: carService?.make ?? "",
+                                      value: carService?.make ?? "-",
                                     ),
                                     CarInfoItem(
                                       title: "Model",
                                       // value: "GLA 250",
-                                      value: carService?.model ?? "",
+                                      value: carService?.model ?? "-",
                                     ),
                                     CarInfoItem(
                                       title: "Year",
@@ -99,7 +99,7 @@ class CarDetailsScreen extends StatelessWidget {
                                     CarInfoItem(
                                       title: "Color",
                                       // value: "Black",
-                                      value: carService?.color ?? "",
+                                      value: carService?.color ?? "-",
                                     ),
                                   ],
                                 ),
@@ -167,7 +167,7 @@ class CarDetailsScreen extends StatelessWidget {
                                         margin: const EdgeInsets.symmetric(horizontal: 5),
                                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
                                         decoration: BoxDecoration(
-                                          color: isSelected ? AppColors.primaryColorDark : null,
+                                          color: isSelected ? AppColors.selectedColor : null,
                                           borderRadius: BorderRadius.circular(10),
                                           border: Border.all(color: AppColors.grey, width: 0.5),
                                         ),

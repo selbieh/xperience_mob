@@ -59,6 +59,11 @@ extension StringLocalization on String {
   }
   // *** using ***
   // Text("Home".localize(context))
+
+  String tr() {
+    final locale = AppLocalizations.of(NavService().context());
+    return locale.get(this);
+  }
 }
 
 extension TextLocalization on Text {

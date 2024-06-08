@@ -6,11 +6,15 @@ class EndPoints {
 
   // -------------------------------------------------------------------------------- Cars services
   static const String carServices = "/api/car-services/";
+  static const String subscriptionOptions = "/api/subscription-options/";
+  static const String carMakes = "/api/car-makes/";
+  static const String carModels = "/api/car-models/";
 
   // -------------------------------------------------------------------------------- Hotels services
   static const String hotelServices = "/api/hotel-services/";
 
   // -------------------------------------------------------------------------------- Others
+  static const String reservations = "/api/reservations/";
 
   // --------------------------------------------------------------------------------
   // --------------------------------------------------------------------------------

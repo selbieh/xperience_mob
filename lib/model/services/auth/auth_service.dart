@@ -21,7 +21,7 @@ class AuthService extends ChangeNotifier {
     try {
       await Future.wait([
         SharedPref.setString(SharedPrefKeys.user, json.encode(user.toJson())),
-        SharedPref.setString(SharedPrefKeys.tokenAccess, user.access ?? "=== NOT_FOUND_TOKEN ==="),
+        SharedPref.setString(SharedPrefKeys.tokenAccess, user.access ?? "=== TOKEN_NOT_FOUND ==="),
         SharedPref.setBool(SharedPrefKeys.isUserLoggedIn, true),
       ]);
       _userModel = user;

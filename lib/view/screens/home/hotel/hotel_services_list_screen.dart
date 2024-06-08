@@ -13,15 +13,15 @@ import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/components/main_textfield_dropdown.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
-import 'package:xperience/view/widgets/hotel_experience_item_widget.dart';
+import 'package:xperience/view/widgets/hotel_service_item_widget.dart';
 
-class HotelExperienceScreen extends StatelessWidget {
-  const HotelExperienceScreen({Key? key}) : super(key: key);
+class HotelServicesListScreen extends StatelessWidget {
+  const HotelServicesListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<HotelExperienceViewModel>(
-      model: HotelExperienceViewModel(
+    return BaseWidget<HotelServicesListViewModel>(
+      model: HotelServicesListViewModel(
         hotelsRepo: Provider.of<HotelsServiceRepo>(context),
       ),
       initState: (model) {
@@ -141,7 +141,7 @@ class HotelExperienceScreen extends StatelessWidget {
                             itemCount: (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).length,
                             itemBuilder: (ctx, index) {
                               var item = model.hotelsRepo.hotelsServicesPaginated?.results?[index];
-                              return HotelExperienceItemWidget(
+                              return HotelServiceItemWidget(
                                 hotelService: item,
                                 onPressed: () {
                                   NavService().pushKey(const HotelDetailsScreen());
@@ -166,8 +166,8 @@ class HotelExperienceScreen extends StatelessWidget {
   }
 }
 
-class HotelExperienceViewModel extends BaseNotifier {
-  HotelExperienceViewModel({required this.hotelsRepo});
+class HotelServicesListViewModel extends BaseNotifier {
+  HotelServicesListViewModel({required this.hotelsRepo});
   final HotelsServiceRepo hotelsRepo;
 
   String? selectedLocation;

@@ -8,7 +8,7 @@ import 'package:xperience/model/services/api/either.dart';
 class HotelsServiceRepo extends ChangeNotifier {
   PaginationModel<HotelServiceModel>? hotelsServicesPaginated;
   int _pageOffset = 0;
-  final int _pageLimit = 5;
+  final int _pageLimit = 10;
 
   Future<Either<AppFailure, PaginationModel<HotelServiceModel>>> getHotelsServices() async {
     try {

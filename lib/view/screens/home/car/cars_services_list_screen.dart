@@ -5,10 +5,12 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/cars_service_repo.dart';
+import 'package:xperience/model/models/car_make_model.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/car/car_details_screen.dart';
 import 'package:xperience/view/widgets/car_experience_item_widget.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/components/main_textfield_dropdown.dart';
@@ -28,18 +30,23 @@ class CarsServicesListScreen extends StatelessWidget {
         if ((model.carsRepo.carsServicesPaginated?.results ?? []).isEmpty) {
           model.getCarServices();
         }
+        if ((model.carsRepo.carMakesPaginated?.results ?? []).isEmpty) {
+          model.getCarMakes();
+        }
       },
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.primaryColorDark,
             title: const Text("Car Experience"),
-            // actions: [
-            //   IconButton(
-            //     icon: SvgPicture.asset("assets/svgs/ic_search.svg"),
-            //     onPressed: () {},
-            //   ),
-            // ],
+            actions: [
+              MainButton(
+                type: ButtonType.text,
+                title: "Reset",
+                color: AppColors.goldColor,
+                onPressed: model.reset,
+              )
+            ],
           ),
           body: RefreshIndicator(
             color: AppColors.goldColor,
@@ -53,7 +60,7 @@ class CarsServicesListScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MainTextField(
-                      controller: TextEditingController(),
+                      controller: model.searchController,
                       hint: "Search",
                       hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                       borderRadius: 5,
@@ -62,6 +69,10 @@ class CarsServicesListScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(12),
                         child: SvgPicture.asset("assets/svgs/ic_search_2.svg"),
                       ),
+                      textInputAction: TextInputAction.search,
+                      onFieldSubmitted: (_) {
+                        model.refreshCarServices();
+                      },
                     ),
                     const SizedBox(height: 20),
                     Wrap(
@@ -77,10 +88,13 @@ class CarsServicesListScreen extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: MainTextFieldDropdown<String>(
-                            items: model.carBrands
+                          child: MainTextFieldDropdown<CarMakeModel>(
+                            items: (model.carsRepo.carMakesPaginated?.results ?? [])
                                 .map(
-                                  (e) => DropdownMenuItem(value: e, child: Text(e)),
+                                  (e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e.name ?? ""),
+                                  ),
                                 )
                                 .toList(),
                             hint: "Brand",
@@ -89,10 +103,10 @@ class CarsServicesListScreen extends StatelessWidget {
                             hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                             borderWidth: 0.5,
                             menuMaxHeight: 300,
-                            value: model.selectedCarBrand,
+                            value: model.selectedMake,
                             onChanged: (value) {
-                              model.selectedCarBrand = value;
-                              model.setState();
+                              model.selectedMake = value;
+                              model.refreshCarServices();
                             },
                           ),
                         ),
@@ -110,18 +124,20 @@ class CarsServicesListScreen extends StatelessWidget {
                             hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                             borderWidth: 0.5,
                             menuMaxHeight: 300,
-                            value: model.selectedCarModel,
+                            value: model.selectedModel,
                             onChanged: (value) {
-                              model.selectedCarModel = value;
+                              model.selectedModel = value;
                               model.setState();
                             },
                           ),
                         ),
                       ],
                     ),
-                    // const SizedBox(height: 10),
                     model.isBusy
-                        ? const MainProgress()
+                        ? const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: MainProgress(),
+                          )
                         : ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -158,26 +174,10 @@ class CarsServicesListViewModel extends BaseNotifier {
   CarsServicesListViewModel({required this.carsRepo});
   final CarsServiceRepo carsRepo;
 
-  String? selectedCarBrand;
-  String? selectedCarModel;
+  final searchController = TextEditingController();
+  CarMakeModel? selectedMake;
+  String? selectedModel;
 
-  List<String> carBrands = [
-    "Toyota",
-    "VW",
-    "Hyundai",
-    "Kia",
-    "GM",
-    "Ford",
-    "Honda",
-    "Nissan	",
-    "BMW",
-    "Mercedes",
-    "Renault",
-    // "Afsdfds fdsf sdfdsfsdf dsf dsfsdfsdfsd fsdfsdfs ",
-    "Suzuki",
-    "Tesla",
-    "Geely",
-  ];
   List<String> carModels = [
     "IONIQ 5 N",
     "KONA Electric",
@@ -210,6 +210,15 @@ class CarsServicesListViewModel extends BaseNotifier {
     await getCarServices();
   }
 
+  void reset() {
+    if (selectedMake != null || selectedModel != null || searchController.text != "") {
+      selectedMake = null;
+      selectedModel = null;
+      searchController.clear();
+      refreshCarServices();
+    }
+  }
+
   Future<void> getCarServices() async {
     if (carsRepo.carsServicesPaginated == null) {
       setBusy();
@@ -217,7 +226,14 @@ class CarsServicesListViewModel extends BaseNotifier {
       isLoadingMore = true;
       setState();
     }
-    var res = await carsRepo.getCarsServices();
+    Map<String, String> filterData = {};
+    if (searchController.text.isNotEmpty) {
+      filterData.addAll({"search": searchController.text});
+    }
+    if (selectedMake != null) {
+      filterData.addAll({"make": "${selectedMake?.id}"});
+    }
+    var res = await carsRepo.getCarsServices(queryParams: filterData);
     if (res.left != null) {
       isLoadingMore = false;
       failure = res.left?.message;
@@ -225,6 +241,18 @@ class CarsServicesListViewModel extends BaseNotifier {
       setError();
     } else {
       isLoadingMore = false;
+      setIdle();
+    }
+  }
+
+  Future<void> getCarMakes() async {
+    var res = await carsRepo.getCarMakes();
+    if (res.left != null) {
+      isLoadingMore = false;
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
+    } else {
       setIdle();
     }
   }

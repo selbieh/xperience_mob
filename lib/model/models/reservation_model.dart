@@ -1,0 +1,210 @@
+class ReservationModel {
+  int? id;
+  int? user;
+  List<ReservationData>? carReservations;
+  List<ReservationData>? hotelReservations;
+  CreatedBy? createdBy;
+  String? status;
+
+  ReservationModel({
+    this.id,
+    this.user,
+    this.carReservations,
+    this.hotelReservations,
+    this.createdBy,
+    this.status,
+  });
+
+  static ReservationModel fromJsonModel(Object? json) => ReservationModel.fromJson(json as Map<String, dynamic>);
+
+  ReservationModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    user = json['user'];
+    if (json['car_reservations'] != null) {
+      carReservations = <ReservationData>[];
+      json['car_reservations'].forEach((v) {
+        carReservations!.add(ReservationData.fromJson(v));
+      });
+    }
+    if (json['hotel_reservations'] != null) {
+      hotelReservations = <ReservationData>[];
+      json['hotel_reservations'].forEach((v) {
+        hotelReservations!.add(ReservationData.fromJson(v));
+      });
+    }
+    createdBy = json['created_by'] != null ? CreatedBy.fromJson(json['created_by']) : null;
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user'] = user;
+    if (carReservations != null) {
+      data['car_reservations'] = carReservations!.map((v) => v.toJson()).toList();
+    }
+    if (hotelReservations != null) {
+      data['hotel_reservations'] = hotelReservations!.map((v) => v.toJson()).toList();
+    }
+    if (createdBy != null) {
+      data['created_by'] = createdBy!.toJson();
+    }
+    data['status'] = status;
+    return data;
+  }
+}
+
+class ReservationData {
+  int? id;
+  CarService? carService;
+  String? pickupTime;
+  String? pickupAddress;
+  double? pickupLat;
+  double? pickupLong;
+  String? pickupUrl;
+  String? dropoffAddress;
+  double? dropoffLat;
+  double? dropoffLong;
+  String? dropoffUrl;
+  String? terminal;
+  String? flightNumber;
+  String? extras;
+  String? finalPrice;
+  String? subscriptionOption;
+  List<String>? options;
+
+  ReservationData({
+    this.id,
+    this.carService,
+    this.pickupTime,
+    this.pickupAddress,
+    this.pickupLat,
+    this.pickupLong,
+    this.pickupUrl,
+    this.dropoffAddress,
+    this.dropoffLat,
+    this.dropoffLong,
+    this.dropoffUrl,
+    this.terminal,
+    this.flightNumber,
+    this.extras,
+    this.finalPrice,
+    this.subscriptionOption,
+    this.options,
+  });
+
+  ReservationData.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    // carService = json['car_service'];
+    carService = json['car_service'] != null ? CarService.fromJson(json['car_service']) : null;
+    pickupTime = json['pickup_time'];
+    pickupAddress = json['pickup_address'];
+    pickupLat = json['pickup_lat'];
+    pickupLong = json['pickup_long'];
+    pickupUrl = json['pickup_url'];
+    dropoffAddress = json['dropoff_address'];
+    dropoffLat = json['dropoff_lat'];
+    dropoffLong = json['dropoff_long'];
+    dropoffUrl = json['dropoff_url'];
+    terminal = json['terminal'];
+    flightNumber = json['flight_number'];
+    extras = json['extras'];
+    finalPrice = json['final_price'];
+    subscriptionOption = json['subscription_option'];
+    options = json['options'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    // data['car_service'] = carService;
+    if (carService != null) {
+      data['car_service'] = carService!.toJson();
+    }
+    data['pickup_time'] = pickupTime;
+    data['pickup_address'] = pickupAddress;
+    data['pickup_lat'] = pickupLat;
+    data['pickup_long'] = pickupLong;
+    data['pickup_url'] = pickupUrl;
+    data['dropoff_address'] = dropoffAddress;
+    data['dropoff_lat'] = dropoffLat;
+    data['dropoff_long'] = dropoffLong;
+    data['dropoff_url'] = dropoffUrl;
+    data['terminal'] = terminal;
+    data['flight_number'] = flightNumber;
+    data['extras'] = extras;
+    data['final_price'] = finalPrice;
+    data['subscription_option'] = subscriptionOption;
+    data['options'] = options;
+    return data;
+  }
+}
+
+class CreatedBy {
+  int? id;
+  String? name;
+  String? email;
+  String? mobile;
+  int? wallet;
+  bool? isStaff;
+
+  CreatedBy({this.id, this.name, this.email, this.mobile, this.wallet, this.isStaff});
+
+  CreatedBy.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    mobile = json['mobile'];
+    wallet = json['wallet'];
+    isStaff = json['is_staff'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['mobile'] = mobile;
+    data['wallet'] = wallet;
+    data['is_staff'] = isStaff;
+    return data;
+  }
+}
+
+class CarService {
+  int? id;
+  String? model;
+  String? make;
+  int? numberOfSeats;
+  int? year;
+  String? type;
+
+  CarService({
+    this.id,
+    this.model,
+    this.make,
+    this.numberOfSeats,
+    this.year,
+    this.type,
+  });
+
+  CarService.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    model = json['model'];
+    make = json['make'];
+    numberOfSeats = json['number_of_seats'];
+    year = json['year'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model'] = model;
+    data['make'] = make;
+    data['number_of_seats'] = numberOfSeats;
+    data['year'] = year;
+    data['type'] = type;
+    return data;
+  }
+}

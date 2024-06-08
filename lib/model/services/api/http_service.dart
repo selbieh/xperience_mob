@@ -6,6 +6,7 @@ import 'package:xperience/model/config/app_environment.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/services/api/app_failure.dart';
 import 'package:xperience/model/services/api/either.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 
 enum RequestType {
   post,
@@ -128,7 +129,7 @@ class HttpService {
               message = "$message \n${errorItem["detail"]}";
             }
           } else {
-            message = "Something went wrong!";
+            message = "Something went wrong".tr();
           }
 
           // String message = responseJson["message"] ?? "Something went wrong";

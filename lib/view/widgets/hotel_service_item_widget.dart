@@ -5,8 +5,8 @@ import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
 import 'package:xperience/view/widgets/feature_item.dart';
 
-class HotelExperienceItemWidget extends StatelessWidget {
-  const HotelExperienceItemWidget({
+class HotelServiceItemWidget extends StatelessWidget {
+  const HotelServiceItemWidget({
     required this.hotelService,
     this.onPressed,
     super.key,

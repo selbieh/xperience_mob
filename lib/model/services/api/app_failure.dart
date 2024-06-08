@@ -1,3 +1,5 @@
+import 'package:xperience/model/services/localization/app_language.dart';
+
 enum AppFailureType {
   timeout,
   socket,
@@ -14,17 +16,17 @@ class AppFailure {
   static String getMessage(AppFailureType type) {
     switch (type) {
       case AppFailureType.timeout:
-        return "Please check your network connection";
+        return "Please check your network connection".tr();
       case AppFailureType.socket:
-        return "You have no internet connection";
+        return "You have no internet connection".tr();
       case AppFailureType.http:
-        return "You have HTTP exception error";
+        return "You have HTTP exception error".tr();
       case AppFailureType.format:
-        return "You have Format exception error, try check response data";
+        return "You have Format exception error, try check response data".tr();
       case AppFailureType.error:
-        return "You have failure error";
+        return "You have failure error".tr();
       case AppFailureType.other:
-        return "Something went wrong";
+        return "Something went wrong".tr();
     }
   }
 }

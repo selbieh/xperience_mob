@@ -193,6 +193,59 @@ body:
         }
     ]
 }
+
+
+ {
+      "count": 1,
+      "next": null,
+      "previous": null,
+      "results": [
+           {
+                "id": 1,
+                "user": 3,
+                "car_reservations": [
+                     {
+                          "id": 1,
+                          "car_service": {
+                               "id": 10,
+                               "model": null,
+                               "make": null,
+                               "number_of_seats": 6,
+                               "year": 2022,
+                               "type": "SUV"
+                          },
+                          "pickup_time": "2023-06-15T15:00:00Z",
+                          "pickup_address": "Giza, 6th of october city",
+                          "pickup_lat": 29.970402,
+                          "pickup_long": 30.952246,
+                          "pickup_url": null,
+                          "dropoff_address": "Cairo, tahrir square",
+                          "dropoff_lat": 30.044318,
+                          "dropoff_long": 31.235752,
+                          "dropoff_url": null,
+                          "terminal": "",
+                          "flight_number": "",
+                          "extras": "sadgadsf ghsdhfgsdfg hdsfgh dfghdfgh",
+                          "final_price": "0.00",
+                          "subscription_option": null,
+                          "options": []
+                     }
+                ],
+                "hotel_reservations": [],
+                "created_by": {
+                     "id": 3,
+                     "name": "ahmed2",
+                     "email": "ahmed2@test.com",
+                     "mobile": "+201009658566",
+                     "wallet": 0,
+                     "is_staff": false
+                },
+                "status": "CONFIRMED",
+                "created_at": "2024-06-08T15:36:18.823070Z"
+           }
+      ]
+ }
+
 ==================================================================================
 ==================================================================================
 
