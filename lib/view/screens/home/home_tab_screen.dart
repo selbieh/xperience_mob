@@ -7,7 +7,7 @@ import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/home/car/car_experience_screen.dart';
+import 'package:xperience/view/screens/home/car/cars_services_list_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_experience_screen.dart';
 import 'package:xperience/view/screens/menu/notifications_screen.dart';
 import 'package:xperience/view/widgets/home_banner_widget.dart';
@@ -96,7 +96,7 @@ class HomeTabScreen extends StatelessWidget {
                               imageUrl: "assets/images/car_exp.jpeg",
                               onTap: () {
                                 NavService().pushKey(
-                                  const CarExperienceScreen(),
+                                  const CarsServicesListScreen(),
                                   settings: const RouteSettings(name: RouteNames.carExperience),
                                 );
                               },

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/car/checkout_screen.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
+import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 
 class CompleteInfoScreen extends StatelessWidget {
   const CompleteInfoScreen({Key? key}) : super(key: key);
@@ -14,7 +17,9 @@ class CompleteInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<CompleteInfoViewModel>(
-      model: CompleteInfoViewModel(),
+      model: CompleteInfoViewModel(
+        auth: Provider.of<AuthService>(context),
+      ),
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
@@ -33,7 +38,14 @@ class CompleteInfoScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          textFieldTitile("Full name"),
+                          const Text(
+                            "Full name",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.greyText,
+                              fontSize: 14,
+                            ),
+                          ),
                           const SizedBox(height: 5),
                           MainTextField(
                             controller: model.nameController,
@@ -47,7 +59,14 @@ class CompleteInfoScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          textFieldTitile("Email"),
+                          const Text(
+                            "Email",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.greyText,
+                              fontSize: 14,
+                            ),
+                          ),
                           const SizedBox(height: 5),
                           MainTextField(
                             controller: model.emailController,
@@ -79,31 +98,40 @@ class CompleteInfoScreen extends StatelessWidget {
       },
     );
   }
-
-  Text textFieldTitile(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        color: AppColors.greyText,
-        fontSize: 14,
-      ),
-    );
-  }
 }
 
 class CompleteInfoViewModel extends BaseNotifier {
+  CompleteInfoViewModel({required this.auth});
+  final AuthService auth;
+
   final formKey = GlobalKey<FormState>();
   var autovalidateMode = AutovalidateMode.disabled;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
-  final messageController = TextEditingController();
 
   void submitFun() {
     if (formKey.currentState!.validate()) {
+      updateProfile();
     } else {
       autovalidateMode = AutovalidateMode.always;
       setState();
+    }
+  }
+
+  Future<void> updateProfile() async {
+    setBusy();
+    final res = await auth.updateUserProfile(
+      body: {
+        "name": nameController.text,
+        "email": emailController.text,
+      },
+    );
+    if (res.left != null) {
+      setError();
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+    } else {
+      setIdle();
+      NavService().popKey(true);
     }
   }
 }

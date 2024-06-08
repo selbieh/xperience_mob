@@ -5,16 +5,16 @@ class PickerHelper {
   static Future<TimeOfDay?> getTimePicker(
     BuildContext context, {
     TimeOfDay? initialTime,
-    Color color = AppColors.primaryColorDark,
+    Color color = AppColors.goldColor,
   }) async {
     TimeOfDay? dateTime = await showTimePicker(
       context: context,
       initialTime: initialTime ?? TimeOfDay.now(),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: Theme.of(context).copyWith(
+          data: ThemeData.dark().copyWith(
             primaryColor: color,
-            colorScheme: ColorScheme.fromSwatch().copyWith(background: Theme.of(context).dialogBackgroundColor),
+            colorScheme: ColorScheme.dark(primary: color),
           ),
           child: child!,
         );
@@ -29,7 +29,7 @@ class PickerHelper {
     DateTime? currentDate,
     DateTime? firstDate,
     DateTime? lastDate,
-    Color color = AppColors.primaryColorDark,
+    Color color = AppColors.goldColor,
   }) async {
     DateTime? dateTime = await showDatePicker(
       context: context,
@@ -39,9 +39,9 @@ class PickerHelper {
       lastDate: lastDate ?? DateTime.now(),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: ThemeData.light().copyWith(
+          data: ThemeData.dark().copyWith(
             primaryColor: color,
-            colorScheme: ColorScheme.light(primary: color),
+            colorScheme: ColorScheme.dark(primary: color),
           ),
           child: child!,
         );
@@ -54,7 +54,7 @@ class PickerHelper {
     BuildContext context, {
     required DateTime firstDate,
     required DateTime lastDate,
-    Color color = AppColors.primaryColorDark,
+    Color color = AppColors.goldColor,
   }) async {
     DateTimeRange? dateTimeRange = await showDateRangePicker(
       context: context,
@@ -64,14 +64,15 @@ class PickerHelper {
         // return child
         return Theme(
           data: ThemeData.dark().copyWith(
-              primaryColor: color,
-              // colorScheme: ColorScheme.dark(primary: color),
-              colorScheme: ColorScheme.fromSeed(
-                primary: AppColors.greyText,
-                seedColor: AppColors.greyText,
-                brightness: Brightness.dark,
-                background: AppColors.primaryColorDark,
-              )),
+            primaryColor: color,
+            // colorScheme: ColorScheme.dark(primary: color),
+            colorScheme: ColorScheme.fromSeed(
+              primary: AppColors.greyText,
+              seedColor: AppColors.greyText,
+              brightness: Brightness.dark,
+              background: AppColors.primaryColorDark,
+            ),
+          ),
           child: child!,
         );
       },

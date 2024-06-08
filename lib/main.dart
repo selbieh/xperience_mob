@@ -136,6 +136,64 @@ I/FA      ( 6987): Tag Manager is not found and thus will not be used
 E/FA      ( 6987): Missing google_app_id. Firebase Analytics disabled. See https://goo.gl/NAOOOI
 
 ==================================================================================
+
+endpoint: api/reservations
+body:
+
+{
+    "car_reservations": [
+        {
+            "car_service": 2,
+            "pickup_time": "2023-01-15T15:00:00Z",
+            "pickup_address": "Cairo",
+            "pickup_lat": 2343,
+            "pickup_long": 2134123,
+            "pickup_url": "http://example.com",
+            "dropoff_address": "Shubra",
+            "dropoff_lat": 2343,
+            "dropoff_long": 2134123,
+            "dropoff_url": "http://example.com",
+            "terminal": "asdfADSF",
+            "flight_number": "asf5551244",
+            "extras": "sadgadsfghsdhfgsdfghdsfghdfghdfgh",
+            "options": [
+                {
+                    "service_option": 1,
+                    "quantity": 2
+                },
+                {
+                    "service_option": 2,
+                    "quantity": 2
+                }
+            ],
+            "subscription_option": 1
+        }
+    ],
+    
+    "hotel_reservations": [
+        {
+            "hotel_service": 1,
+            "check_in_date": "2023-01-15",
+            "check_out_date": "2023-01-17",
+            "address": "Downtown",
+            "location_lat": 30.0444,
+            "location_long": 31.2357,
+            "location_url": "http://example.com",
+            "extras": "extra bed",
+            "options": [
+                {
+                    "service_option": 1,
+                    "quantity": 2
+                },
+                {
+                    "service_option": 2,
+                    "quantity": 2
+                }
+            ]
+        }
+    ]
+}
+==================================================================================
 ==================================================================================
 
 */

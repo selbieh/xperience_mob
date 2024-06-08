@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/models/car_service_model.dart';
+import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/auth/login_screen.dart';
 import 'package:xperience/view/screens/home/car/car_booking_screen.dart';
+import 'package:xperience/view/screens/home/car/complete_info_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/car_info_item.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
 import 'package:xperience/view/widgets/car_feature_border_item.dart';
 
 class CarDetailsScreen extends StatelessWidget {
-  const CarDetailsScreen({Key? key}) : super(key: key);
+  const CarDetailsScreen({this.carService, Key? key}) : super(key: key);
+  final CarServiceModel? carService;
 
   @override
   Widget build(BuildContext context) {
     return BaseWidget<CarDetailsViewModel>(
-      model: CarDetailsViewModel(),
+      model: CarDetailsViewModel(
+        auth: Provider.of<AuthService>(context),
+      ),
       builder: (_, model, child) {
         return Scaffold(
-          appBar: AppBar(title: const Text("GLA 250 SUV")),
+          appBar: AppBar(
+            // title: const Text("GLA 250 SUV"),
+            title: Text(carService?.model ?? ""),
+          ),
           body: Container(
             width: double.infinity,
             padding: const EdgeInsets.all(0),
@@ -49,53 +60,56 @@ class CarDetailsScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         const SizedBox(height: 20),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "GLA 250 SUV",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
+                                // "GLA 250 SUV",
+                                carService?.model ?? "",
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Text(
-                                "Mercedes",
-                                style: TextStyle(color: AppColors.greyText, fontSize: 14),
+                                // "Mercedes",
+                                carService?.make ?? "",
+                                style: const TextStyle(color: AppColors.greyText, fontSize: 14),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: [
                                     CarInfoItem(
                                       title: "Make",
-                                      value: "Mercedes",
+                                      // value: "Mercedes",
+                                      value: carService?.make ?? "",
                                     ),
                                     CarInfoItem(
                                       title: "Model",
-                                      value: "GLA 250",
+                                      // value: "GLA 250",
+                                      value: carService?.model ?? "",
                                     ),
                                     CarInfoItem(
                                       title: "Year",
-                                      value: "2020",
+                                      // value: "2020",
+                                      value: "${carService?.year ?? "-"}",
                                     ),
                                     CarInfoItem(
                                       title: "Color",
-                                      value: "Black",
+                                      // value: "Black",
+                                      value: carService?.color ?? "",
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 20),
-                              Text(
+                              const SizedBox(height: 20),
+                              const Text(
                                 "Features",
                                 style: TextStyle(fontSize: 16),
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
@@ -103,20 +117,24 @@ class CarDetailsScreen extends StatelessWidget {
                                     CarFeatureBoarderItem(
                                       icon: "assets/svgs/ic_car.svg",
                                       title: "Type",
-                                      value: "SUV",
+                                      // value: "SUV",
+                                      value: carService?.type ?? "",
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     CarFeatureBoarderItem(
                                       icon: "assets/svgs/ic_people.svg",
                                       title: "Capacity",
-                                      value: "6 People",
+                                      // value: "6 People",
+                                      value: "${carService?.numberOfSeats} Seats",
                                     ),
-                                    SizedBox(width: 10),
-                                    CarFeatureBoarderItem(
-                                      icon: "assets/svgs/ic_cool_seat.svg",
-                                      title: "Cool Seat",
-                                      value: "Temp Control on seat",
-                                    ),
+                                    const SizedBox(width: 10),
+                                    if (carService?.cool ?? false)
+                                      const CarFeatureBoarderItem(
+                                        icon: "assets/svgs/ic_cool_seat.svg",
+                                        title: "Cool Seat",
+                                        // value: "Temp Control on seat",
+                                        value: "Cool",
+                                      ),
                                   ],
                                 ),
                               ),
@@ -175,9 +193,7 @@ class CarDetailsScreen extends StatelessWidget {
                               Center(
                                 child: BookNowButton(
                                   title: "BOOK YOUR TRIP",
-                                  onPressed: () {
-                                    NavService().pushKey(const CarBookingScreen());
-                                  },
+                                  onPressed: model.goToBooking,
                                 ),
                               ),
                               const SizedBox(height: 20),
@@ -199,10 +215,25 @@ class CarDetailsScreen extends StatelessWidget {
 }
 
 class CarDetailsViewModel extends BaseNotifier {
+  CarDetailsViewModel({required this.auth});
+  final AuthService auth;
+
   String selectedPlan = "RIDE";
   List<String> plansList = [
     "RIDE",
     "TRAVEL",
     "AIRPORT",
   ];
+
+  void goToBooking() {
+    if (auth.isLogged) {
+      if ((auth.userModel?.user?.email ?? "") == "") {
+        NavService().pushKey(const CompleteInfoScreen()).then((value) => setState());
+      } else {
+        NavService().pushKey(CarBookingScreen(planType: selectedPlan));
+      }
+    } else {
+      NavService().pushKey(const LoginScreen());
+    }
+  }
 }

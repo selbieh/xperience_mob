@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/cars_service_repo.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
@@ -13,13 +14,13 @@ import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/components/main_textfield_dropdown.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 
-class CarExperienceScreen extends StatelessWidget {
-  const CarExperienceScreen({Key? key}) : super(key: key);
+class CarsServicesListScreen extends StatelessWidget {
+  const CarsServicesListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<CarExperienceViewModel>(
-      model: CarExperienceViewModel(
+    return BaseWidget<CarsServicesListViewModel>(
+      model: CarsServicesListViewModel(
         carsRepo: Provider.of<CarsServiceRepo>(context),
       ),
       initState: (model) {
@@ -130,7 +131,8 @@ class CarExperienceScreen extends StatelessWidget {
                               return CarExperienceItemWidget(
                                 carService: item,
                                 onPressed: () {
-                                  NavService().pushKey(const CarDetailsScreen());
+                                  Logger.printObject(item);
+                                  NavService().pushKey(CarDetailsScreen(carService: item));
                                 },
                               );
                             },
@@ -152,8 +154,8 @@ class CarExperienceScreen extends StatelessWidget {
   }
 }
 
-class CarExperienceViewModel extends BaseNotifier {
-  CarExperienceViewModel({required this.carsRepo});
+class CarsServicesListViewModel extends BaseNotifier {
+  CarsServicesListViewModel({required this.carsRepo});
   final CarsServiceRepo carsRepo;
 
   String? selectedCarBrand;
