@@ -4,6 +4,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/models/car_service_model.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/login_screen.dart';
@@ -82,22 +83,22 @@ class CarDetailsScreen extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     CarInfoItem(
-                                      title: "Make",
+                                      title: "Make".localize(context),
                                       // value: "Mercedes",
                                       value: carService?.make ?? "-",
                                     ),
                                     CarInfoItem(
-                                      title: "Model",
+                                      title: "Model".localize(context),
                                       // value: "GLA 250",
                                       value: carService?.model ?? "-",
                                     ),
                                     CarInfoItem(
-                                      title: "Year",
+                                      title: "Year".localize(context),
                                       // value: "2020",
                                       value: "${carService?.year ?? "-"}",
                                     ),
                                     CarInfoItem(
-                                      title: "Color",
+                                      title: "Color".localize(context),
                                       // value: "Black",
                                       value: carService?.color ?? "-",
                                     ),
@@ -108,7 +109,7 @@ class CarDetailsScreen extends StatelessWidget {
                               const Text(
                                 "Features",
                                 style: TextStyle(fontSize: 16),
-                              ),
+                              ).localize(context),
                               const SizedBox(height: 10),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
@@ -116,22 +117,22 @@ class CarDetailsScreen extends StatelessWidget {
                                   children: [
                                     CarFeatureBoarderItem(
                                       icon: "assets/svgs/ic_car.svg",
-                                      title: "Type",
+                                      title: "Type".localize(context),
                                       // value: "SUV",
                                       value: carService?.type ?? "",
                                     ),
                                     const SizedBox(width: 10),
                                     CarFeatureBoarderItem(
                                       icon: "assets/svgs/ic_people.svg",
-                                      title: "Capacity",
+                                      title: "Capacity".localize(context),
                                       // value: "6 People",
-                                      value: "${carService?.numberOfSeats} Seats",
+                                      value: "${carService?.numberOfSeats} ${"Seats".localize(context)}",
                                     ),
                                     const SizedBox(width: 10),
                                     if (carService?.cool ?? false)
-                                      const CarFeatureBoarderItem(
+                                      CarFeatureBoarderItem(
                                         icon: "assets/svgs/ic_cool_seat.svg",
-                                        title: "Cool Seat",
+                                        title: "Cool Seat".localize(context),
                                         // value: "Temp Control on seat",
                                         value: "Cool",
                                       ),
@@ -155,7 +156,7 @@ class CarDetailsScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("Choose your plan"),
+                              const Text("Choose your plan").localize(context),
                               const SizedBox(height: 20),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
@@ -188,11 +189,11 @@ class CarDetailsScreen extends StatelessWidget {
                               const Text(
                                 "Get your best ride without time limitation",
                                 style: TextStyle(color: AppColors.grey, fontSize: 12),
-                              ),
+                              ).localize(context),
                               const SizedBox(height: 20),
                               Center(
                                 child: BookNowButton(
-                                  title: "BOOK YOUR TRIP",
+                                  title: "BOOK YOUR TRIP".localize(context),
                                   onPressed: model.goToBooking,
                                 ),
                               ),

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/home_tab_screen.dart';
 import 'package:xperience/view/screens/home/menu_drawer_screen.dart';
@@ -36,14 +37,14 @@ class MainScreen extends StatelessWidget {
                     "assets/svgs/ic_tab_home.svg",
                     color: model.pageIndex == 0 ? AppColors.white : AppColors.greyText,
                   ),
-                  label: "Home",
+                  label: "Home".localize(context),
                 ),
                 BottomNavigationBarItem(
                   icon: SvgPicture.asset(
                     "assets/svgs/ic_tab_menu.svg",
                     color: model.pageIndex == 1 ? AppColors.white : AppColors.greyText,
                   ),
-                  label: "More",
+                  label: "More".localize(context),
                 ),
               ],
               type: BottomNavigationBarType.fixed,

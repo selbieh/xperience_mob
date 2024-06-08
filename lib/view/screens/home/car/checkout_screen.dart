@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
@@ -17,7 +18,7 @@ class CheckoutScreen extends StatelessWidget {
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Payment Summary"),
+            title: const Text("Payment Summary").localize(context),
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: Container(
@@ -27,15 +28,15 @@ class CheckoutScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SummaryInfoItem(
-                  title: "Ride Cost",
+                SummaryInfoItem(
+                  title: "Ride Cost".localize(context),
                   value: "EGP 950",
                 ),
                 const Divider(height: 20, thickness: 0.25),
                 const Text(
                   "Extras",
                   style: TextStyle(color: AppColors.grey, fontWeight: FontWeight.bold),
-                ),
+                ).localize(context),
                 const SummaryInfoItem(
                   title: "Pepsi",
                   value: "EGP 70",
@@ -49,27 +50,27 @@ class CheckoutScreen extends StatelessWidget {
                   value: "EGP 150",
                 ),
                 const Divider(height: 20, thickness: 0.25),
-                const SummaryInfoItem(
-                  title: "Subtotal",
+                SummaryInfoItem(
+                  title: "Subtotal".localize(context),
                   value: "EGP 1310",
                   isBold: true,
                 ),
-                const SummaryInfoItem(
-                  title: "Taxes",
+                SummaryInfoItem(
+                  title: "Taxes".localize(context),
                   value: "EGP 110",
                 ),
-                const SummaryInfoItem(
-                  title: "Service fee",
+                SummaryInfoItem(
+                  title: "Service fee".localize(context),
                   value: "EGP 33",
                 ),
-                const SummaryInfoItem(
-                  title: "Total",
+                SummaryInfoItem(
+                  title: "Total".localize(context),
                   value: "EGP 1520",
                   isBold: true,
                 ),
                 const SizedBox(height: 40),
                 CustomButton(
-                  title: "CHECKOUT",
+                  title: "CHECKOUT".localize(context),
                   onPressed: () {
                     NavService().popUntilKey(settings: const RouteSettings(name: RouteNames.carExperience));
                   },

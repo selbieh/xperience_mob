@@ -129,10 +129,10 @@ class HttpService {
               message = "$message \n${errorItem["detail"]}";
             }
           } else {
-            message = "Something went wrong".tr();
+            message = "Something went wrong.".tr();
           }
 
-          // String message = responseJson["message"] ?? "Something went wrong";
+          // String message = responseJson["message"] ?? "Something went wrong.";
           responseResult = Either(left: ApiFailure(message: message, statusCode: response.statusCode));
       }
       return responseResult;

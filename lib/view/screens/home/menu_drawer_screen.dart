@@ -5,6 +5,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/login_screen.dart';
@@ -93,7 +94,7 @@ class MenuDrawerScreen extends StatelessWidget {
                     ),
                   ),
                   title: Text(
-                    model.auth.userModel?.user?.name ?? "Profile",
+                    model.auth.userModel?.user?.name ?? "Profile".localize(context),
                     maxLines: 1,
                     style: const TextStyle(color: AppColors.goldColor),
                   ),
@@ -116,42 +117,42 @@ class MenuDrawerScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-                      const MenuTitleItem("Account"),
+                      MenuTitleItem("Account".localize(context)),
                       MenuListTileItemWidget(
-                        title: "Wallet",
+                        title: "Wallet".localize(context),
                         icon: "assets/svgs/ic_wallet.svg",
                         onTap: () {
                           NavService().pushKey(const WalletScreen());
                         },
                       ),
                       MenuListTileItemWidget(
-                        title: "My reservations",
+                        title: "My reservations".localize(context),
                         icon: "assets/svgs/ic_reservations.svg",
                         onTap: () {
                           NavService().pushKey(const MyReservationsScreen());
                         },
                       ),
                       const SizedBox(height: 20),
-                      const MenuTitleItem("App"),
+                      MenuTitleItem("App".localize(context)),
                       MenuListTileItemWidget(
                         // title: "About",
-                        title: "Info",
+                        title: "Info".localize(context),
                         icon: "assets/svgs/ic_about.svg",
                         onTap: () {
                           NavService().pushKey(const InfoScreen());
                         },
                       ),
                       MenuListTileItemWidget(
-                        title: "Help",
+                        title: "Help".localize(context),
                         icon: "assets/svgs/ic_help.svg",
                         onTap: () {
                           NavService().pushKey(const HelpScreen());
                         },
                       ),
                       const SizedBox(height: 20),
-                      const MenuTitleItem("More"),
+                      MenuTitleItem("More".localize(context)),
                       MenuListTileItemWidget(
-                        title: "Settings",
+                        title: "Settings".localize(context),
                         icon: "assets/svgs/ic_settings.svg",
                         onTap: () {
                           NavService().pushKey(const SettingsScreen());
@@ -169,7 +170,7 @@ class MenuDrawerScreen extends StatelessWidget {
                   type: ButtonType.outlined,
                   width: double.infinity,
                   height: 55,
-                  title: model.auth.isLogged ? "LOGOUT" : "LOGIN",
+                  title: model.auth.isLogged ? "LOGOUT".localize(context) : "LOGIN".localize(context),
                   // color: AppColors.white,
                   color: AppColors.goldColor,
                   radius: 10,

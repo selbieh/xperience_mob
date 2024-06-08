@@ -6,6 +6,7 @@ import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/cars_service_repo.dart';
 import 'package:xperience/model/models/car_make_model.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/car/car_details_screen.dart';
@@ -38,11 +39,11 @@ class CarsServicesListScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.primaryColorDark,
-            title: const Text("Car Experience"),
+            title: const Text("Car Experience").localize(context),
             actions: [
               MainButton(
                 type: ButtonType.text,
-                title: "Reset",
+                title: "Reset".localize(context),
                 color: AppColors.goldColor,
                 onPressed: model.reset,
               )
@@ -61,7 +62,7 @@ class CarsServicesListScreen extends StatelessWidget {
                   children: [
                     MainTextField(
                       controller: model.searchController,
-                      hint: "Search",
+                      hint: "Search".localize(context),
                       hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                       borderRadius: 5,
                       borderWidth: 0.5,
@@ -82,7 +83,7 @@ class CarsServicesListScreen extends StatelessWidget {
                         const Text(
                           "Filters",
                           style: TextStyle(color: AppColors.greyText),
-                        ),
+                        ).localize(context),
                       ],
                     ),
                     Row(
@@ -97,7 +98,7 @@ class CarsServicesListScreen extends StatelessWidget {
                                   ),
                                 )
                                 .toList(),
-                            hint: "Brand",
+                            hint: "Brand".localize(context),
                             icon: const Icon(Icons.arrow_drop_down),
                             style: const TextStyle(fontSize: 14, color: AppColors.white),
                             hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
@@ -118,7 +119,7 @@ class CarsServicesListScreen extends StatelessWidget {
                                   (e) => DropdownMenuItem(value: e, child: Text(e)),
                                 )
                                 .toList(),
-                            hint: "Model",
+                            hint: "Model".localize(context),
                             icon: const Icon(Icons.arrow_drop_down),
                             style: const TextStyle(fontSize: 14, color: AppColors.white),
                             hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),

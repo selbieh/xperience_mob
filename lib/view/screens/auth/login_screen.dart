@@ -6,6 +6,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/otp_screen.dart';
@@ -38,7 +39,7 @@ class LoginScreen extends StatelessWidget {
                     const Text(
                       "Login / Register",
                       style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.greyText),
-                    ),
+                    ).localize(context),
                     SizedBox(height: 0.05.h),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,20 +48,20 @@ class LoginScreen extends StatelessWidget {
                         const Text(
                           "Please Enter your Mobile number",
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
+                        ).localize(context),
                         const Text(
                           "We will send you an OTP message",
                           style: TextStyle(color: AppColors.greyText),
-                        ),
+                        ).localize(context),
                       ],
                     ),
                     SizedBox(height: 0.10.h),
-                    const Align(
+                     Align(
                       alignment: AlignmentDirectional.topStart,
-                      child: Text(
+                      child: const Text(
                         "Mobile Number",
                         style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.greyText),
-                      ),
+                      ).localize(context),
                     ),
                     PhoneFormField(
                       // initialValue: PhoneNumber.parse("+201009658566"),
@@ -99,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                     model.isBusy
                         ? const MainProgress()
                         : CustomButton(
-                            title: "SEND OTP",
+                            title: "SEND OTP".localize(context),
                             onPressed: model.submitFun,
                           ),
                   ],

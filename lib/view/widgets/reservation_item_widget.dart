@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/models/reservation_model.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 
@@ -46,7 +47,7 @@ class ReservationItemWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  isCarBooking ? "Car booking" : "Hotel booking",
+                  isCarBooking ? "Car booking".localize(context) : "Hotel booking".localize(context),
                   style: const TextStyle(fontSize: 14),
                 ),
                 const SizedBox(height: 10),
@@ -62,7 +63,7 @@ class ReservationItemWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "${reservationItem?.carReservations?[0].finalPrice} EGP",
+                        "${reservationItem?.carReservations?[0].finalPrice} ${"EGP".localize(context)}",
                         style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.greyText,
@@ -71,7 +72,7 @@ class ReservationItemWidget extends StatelessWidget {
                       ),
                     ),
                     BookNowButton(
-                      title: "BOOK AGAIN",
+                      title: "BOOK AGAIN".localize(context),
                       onPressed: () {},
                     ),
                   ],

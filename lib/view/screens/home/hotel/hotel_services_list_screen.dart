@@ -5,6 +5,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/hotels_service_repo.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
@@ -34,7 +35,7 @@ class HotelServicesListScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.primaryColorDark,
-            title: const Text("Hotel Experience"),
+            title: const Text("Hotel Experience").localize(context),
             actions: [
               IconButton(
                 icon: SvgPicture.asset("assets/svgs/ic_search.svg"),
@@ -55,7 +56,7 @@ class HotelServicesListScreen extends StatelessWidget {
                   children: [
                     MainTextField(
                       controller: TextEditingController(),
-                      hint: "Search",
+                      hint: "Search".localize(context),
                       hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                       borderRadius: 5,
                       borderWidth: 0.5,
@@ -72,12 +73,12 @@ class HotelServicesListScreen extends StatelessWidget {
                         const Text(
                           "Filters",
                           style: TextStyle(color: AppColors.greyText),
-                        ),
+                        ).localize(context),
                       ],
                     ),
                     MainTextField(
                       controller: model.checkInOutController,
-                      hint: "check-in date - check-out date",
+                      hint: "check-in date - check-out date".localize(context),
                       hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                       isReadOnly: true,
                       borderWidth: 0.5,
@@ -96,7 +97,7 @@ class HotelServicesListScreen extends StatelessWidget {
                                   (e) => DropdownMenuItem(value: e, child: Text(e)),
                                 )
                                 .toList(),
-                            hint: "Location",
+                            hint: "Location".localize(context),
                             icon: const Icon(Icons.arrow_drop_down),
                             style: const TextStyle(fontSize: 14, color: AppColors.white),
                             hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
@@ -117,7 +118,7 @@ class HotelServicesListScreen extends StatelessWidget {
                                   (e) => DropdownMenuItem(value: e, child: Text(e)),
                                 )
                                 .toList(),
-                            hint: "Room facilities",
+                            hint: "Room facilities".localize(context),
                             icon: const Icon(Icons.arrow_drop_down),
                             style: const TextStyle(fontSize: 14, color: AppColors.white),
                             hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),

@@ -11,6 +11,7 @@ import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/models/subscription_option_model.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/format_helper.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
@@ -42,7 +43,7 @@ class CarBookingScreen extends StatelessWidget {
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Booking Details"),
+            title: const Text("Booking Details").localize(context),
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: model.isBusy
@@ -100,11 +101,11 @@ class CarBookingScreen extends StatelessWidget {
                                       const Text(
                                         "Pick-Up Location",
                                         style: TextStyle(color: AppColors.grey),
-                                      ),
+                                      ).localize(context),
                                       MainTextField(
                                         controller: model.pickUpDateController,
                                         validator: Validator.required,
-                                        hint: "Pick-Up Location",
+                                        hint: "Pick-Up Location".localize(context),
                                         hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                                         isReadOnly: true,
                                         borderWidth: 0.5,
@@ -114,11 +115,11 @@ class CarBookingScreen extends StatelessWidget {
                                       const Text(
                                         "Drop-off Location",
                                         style: TextStyle(color: AppColors.grey),
-                                      ),
+                                      ).localize(context),
                                       MainTextField(
                                         controller: model.pickUpDateController,
                                         validator: Validator.required,
-                                        hint: "Drop-off Location",
+                                        hint: "Drop-off Location".localize(context),
                                         hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                                         isReadOnly: true,
                                         borderWidth: 0.5,
@@ -135,7 +136,7 @@ class CarBookingScreen extends StatelessWidget {
                             const Text(
                               "Ride Duration",
                               style: TextStyle(color: AppColors.grey),
-                            ),
+                            ).localize(context),
                             const SizedBox(height: 10),
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
@@ -158,7 +159,7 @@ class CarBookingScreen extends StatelessWidget {
                                         border: Border.all(color: AppColors.grey, width: 0.5),
                                       ),
                                       child: Text(
-                                        "${e.durationHours ?? "-"} Hours",
+                                        "${e.durationHours ?? "-"} ${"Hours".localize(context)}",
                                         style: const TextStyle(fontSize: 12),
                                       ),
                                     ),
@@ -179,7 +180,7 @@ class CarBookingScreen extends StatelessWidget {
                           const Text(
                             "Pick-Up Time",
                             style: TextStyle(color: AppColors.grey),
-                          ),
+                          ).localize(context),
                           const SizedBox(height: 10),
                           Row(
                             children: [
@@ -187,7 +188,7 @@ class CarBookingScreen extends StatelessWidget {
                                 child: MainTextField(
                                   controller: model.pickUpDateController,
                                   validator: Validator.required,
-                                  hint: "Date",
+                                  hint: "Date".localize(context),
                                   hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                                   isReadOnly: true,
                                   borderWidth: 0.5,
@@ -203,7 +204,7 @@ class CarBookingScreen extends StatelessWidget {
                                 child: MainTextField(
                                   controller: model.pickUpTimeController,
                                   validator: Validator.required,
-                                  hint: "Time",
+                                  hint: "Time".localize(context),
                                   hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                                   isReadOnly: true,
                                   borderWidth: 0.5,
@@ -220,19 +221,19 @@ class CarBookingScreen extends StatelessWidget {
                           const Text(
                             "Extras",
                             style: TextStyle(color: AppColors.grey),
-                          ),
+                          ).localize(context),
                           const SizedBox(height: 10),
                           MainTextField(
                             controller: model.extrasController,
                             keyboardType: TextInputType.multiline,
                             textInputAction: TextInputAction.newline,
-                            hint: "Please add whatever you want here",
+                            hint: "Please add whatever you want here".localize(context),
                             borderWidth: 0.5,
                             maxLines: 5,
                           ),
                           const SizedBox(height: 40),
                           CustomButton(
-                            title: "CONTINUE",
+                            title: "CONTINUE".localize(context),
                             onPressed: model.submitFun,
                           ),
                           const SizedBox(height: 20),

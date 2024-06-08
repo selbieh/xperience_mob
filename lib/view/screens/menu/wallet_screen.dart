@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 
@@ -15,7 +16,7 @@ class WalletScreen extends StatelessWidget {
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Wallet"),
+            title: const Text("Wallet").localize(context),
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: Padding(
@@ -30,19 +31,19 @@ class WalletScreen extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          const Text("Available Credit"),
+                          const Text("Available Credit").localize(context),
                           RichText(
-                            text: const TextSpan(
+                            text: TextSpan(
                               children: <TextSpan>[
-                                TextSpan(text: " "),
-                                TextSpan(
+                                const TextSpan(text: " "),
+                                const TextSpan(
                                   text: "3250",
                                   style: TextStyle(fontSize: 30),
                                 ),
-                                TextSpan(text: " "),
+                                const TextSpan(text: " "),
                                 TextSpan(
-                                  text: "EGP",
-                                  style: TextStyle(fontSize: 16),
+                                  text: "EGP".localize(context),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ],
                             ),
@@ -53,7 +54,7 @@ class WalletScreen extends StatelessWidget {
                         type: ButtonType.outlined,
                         radius: 20,
                         color: AppColors.white,
-                        title: "Recharge",
+                        title: "Recharge".localize(context),
                         textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
                         onPressed: () {},
                       ),
@@ -72,28 +73,28 @@ class WalletScreen extends StatelessWidget {
                       children: [
                         SvgPicture.asset("assets/svgs/vi_crown.svg"),
                         const SizedBox(width: 10),
-                        const Expanded(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "2542",
                                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                               ),
-                              SizedBox(height: 5),
-                              Text(
+                              const SizedBox(height: 5),
+                              const Text(
                                 "Points",
                                 style: TextStyle(color: AppColors.grey, fontSize: 12),
-                              ),
+                              ).localize(context),
                             ],
                           ),
                         ),
-                        const MainButton(
+                        MainButton(
                           type: ButtonType.outlined,
                           radius: 20,
                           color: AppColors.white,
-                          title: "Redeem",
-                          textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+                          title: "Redeem".localize(context),
+                          textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
                           // onPressed: () {},
                         ),
                       ],
@@ -103,7 +104,7 @@ class WalletScreen extends StatelessWidget {
                   const Text(
                     "My transaction",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
+                  ).localize(context),
                   const SizedBox(height: 10),
                   Column(
                     children: List.generate(10, (index) {
@@ -114,7 +115,7 @@ class WalletScreen extends StatelessWidget {
                           color: AppColors.primaryColorLight,
                           borderRadius: BorderRadius.circular(50),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisSize: MainAxisSize.max,
                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -122,19 +123,19 @@ class WalletScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Ride Trip",
                                     // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
+                                  ).localize(context),
+                                  const SizedBox(height: 5),
+                                  const Text(
                                     "May 6 , 2022",
                                     style: TextStyle(color: AppColors.grey, fontSize: 12),
                                   ),
                                 ],
                               ),
                             ),
-                            Text("- \$103.56"),
+                            const Text("- \$103.56"),
                           ],
                         ),
                       );

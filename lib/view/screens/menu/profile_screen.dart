@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
@@ -21,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Profile"),
+            title: const Text("Profile").localize(context),
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: Form(
@@ -36,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     MainTextField(
                       controller: model.phoneController,
-                      hint: "Phone",
+                      hint: "Phone".localize(context),
                       isReadOnly: true,
                       isFilled: true,
                       fillColor: AppColors.grey.withOpacity(0.5),
@@ -48,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     MainTextField(
                       controller: model.nameController,
-                      hint: "Name",
+                      hint: "Name".localize(context),
                       validator: Validator.name,
                       keyboardType: TextInputType.name,
                       isFilled: true,
@@ -60,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     MainTextField(
                       controller: model.emailController,
-                      hint: "E-mail",
+                      hint: "E-mail".localize(context),
                       validator: Validator.email,
                       keyboardType: TextInputType.emailAddress,
                       isFilled: true,
@@ -74,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                     model.isBusy
                         ? const MainProgress()
                         : CustomButton(
-                            title: "SAVE",
+                            title: "SAVE".localize(context),
                             onPressed: model.submitFun,
                           )
                   ],
@@ -126,7 +127,7 @@ class ProfileScreenModel extends BaseNotifier {
       setIdle();
       DialogsHelper.messageDialog(
         type: MessageDialogType.success,
-        message: "Profile updated successfully",
+        message: "Profile updated successfully".tr(),
       );
     }
   }

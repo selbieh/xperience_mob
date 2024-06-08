@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
@@ -34,10 +35,10 @@ class HotelDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
+                        const Column(
                           children: [
                             MainImage.network(
                               imagePath: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iyix1OYhVxdA/v2/-1x-1.jpg",
@@ -74,25 +75,25 @@ class HotelDetailsScreen extends StatelessWidget {
                             )
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Text(
-                          "EGP 5,590",
-                          style: TextStyle(
+                          "5,590 ${"EGP".localize(context)}",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
                         ),
-                        Text(
+                        const Text(
                           "Per night",
                           style: TextStyle(color: AppColors.greyText, fontSize: 14),
-                        ),
-                        SizedBox(height: 20),
-                        Text(
+                        ).localize(context),
+                        const SizedBox(height: 20),
+                        const Text(
                           "Features",
                           style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(height: 10),
-                        SingleChildScrollView(
+                        ).localize(context),
+                        const SizedBox(height: 10),
+                        const SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
@@ -135,7 +136,7 @@ class HotelDetailsScreen extends StatelessWidget {
                     const Text(
                       "Location",
                       style: TextStyle(fontSize: 16),
-                    ),
+                    ).localize(context),
                     const SizedBox(height: 20),
                     Container(
                       width: double.infinity,
@@ -158,11 +159,11 @@ class HotelDetailsScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Choose Check-in Date & Check-out Date"),
+                          const Text("Choose Check-in Date & Check-out Date").localize(context),
                           const SizedBox(height: 10),
                           MainTextField(
                             controller: model.checkInOutController,
-                            hint: "check-in date - check-out date",
+                            hint: "check-in date - check-out date".localize(context),
                             hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                             isReadOnly: true,
                             borderWidth: 0.5,
@@ -175,7 +176,7 @@ class HotelDetailsScreen extends StatelessWidget {
                           const SizedBox(height: 20),
                           Center(
                             child: BookNowButton(
-                              title: "BOOK YOUR TRIP",
+                              title: "BOOK YOUR TRIP".localize(context),
                               onPressed: () {
                                 // NavService().pushKey(const CarBookingScreen());
                               },

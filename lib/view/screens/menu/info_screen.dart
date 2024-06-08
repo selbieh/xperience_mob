@@ -4,6 +4,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/app_const.dart';
 import 'package:xperience/model/services/launcher.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/menu/about_screen.dart';
@@ -22,7 +23,7 @@ class InfoScreen extends StatelessWidget {
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Info"),
+            title: const Text("Info").localize(context),
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: Padding(
@@ -35,35 +36,35 @@ class InfoScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         aboutItem(
-                          "FAQ",
+                          "FAQs".localize(context),
                           () {
                             NavService().pushKey(const FAQScreen());
                           },
                         ),
                         const Divider(height: 0, thickness: 0.2),
                         aboutItem(
-                          "About",
+                          "About".localize(context),
                           () {
                             NavService().pushKey(const AboutScreen());
                           },
                         ),
                         const Divider(height: 0, thickness: 0.2),
                         aboutItem(
-                          "Terms of use",
+                          "Terms of use".localize(context),
                           () {
                             NavService().pushKey(const TermsScreen());
                           },
                         ),
                         const Divider(height: 0, thickness: 0.2),
                         aboutItem(
-                          "Privacy policy",
+                          "Privacy policy".localize(context),
                           () {
                             NavService().pushKey(const PrivacyPolicyScreen());
                           },
                         ),
                         const Divider(height: 0, thickness: 0.2),
                         aboutItem(
-                          "Cancelation policy",
+                          "Cancelation policy".localize(context),
                           () {
                             NavService().pushKey(const CancelationPolicyScreen());
                           },
@@ -95,9 +96,9 @@ class InfoScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  "Version  ${AppConst.appVersion}",
-                  style: TextStyle(
+                Text(
+                  "${"Version".localize(context)}  ${AppConst.appVersion}",
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColors.greyText,
                     fontSize: 12,

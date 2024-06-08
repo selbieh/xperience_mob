@@ -5,6 +5,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/main_screen.dart';
@@ -38,7 +39,7 @@ class OTPScreen extends StatelessWidget {
                   const Text(
                     "OTP",
                     style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.greyText),
-                  ),
+                  ).localize(context),
                   SizedBox(height: 0.05.h),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,11 +48,11 @@ class OTPScreen extends StatelessWidget {
                       const Text(
                         "Enter OTP",
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
+                      ).localize(context),
                       const Text(
                         "We have sent OTP on your mobile number",
                         style: TextStyle(color: AppColors.greyText),
-                      ),
+                      ).localize(context),
                     ],
                   ),
                   SizedBox(
@@ -71,7 +72,7 @@ class OTPScreen extends StatelessWidget {
                   model.isBusy
                       ? const MainProgress()
                       : CustomButton(
-                          title: "VERIFY",
+                          title: "VERIFY".localize(context),
                           onPressed: model.submitFun,
                         ),
                 ],

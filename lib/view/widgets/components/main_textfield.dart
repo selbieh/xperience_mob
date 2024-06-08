@@ -6,14 +6,9 @@ import 'package:xperience/model/services/theme/app_colors.dart';
 enum Validator {
   required,
   name,
-  username,
   email,
-  phone,
   password,
-  number,
   isMatch,
-  minLength,
-  maxLength,
 }
 
 enum BorderType {
@@ -230,22 +225,6 @@ class MainTextField extends StatelessWidget {
               }
               return null;
 
-            ///============================================================================= [ Username ]
-            case Validator.username:
-              RegExp regExp = RegExp(
-                r"^(?=.{3,32}$)(?![._-])(?![0-9])(?!.*[._-]{2})[a-zA-Z0-9._-]+(?<![._-])$",
-              );
-              if (value!.trim().isEmpty) {
-                return locale.get("Please enter your username");
-              } else if (value.length < 3) {
-                return locale.get("Username should be at least 3 characters");
-              } else if (value.length > 32) {
-                return locale.get("Username should be at most 32 characters");
-              } else if (!regExp.hasMatch(value)) {
-                return locale.get("Please enter valid username");
-              }
-              return null;
-
             ///============================================================================= [ Email ]
             case Validator.email:
               RegExp regExp = RegExp(
@@ -258,26 +237,6 @@ class MainTextField extends StatelessWidget {
               }
               return null;
 
-            ///============================================================================= [ Phone ]
-            case Validator.phone:
-              RegExp regExp = RegExp(r'(^(?:[+0])?[0-9]{8,14}$)');
-              if (value!.trim().isEmpty) {
-                return locale.get("Please enter phone number");
-              } else if (!regExp.hasMatch(value)) {
-                return locale.get("Please enter valid phone number");
-              }
-              return null;
-
-            ///============================================================================= [ Number ]
-            case Validator.number:
-              double? number = double.tryParse(value!);
-              if (value.trim().isEmpty) {
-                return locale.get("Required");
-              } else if (number == null) {
-                return locale.get("Please enter valid number");
-              }
-              return null;
-
             ///============================================================================= [ Password ]
             case Validator.password:
               if (value!.trim().isEmpty) {
@@ -286,24 +245,6 @@ class MainTextField extends StatelessWidget {
                 return locale.get("Password should be at least 8 characters");
               } else if (value.length > 32) {
                 return locale.get("Password should be at most 32 characters");
-              }
-              return null;
-
-            ///============================================================================= [ MinLength ]
-            case Validator.minLength:
-              if (value!.trim().isEmpty) {
-                return locale.get("Required");
-              } else if (value.length < 8) {
-                return locale.get("Minimum length is 8 characters");
-              }
-              return null;
-
-            ///============================================================================= [ MaxLength ]
-            case Validator.maxLength:
-              if (value!.trim().isEmpty) {
-                return locale.get("Required");
-              } else if (value.length > 12) {
-                return locale.get("Maximum length is 12 characters");
               }
               return null;
 

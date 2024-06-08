@@ -26,7 +26,7 @@ class AppFailure {
       case AppFailureType.error:
         return "You have failure error".tr();
       case AppFailureType.other:
-        return "Something went wrong".tr();
+        return "Something went wrong.".tr();
     }
   }
 }

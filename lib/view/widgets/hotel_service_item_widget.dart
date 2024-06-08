@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
@@ -95,13 +96,13 @@ class HotelServiceItemWidget extends StatelessWidget {
                         flex: 2,
                         child: Text(
                           // "EGP 5,590 per night",
-                          "EGP ${hotelService?.dayPrice ?? 0} per night",
+                          "${hotelService?.dayPrice ?? 0} ${"EGP".localize(context)} ${"per night".localize(context)}",
                           style: const TextStyle(fontSize: 12, color: AppColors.grey),
                           maxLines: 2,
                         ),
                       ),
                       BookNowButton(
-                        title: "BOOK NOW",
+                        title: "BOOK NOW".localize(context),
                         onPressed: onPressed,
                       ),
                     ],

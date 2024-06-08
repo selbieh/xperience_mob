@@ -14,12 +14,10 @@ class AppTheme with ChangeNotifier {
     "Dark",
   ];
 
-  ///======================================================== Fetch AppTheme from Device
   fetchAppTheme() async {
     changeThemeMode(SharedPref.getString(SharedPrefKeys.theme) ?? "Dark");
   }
 
-  ///======================================================== getThemeName
   String getThemeName() {
     switch (themeMode) {
       case ThemeMode.system:
@@ -31,7 +29,6 @@ class AppTheme with ChangeNotifier {
     }
   }
 
-  ///======================================== Change Theme by ThemeMode (Light , Dark & System)
   Future<void> changeThemeMode(String theme) async {
     switch (theme) {
       case "System":

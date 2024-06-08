@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 
 class MoreTabScreen extends StatelessWidget {
   const MoreTabScreen({Key? key}) : super(key: key);
@@ -10,8 +11,8 @@ class MoreTabScreen extends StatelessWidget {
     return BaseWidget<MoreTabViewModel>(
       model: MoreTabViewModel(context: context),
       builder: (_, model, child) {
-        return const Scaffold(
-          body: Center(child: Text("MoreTab Screen")),
+        return  Scaffold(
+          body: Center(child: const Text("MoreTab Screen").localize(context)),
         );
       },
     );

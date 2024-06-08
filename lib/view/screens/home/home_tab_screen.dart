@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
@@ -25,7 +26,7 @@ class HomeTabScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text(
               // "Hello, Sir 👋",
-              "Hello, ${model.auth.userModel?.user?.name ?? ""} 👋",
+              "${"Hello,".localize(context)} ${model.auth.userModel?.user?.name ?? ""} 👋",
               style: const TextStyle(color: AppColors.greyText),
             ),
             actions: [
@@ -46,18 +47,18 @@ class HomeTabScreen extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.only(left: 25, top: 0, right: 25, bottom: 25),
                   child: RichText(
-                    text: const TextSpan(
-                      text: "Good morning!",
-                      style: TextStyle(
+                    text:  TextSpan(
+                      text: "Good morning".localize(context),
+                      style: const TextStyle(
                         fontSize: 22,
                         color: AppColors.white,
                         fontWeight: FontWeight.bold,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: " "),
+                        const TextSpan(text: " "),
                         TextSpan(
-                          text: "How can we assist you today?",
-                          style: TextStyle(
+                          text: "How can we assist you today?".localize(context),
+                          style: const TextStyle(
                             fontSize: 22,
                             color: AppColors.white,
                             fontWeight: FontWeight.normal,
@@ -82,7 +83,7 @@ class HomeTabScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
-                      ),
+                      ).localize(context),
                       const SizedBox(height: 20),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -90,8 +91,8 @@ class HomeTabScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             HomeServiceItemWidget(
-                              title: "Car Experience",
-                              subtitle: "Book A Ride!",
+                              title: "Car Experience".localize(context),
+                              subtitle: "Book A Ride!".localize(context),
                               // imageUrl: "https://japan-land-service.com/wp-content/uploads/2019/02/AdobeStock_180552191-2-478x360.jpg",
                               imageUrl: "assets/images/car_exp.jpeg",
                               onTap: () {
@@ -103,8 +104,8 @@ class HomeTabScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 20),
                             HomeServiceItemWidget(
-                              title: "Hotel Experience",
-                              subtitle: "Book An Hotel Apartment",
+                              title: "Hotel Experience".localize(context),
+                              subtitle: "Book An Hotel Apartment".localize(context),
                               // imageUrl: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iyix1OYhVxdA/v2/-1x-1.jpg",
                               imageUrl: "assets/images/hotel_exp.jpeg",
                               onTap: () {

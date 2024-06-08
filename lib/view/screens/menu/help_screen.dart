@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
@@ -16,7 +17,7 @@ class HelpScreen extends StatelessWidget {
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Help"),
+            title: const Text("Help").localize(context),
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: Form(
@@ -36,13 +37,13 @@ class HelpScreen extends StatelessWidget {
                         color: AppColors.greyText,
                         fontSize: 20,
                       ),
-                    ),
+                    ).localize(context),
                     const SizedBox(height: 30),
-                    textFieldTitile("Full name"),
+                    textFieldTitile("Full name".localize(context)),
                     const SizedBox(height: 5),
                     MainTextField(
                       controller: model.nameController,
-                      hint: "Full name",
+                      hint: "Full name".localize(context),
                       validator: Validator.name,
                       keyboardType: TextInputType.name,
                       isFilled: true,
@@ -53,11 +54,11 @@ class HelpScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    textFieldTitile("Email"),
+                    textFieldTitile("Email".localize(context)),
                     const SizedBox(height: 5),
                     MainTextField(
                       controller: model.emailController,
-                      hint: "E-mail",
+                      hint: "E-mail".localize(context),
                       validator: Validator.email,
                       keyboardType: TextInputType.emailAddress,
                       isFilled: true,
@@ -68,21 +69,21 @@ class HelpScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    textFieldTitile("Message"),
+                    textFieldTitile("Message".localize(context)),
                     const SizedBox(height: 5),
                     MainTextField(
                       controller: model.messageController,
                       validator: Validator.required,
                       keyboardType: TextInputType.multiline,
                       textInputAction: TextInputAction.newline,
-                      hint: "Write here!",
+                      hint: "Write here".localize(context),
                       isFilled: true,
                       fillColor: AppColors.primaryColorLight,
                       maxLines: 7,
                     ),
                     const SizedBox(height: 40),
                     CustomButton(
-                      title: "SEND",
+                      title: "SEND".localize(context),
                       onPressed: model.submitFun,
                     )
                   ],

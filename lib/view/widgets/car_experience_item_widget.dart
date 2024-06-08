@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/models/car_service_model.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
@@ -56,7 +57,7 @@ class CarExperienceItemWidget extends StatelessWidget {
                         FeatureItem(
                           icon: "assets/svgs/ic_people.svg",
                           // title: "6 People",
-                          title: "${carService?.numberOfSeats} Seats",
+                          title: "${carService?.numberOfSeats} ${"Seats".localize(context)}",
                         ),
                         // SizedBox(width: 20),
                         if (carService?.cool == true)
@@ -76,7 +77,7 @@ class CarExperienceItemWidget extends StatelessWidget {
                     child: Align(
                       alignment: AlignmentDirectional.bottomEnd,
                       child: BookNowButton(
-                        title: "BOOK NOW",
+                        title: "BOOK NOW".localize(context),
                         onPressed: onPressed,
                       ),
                     ),

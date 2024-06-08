@@ -15,11 +15,12 @@ class NotificationItemWidget extends StatelessWidget {
       title: Row(
         children: [
           Expanded(
-              child: Text(
-            "Congatulations",
-            maxLines: 1,
-            style: TextStyle(color: AppColors.white, fontSize: 12),
-          )),
+            child: Text(
+              "Congatulations",
+              maxLines: 1,
+              style: TextStyle(color: AppColors.white, fontSize: 12),
+            ),
+          ),
           Text(
             "5/19/2024",
             maxLines: 1,

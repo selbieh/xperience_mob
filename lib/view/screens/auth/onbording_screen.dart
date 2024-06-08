@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/shared_preference.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
@@ -28,31 +29,31 @@ class OnboardingScreen extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   controller: model.pageController,
                   onPageChanged: model.onPageChanged,
-                  children: const [
+                  children:  [
                     OnboardingPageItem(
                       imagePath: "assets/images/onboarding_2.jpg",
-                      title: "Welcome to",
-                      subtitle: "Xperience.VIP",
-                      description: "Your One-Stop Destination for Seamless Travel Experience",
+                      title: "Welcome to".localize(context),
+                      subtitle: "Xperience.VIP".localize(context),
+                      description: "Your One-Stop Destination for Seamless Travel Experience".localize(context),
                     ),
                     OnboardingPageItem(
                       imagePath: "assets/images/onboarding_3.jpeg",
-                      title: "Find the",
-                      subtitle: "Perfect Ride",
-                      description: "Explore our diverse range of cars, from compact city rides to spacious SUVs, ensuring we meet all your travel needs.",
+                      title: "Find the".localize(context),
+                      subtitle: "Perfect Ride".localize(context),
+                      description: "Explore our diverse range of cars, from compact city rides to spacious SUVs, ensuring we meet all your travel needs.".localize(context),
                     ),
                     OnboardingPageItem(
                       imagePath: "assets/images/onboarding_4.jpg",
-                      title: "Your Home",
-                      subtitle: "Away From Home",
+                      title: "Your Home".localize(context),
+                      subtitle: "Away From Home".localize(context),
                       description:
-                          "Discover a variety of hotels, from cozy boutiques to luxurious resorts, providing exceptional comfort and service for your next trip.",
+                          "Discover a variety of hotels, from cozy boutiques to luxurious resorts, providing exceptional comfort and service for your next trip.".localize(context),
                     ),
                     OnboardingPageItem(
                       imagePath: "assets/images/onboarding_5.jpg",
-                      title: "Ultimate",
-                      subtitle: "Experience",
-                      description: "Discover the best deals on cars and hotels tailored to your needs.",
+                      title: "Ultimate".localize(context),
+                      subtitle: "Experience".localize(context),
+                      description: "Discover the best deals on cars and hotels tailored to your needs.".localize(context),
                     ),
                   ],
                 ),
@@ -70,7 +71,7 @@ class OnboardingScreen extends StatelessWidget {
                               type: ButtonType.text,
                               radius: 10,
                               height: 60,
-                              title: "SKIP",
+                              title: "SKIP".localize(context),
                               color: AppColors.white,
                               onPressed: () => model.animateToPage(model.pageCount - 1),
                             ),
@@ -81,7 +82,7 @@ class OnboardingScreen extends StatelessWidget {
                               height: 60,
                               color: AppColors.goldColor,
                               textStyle: const TextStyle(color: AppColors.black),
-                              title: model.currentPage == model.pageCount - 1 ? "START NOW" : "Next",
+                              title: model.currentPage == model.pageCount - 1 ? "START NOW".localize(context) : "Next".localize(context),
                               onPressed: () {
                                 if (model.currentPage == model.pageCount - 1) {
                                   NavService().pushAndRemoveUntilKey(const MainScreen());

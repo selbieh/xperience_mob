@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/config/size_config.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 
 enum MessageDialogType {
@@ -79,7 +80,7 @@ class MessageDialog extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 0, bottom: 10),
                     child: MainButton(
-                      title: "Tap to retry",
+                      title: "Tap to retry".localize(context),
                       radius: 5,
                       width: SizeConfig.width * 0.50,
                       onPressed: () => Navigator.of(context).pop(true),

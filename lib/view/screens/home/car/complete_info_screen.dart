@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/car/checkout_screen.dart';
@@ -23,7 +24,7 @@ class CompleteInfoScreen extends StatelessWidget {
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Complete Information"),
+            title: const Text("Complete Information").localize(context),
             backgroundColor: AppColors.primaryColorDark,
           ),
           body: Form(
@@ -45,11 +46,11 @@ class CompleteInfoScreen extends StatelessWidget {
                               color: AppColors.greyText,
                               fontSize: 14,
                             ),
-                          ),
+                          ).localize(context),
                           const SizedBox(height: 5),
                           MainTextField(
                             controller: model.nameController,
-                            hint: "Full name",
+                            hint: "Full name".localize(context),
                             validator: Validator.name,
                             keyboardType: TextInputType.name,
                             borderWidth: 0.5,
@@ -66,11 +67,11 @@ class CompleteInfoScreen extends StatelessWidget {
                               color: AppColors.greyText,
                               fontSize: 14,
                             ),
-                          ),
+                          ).localize(context),
                           const SizedBox(height: 5),
                           MainTextField(
                             controller: model.emailController,
-                            hint: "E-mail",
+                            hint: "E-mail".localize(context),
                             validator: Validator.email,
                             keyboardType: TextInputType.emailAddress,
                             borderWidth: 0.5,
@@ -84,7 +85,7 @@ class CompleteInfoScreen extends StatelessWidget {
                     ),
                   ),
                   CustomButton(
-                    title: "CHECKOUT",
+                    title: "CHECKOUT".localize(context),
                     onPressed: () {
                       NavService().pushKey(const CheckoutScreen());
                     },
