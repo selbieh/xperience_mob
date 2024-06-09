@@ -69,6 +69,7 @@ dependencies:
   firebase_messaging: ^14.7.19
 
   # ========================== Other
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +97,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - assets/.env
     - assets/svgs/
     - assets/images/
     - lib/model/services/localization/

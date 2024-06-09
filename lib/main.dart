@@ -22,6 +22,7 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Future.wait([
       SharedPref.initialize(),
+      // dotenv.load(),
       Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) {
         FirebaseNotificationService.initializeFirebaseMessagingListener();
       }),
