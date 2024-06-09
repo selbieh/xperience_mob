@@ -6,7 +6,7 @@ import 'package:xperience/model/services/api/end_points.dart';
 import 'package:xperience/model/services/api/headers.dart';
 import 'package:xperience/model/services/api/http_service.dart';
 
-class ReservationRemoteDataSource {
+class ReservationDataSource {
   static Future<Either<AppFailure, PaginationModel<ReservationModel>>> getReservation({
     Map<String, String>? queryParams,
   }) async {

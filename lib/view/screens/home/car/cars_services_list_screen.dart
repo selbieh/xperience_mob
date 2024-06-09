@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
-import 'package:xperience/model/data/cars_service_repo.dart';
+import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/models/car_make_model.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
@@ -33,6 +33,9 @@ class CarsServicesListScreen extends StatelessWidget {
         }
         if ((model.carsRepo.carMakesPaginated?.results ?? []).isEmpty) {
           model.getCarMakes();
+        }
+        if ((model.carsRepo.carModelsPaginated?.results ?? []).isEmpty) {
+          model.getCarModels();
         }
       },
       builder: (_, model, child) {
@@ -113,10 +116,13 @@ class CarsServicesListScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: MainTextFieldDropdown<String>(
-                            items: model.carModels
+                          child: MainTextFieldDropdown<CarMakeModel>(
+                            items: (model.carsRepo.carModelsPaginated?.results ?? [])
                                 .map(
-                                  (e) => DropdownMenuItem(value: e, child: Text(e)),
+                                  (e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e.name ?? ""),
+                                  ),
                                 )
                                 .toList(),
                             hint: "Model".localize(context),
@@ -128,7 +134,7 @@ class CarsServicesListScreen extends StatelessWidget {
                             value: model.selectedModel,
                             onChanged: (value) {
                               model.selectedModel = value;
-                              model.setState();
+                              model.refreshCarServices();
                             },
                           ),
                         ),
@@ -177,21 +183,7 @@ class CarsServicesListViewModel extends BaseNotifier {
 
   final searchController = TextEditingController();
   CarMakeModel? selectedMake;
-  String? selectedModel;
-
-  List<String> carModels = [
-    "IONIQ 5 N",
-    "KONA Electric",
-    "TUCSON",
-    "SANTA",
-    "KONA Hybrid",
-    "i10",
-    "i20",
-    "New i20",
-    "i30",
-    "KONA",
-    "NEXO",
-  ];
+  CarMakeModel? selectedModel;
 
   ScrollController scrollController = ScrollController();
   bool isLoadingMore = false;
@@ -247,7 +239,29 @@ class CarsServicesListViewModel extends BaseNotifier {
   }
 
   Future<void> getCarMakes() async {
-    var res = await carsRepo.getCarMakes();
+    var res = await carsRepo.getCarMakes(
+      queryParams: {
+        "offset": "0",
+        "limit": "1000",
+      },
+    );
+    if (res.left != null) {
+      isLoadingMore = false;
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
+    } else {
+      setIdle();
+    }
+  }
+
+  Future<void> getCarModels() async {
+    var res = await carsRepo.getCarModels(
+      queryParams: {
+        "offset": "0",
+        "limit": "1000",
+      },
+    );
     if (res.left != null) {
       isLoadingMore = false;
       failure = res.left?.message;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xperience/model/data/hotels_remote_data_source.dart';
+import 'package:xperience/model/data/datasource/hotels_services_data_source.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/services/api/app_failure.dart';
@@ -17,7 +17,7 @@ class HotelsServiceRepo extends ChangeNotifier {
       } else {
         _pageOffset += _pageLimit;
       }
-      var res = await HotelsRemoteDataSource.getHotelsServices(
+      var res = await HotelsServicesDataSource.getHotelsServices(
         queryParams: {
           "offset": "$_pageOffset",
           "limit": "$_pageLimit",

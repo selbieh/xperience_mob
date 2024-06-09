@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xperience/model/data/reservations_remote_data_source.dart';
+import 'package:xperience/model/data/datasource/reservations_data_source.dart';
 import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/models/reservation_model.dart';
 import 'package:xperience/model/services/api/app_failure.dart';
@@ -17,7 +17,7 @@ class ReservationRepo extends ChangeNotifier {
       } else {
         _pageOffset += _pageLimit;
       }
-      var res = await ReservationRemoteDataSource.getReservation(
+      var res = await ReservationDataSource.getReservation(
         queryParams: {
           "offset": "$_pageOffset",
           "limit": "$_pageLimit",

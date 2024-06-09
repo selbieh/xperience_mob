@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/model/data/reservations_service_repo.dart';
+import 'package:xperience/model/data/repo/reservations_repo.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';

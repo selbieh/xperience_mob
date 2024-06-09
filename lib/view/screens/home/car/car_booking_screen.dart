@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
-import 'package:xperience/model/data/cars_service_repo.dart';
+import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/models/pagination_model.dart';
+import 'package:xperience/model/models/service_options_model.dart';
 import 'package:xperience/model/models/subscription_option_model.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/format_helper.dart';
@@ -39,6 +40,7 @@ class CarBookingScreen extends StatelessWidget {
       ),
       initState: (model) {
         model.getSubscriptionOptions();
+        model.getServiceOptions();
       },
       builder: (_, model, child) {
         return Scaffold(
@@ -234,7 +236,8 @@ class CarBookingScreen extends StatelessWidget {
                           const SizedBox(height: 40),
                           CustomButton(
                             title: "CONTINUE".localize(context),
-                            onPressed: model.submitFun,
+                            // onPressed: model.submitFun,
+                            onPressed: model.booking,
                           ),
                           const SizedBox(height: 20),
                         ],
@@ -268,6 +271,7 @@ class CarBookingViewModel extends BaseNotifier {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   PaginationModel<SubscriptionOptionModel>? subscriptionOptions;
+  PaginationModel<ServiceOptionsModel>? serviceOptions;
   SubscriptionOptionModel? selectedSubscription;
 
   void submitFun() {
@@ -320,6 +324,25 @@ class CarBookingViewModel extends BaseNotifier {
       setError();
     } else {
       subscriptionOptions = res.right;
+      setIdle();
+    }
+  }
+
+  Future<void> getServiceOptions() async {
+    setBusy();
+    var res = await carsRepo.getServiceOptions(
+      queryParams: {
+        "offset": "0",
+        "limit": "1000",
+        "service_type": "Car",
+      },
+    );
+    if (res.left != null) {
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
+    } else {
+      serviceOptions = res.right;
       setIdle();
     }
   }

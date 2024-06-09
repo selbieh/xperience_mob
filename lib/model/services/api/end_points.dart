@@ -9,6 +9,7 @@ class EndPoints {
   static const String subscriptionOptions = "/api/subscription-options/";
   static const String carMakes = "/api/car-makes/";
   static const String carModels = "/api/car-models/";
+  static const String serviceOptions = "/api/service-options/";
 
   // -------------------------------------------------------------------------------- Hotels services
   static const String hotelServices = "/api/hotel-services/";

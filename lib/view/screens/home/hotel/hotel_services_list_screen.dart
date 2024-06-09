@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
-import 'package:xperience/model/data/hotels_service_repo.dart';
+import 'package:xperience/model/data/repo/hotels_service_repo.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/router/nav_service.dart';

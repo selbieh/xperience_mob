@@ -37,8 +37,8 @@ class SubscriptionOptionModel {
 
 class CarService {
   int? id;
-  int? model;
-  int? make;
+  String? model;
+  String? make;
   int? numberOfSeats;
   int? year;
   String? type;
