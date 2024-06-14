@@ -1,7 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -10,13 +7,16 @@ import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/models/pagination_model.dart';
+import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/models/service_options_model.dart';
 import 'package:xperience/model/models/subscription_option_model.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
+import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
@@ -26,10 +26,12 @@ import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 class CarBookingScreen extends StatelessWidget {
   const CarBookingScreen({
     required this.planType,
+    required this.carServiceId,
     Key? key,
   }) : super(key: key);
 
   final String planType;
+  final int carServiceId;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class CarBookingScreen extends StatelessWidget {
         context: context,
         auth: Provider.of<AuthService>(context),
         carsRepo: Provider.of<CarsServiceRepo>(context),
+        carServiceId: carServiceId,
         planType: planType,
       ),
       initState: (model) {
@@ -49,6 +52,16 @@ class CarBookingScreen extends StatelessWidget {
           appBar: AppBar(
             title: const Text("Booking Details").localize(context),
             backgroundColor: AppColors.primaryColorDark,
+            actions: [
+              MainButton(
+                type: ButtonType.text,
+                title: "Reset",
+                color: AppColors.goldColor,
+                onPressed: () {
+                  model.resetForm();
+                },
+              )
+            ],
           ),
           body: model.isBusy
               ? const MainProgress()
@@ -240,6 +253,11 @@ class CarBookingScreen extends StatelessWidget {
                                     leading: Checkbox(
                                       value: model.optionsExtras[index].isSelected ?? false,
                                       onChanged: (value) {
+                                        if (value == false) {
+                                          model.optionsExtras[index].count = 0;
+                                        } else {
+                                          model.optionsExtras[index].count = 1;
+                                        }
                                         model.optionsExtras[index].isSelected = value ?? false;
                                         model.setState();
                                       },
@@ -260,6 +278,9 @@ class CarBookingScreen extends StatelessWidget {
                                                 onPressed: () {
                                                   if ((model.optionsExtras[index].count ?? 0) > 0) {
                                                     model.optionsExtras[index].count = (model.optionsExtras[index].count ?? 0) - 1;
+                                                    if ((model.optionsExtras[index].count ?? 0) == 0) {
+                                                      model.optionsExtras[index].isSelected = false;
+                                                    }
                                                     model.setState();
                                                   }
                                                 },
@@ -308,32 +329,6 @@ class CarBookingScreen extends StatelessWidget {
                                       style: const TextStyle(fontSize: 14),
                                       maxLines: 2,
                                     ),
-                                    trailing: model.optionsBeverages[index].id != model.selectedBaveragesGroupValue
-                                        ? null
-                                        : Wrap(
-                                            crossAxisAlignment: WrapCrossAlignment.center,
-                                            children: [
-                                              IconButton(
-                                                icon: const Icon(Icons.remove),
-                                                onPressed: () {
-                                                  if ((model.optionsBeverages[index].count ?? 0) > 0) {
-                                                    model.optionsBeverages[index].count = (model.optionsBeverages[index].count ?? 0) - 1;
-                                                    model.setState();
-                                                  }
-                                                },
-                                              ),
-                                              Text("${model.optionsBeverages[index].count}", style: const TextStyle(fontSize: 16)),
-                                              IconButton(
-                                                icon: const Icon(Icons.add),
-                                                onPressed: () {
-                                                  if ((model.optionsBeverages[index].count ?? 0) < 8) {
-                                                    model.optionsBeverages[index].count = (model.optionsBeverages[index].count ?? 0) + 1;
-                                                    model.setState();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
                                   );
                                 },
                               ),
@@ -366,32 +361,6 @@ class CarBookingScreen extends StatelessWidget {
                                       style: const TextStyle(fontSize: 14),
                                       maxLines: 2,
                                     ),
-                                    trailing: model.optionsScent[index].id != model.selectedScentGroupValue
-                                        ? null
-                                        : Wrap(
-                                            crossAxisAlignment: WrapCrossAlignment.center,
-                                            children: [
-                                              IconButton(
-                                                icon: const Icon(Icons.remove),
-                                                onPressed: () {
-                                                  if ((model.optionsScent[index].count ?? 0) > 0) {
-                                                    model.optionsScent[index].count = (model.optionsScent[index].count ?? 0) - 1;
-                                                    model.setState();
-                                                  }
-                                                },
-                                              ),
-                                              Text("${model.optionsScent[index].count}", style: const TextStyle(fontSize: 16)),
-                                              IconButton(
-                                                icon: const Icon(Icons.add),
-                                                onPressed: () {
-                                                  if ((model.optionsScent[index].count ?? 0) < 8) {
-                                                    model.optionsScent[index].count = (model.optionsScent[index].count ?? 0) + 1;
-                                                    model.setState();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
                                   );
                                 },
                               ),
@@ -424,32 +393,6 @@ class CarBookingScreen extends StatelessWidget {
                                       style: const TextStyle(fontSize: 14),
                                       maxLines: 2,
                                     ),
-                                    trailing: model.optionsSnacks[index].id != model.selectedSnacksGroupValue
-                                        ? null
-                                        : Wrap(
-                                            crossAxisAlignment: WrapCrossAlignment.center,
-                                            children: [
-                                              IconButton(
-                                                icon: const Icon(Icons.remove),
-                                                onPressed: () {
-                                                  if ((model.optionsSnacks[index].count ?? 0) > 0) {
-                                                    model.optionsSnacks[index].count = (model.optionsSnacks[index].count ?? 0) - 1;
-                                                    model.setState();
-                                                  }
-                                                },
-                                              ),
-                                              Text("${model.optionsSnacks[index].count}", style: const TextStyle(fontSize: 16)),
-                                              IconButton(
-                                                icon: const Icon(Icons.add),
-                                                onPressed: () {
-                                                  if ((model.optionsSnacks[index].count ?? 0) < 8) {
-                                                    model.optionsSnacks[index].count = (model.optionsSnacks[index].count ?? 0) + 1;
-                                                    model.setState();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
                                   );
                                 },
                               ),
@@ -471,11 +414,12 @@ class CarBookingScreen extends StatelessWidget {
                             maxLines: 5,
                           ),
                           const SizedBox(height: 40),
-                          CustomButton(
-                            title: "CONTINUE".localize(context),
-                            // onPressed: model.submitFun,
-                            onPressed: model.booking,
-                          ),
+                          model.bookingLoading
+                              ? const MainProgress()
+                              : CustomButton(
+                                  title: "CONTINUE".localize(context),
+                                  onPressed: model.submitFun,
+                                ),
                           const SizedBox(height: 20),
                         ],
                       ),
@@ -493,11 +437,13 @@ class CarBookingViewModel extends BaseNotifier {
     required this.context,
     required this.auth,
     required this.carsRepo,
+    required this.carServiceId,
     required this.planType,
   });
   final BuildContext context;
   final AuthService auth;
   final CarsServiceRepo carsRepo;
+  final int carServiceId;
   final String planType;
 
   final formKey = GlobalKey<FormState>();
@@ -520,11 +466,30 @@ class CarBookingViewModel extends BaseNotifier {
 
   void submitFun() {
     if (formKey.currentState!.validate()) {
-      booking();
+      // generatebookingBody();
+      bookingCarService();
     } else {
       autovalidateMode = AutovalidateMode.always;
       setState();
     }
+  }
+
+  void resetForm() {
+    optionsExtras = optionsExtras.map((item) {
+      item.isSelected = false;
+      item.count = 0;
+      return item;
+    }).toList();
+    selectedBaveragesGroupValue = 0;
+    selectedScentGroupValue = 0;
+    selectedSnacksGroupValue = 0;
+    selectedSubscription = null;
+    selectedDate = null;
+    selectedTime = null;
+    pickUpDateController.clear();
+    pickUpTimeController.clear();
+    extrasController.clear();
+    setState();
   }
 
   Future<void> selectDate(BuildContext context) async {
@@ -602,36 +567,80 @@ class CarBookingViewModel extends BaseNotifier {
     }
   }
 
-  Future<void> booking() async {
-    Logger.printt({
-      {
-        "car_reservations": [
-          {
-            "car_service_id": 2,
-            "pickup_time": "2023-06-15T15:00:00Z",
-            "pickup_address": "Giza, 6th of october city",
-            "pickup_lat": 29.970402,
-            "pickup_long": 30.952246,
-            "dropoff_address": "Cairo, tahrir square",
-            "dropoff_lat": 30.044318,
-            "dropoff_long": 31.235752,
-            // "terminal": "",
-            // "flight_number": "",
-            "extras": extrasController.text,
-            "options": [
-              {
-                "service_option": 1,
-                "quantity": 2,
-              },
-              {
-                "service_option": 2,
-                "quantity": 2,
-              },
-            ],
-            "subscription_option": selectedSubscription?.id
-          }
-        ]
+  Map<String, dynamic> generatebookingBody() {
+    selectedDate = DateTime(
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      selectedTime!.hour,
+      selectedTime!.minute,
+    );
+    List<Map<String, dynamic>> optionsList = [];
+    for (var option in optionsExtras) {
+      if ((option.count ?? 0) > 0) {
+        optionsList.add({"service_option": option.id, "quantity": option.count});
       }
-    });
+    }
+    if (selectedBaveragesGroupValue != 0) {
+      //  var selectedOption = optionsBeverages.firstWhere((element) => element.id == selectedBaveragesGroupValue) ;
+      optionsList.add({"service_option": selectedBaveragesGroupValue, "quantity": 1});
+    }
+    if (selectedScentGroupValue != 0) {
+      optionsList.add({"service_option": selectedScentGroupValue, "quantity": 1});
+    }
+    if (selectedSnacksGroupValue != 0) {
+      optionsList.add({"service_option": selectedSnacksGroupValue, "quantity": 1});
+    }
+
+    Map<String, dynamic> bookingBody = {
+      "car_reservations": [
+        {
+          "car_service_id": carServiceId,
+          // "pickup_time": "2023-06-15T15:00:00Z",
+          "pickup_time": "${selectedDate?.toUtc().toIso8601String()}",
+          "pickup_address": "Giza, 6th of october city",
+          "pickup_lat": 29.970402,
+          "pickup_long": 30.952246,
+          "dropoff_address": "Cairo, tahrir square",
+          "dropoff_lat": 30.044318,
+          "dropoff_long": 31.235752,
+          // "terminal": "",
+          // "flight_number": "",
+          "extras": extrasController.text,
+          "options": optionsList,
+          "subscription_option": selectedSubscription?.id
+        }
+      ]
+    };
+    Logger.printObject(bookingBody);
+    return bookingBody;
+  }
+
+  bool bookingLoading = false;
+  ReservationBookingModel? reservationBookingModel;
+
+  Future<void> bookingCarService() async {
+    try {
+      bookingLoading = true;
+      setState();
+      var res = await carsRepo.bookingCarService(
+        body: generatebookingBody(),
+      );
+      bookingLoading = false;
+      if (res.left != null) {
+        failure = res.left?.message;
+        DialogsHelper.messageDialog(message: "${res.left?.message}");
+        setError();
+      } else {
+        reservationBookingModel = res.right;
+        NavService().popKey();
+        setIdle();
+      }
+    } catch (e) {
+      bookingLoading = false;
+      failure = e.toString();
+      DialogsHelper.messageDialog(message: "$e");
+      setError();
+    }
   }
 }

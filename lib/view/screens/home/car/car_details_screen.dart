@@ -24,6 +24,7 @@ class CarDetailsScreen extends StatelessWidget {
     return BaseWidget<CarDetailsViewModel>(
       model: CarDetailsViewModel(
         auth: Provider.of<AuthService>(context),
+        carService: carService,
       ),
       builder: (_, model, child) {
         return Scaffold(
@@ -216,8 +217,9 @@ class CarDetailsScreen extends StatelessWidget {
 }
 
 class CarDetailsViewModel extends BaseNotifier {
-  CarDetailsViewModel({required this.auth});
+  CarDetailsViewModel({required this.auth, this.carService});
   final AuthService auth;
+  final CarServiceModel? carService;
 
   String selectedPlan = "RIDE";
   List<String> plansList = [
@@ -231,7 +233,10 @@ class CarDetailsViewModel extends BaseNotifier {
       if ((auth.userModel?.user?.email ?? "") == "") {
         NavService().pushKey(const CompleteInfoScreen()).then((value) => setState());
       } else {
-        NavService().pushKey(CarBookingScreen(planType: selectedPlan));
+        NavService().pushKey(CarBookingScreen(
+          planType: selectedPlan,
+          carServiceId: carService?.id ?? -1,
+        ));
       }
     } else {
       NavService().pushKey(const LoginScreen());

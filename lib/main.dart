@@ -248,6 +248,68 @@ body:
       ]
  }
 
+================================================================================== Reservation Request (Booking)
+
+I/flutter (10554): =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+I/flutter (10554): URI: https://impressive-domini-royals-1be52931.koyeb.app/api/reservations/
+I/flutter (10554): EndPoint: /api/reservations/
+I/flutter (10554): Request Type: POST
+I/flutter (10554): Header: {Accept: application/json, Content-Type: application/json, Accept-Language: en, Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwOTQzMjA0LCJpYXQiOjE3MTgzNTEyMDQsImp0aSI6Ijc2ZGI0MDc1MzhjMTQzNzBiMjQyNzYyZTE2ODY0MzkzIiwidXNlcl9pZCI6M30.UdCv6Gxhz_ms7_lsA_AaVXw9_GtxQO8aPl5RO6MflQQ}
+I/flutter (10554): Body: {car_reservations: [{car_service_id: 6, pickup_time: 2024-06-26T05:30:00.000Z, pickup_address: Giza, 6th of october city, pickup_lat: 29.970402, pickup_long: 30.952246, dropoff_address: Cairo, tahrir square, dropoff_lat: 30.044318, dropoff_long: 31.235752, extras: , options: [{service_option: 4, quantity: 2}, {service_option: 6, quantity: 1}], subscription_option: 2}]}
+I/flutter (10554): QueryParams: null
+I/flutter (10554): =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ {
+      "id": 4,
+      "user": 3,
+      "car_reservations": [
+           {
+                "id": 3,
+                "car_service": {
+                     "id": 6,
+                     "model": "COROLLA 68",
+                     "make": "",
+                     "number_of_seats": 6,
+                     "year": 2022,
+                     "type": "SUV"
+                },
+                "pickup_time": "2024-06-26T05:30:00Z",
+                "pickup_address": "Giza, 6th of october city",
+                "pickup_lat": 29.970402,
+                "pickup_long": 30.952246,
+                "pickup_url": "null",
+                "dropoff_address": "Cairo, tahrir square",
+                "dropoff_lat": 30.044318,
+                "dropoff_long": 31.235752,
+                "dropoff_url": "null",
+                "terminal": "null",
+                "flight_number": "null",
+                "extras": "",
+                "final_price": "6.00",
+                "subscription_option": 2,
+                "options": [
+                     {
+                          "service_option": 4,
+                          "quantity": 2
+                     },
+                     {
+                          "service_option": 6,
+                          "quantity": 1
+                     }
+                ]
+           }
+      ],
+      "hotel_reservations": [],
+      "created_by": {
+           "id": 3,
+           "name": "ahmed2",
+           "email": "ahmed2@test.com",
+           "mobile": "+201009658566",
+           "wallet": 0,
+           "is_staff": false
+      },
+      "status": "CONFIRMED",
+      "created_at": "2024-06-14T09:14:42.350743Z"
+ }
 ==================================================================================
 ==================================================================================
 

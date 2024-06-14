@@ -1,39 +1,32 @@
-class ReservationModel {
+class ReservationBookingModel {
   int? id;
   int? user;
-  List<ReservationData>? carReservations;
-  List<ReservationData>? hotelReservations;
+  List<CarReservations>? carReservations;
   CreatedBy? createdBy;
   String? status;
+  String? createdAt;
 
-  ReservationModel({
+  ReservationBookingModel({
     this.id,
     this.user,
     this.carReservations,
-    this.hotelReservations,
     this.createdBy,
     this.status,
+    this.createdAt,
   });
 
-  static ReservationModel fromJsonModel(Object? json) => ReservationModel.fromJson(json as Map<String, dynamic>);
-
-  ReservationModel.fromJson(Map<String, dynamic> json) {
+  ReservationBookingModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     user = json['user'];
     if (json['car_reservations'] != null) {
-      carReservations = <ReservationData>[];
+      carReservations = <CarReservations>[];
       json['car_reservations'].forEach((v) {
-        carReservations!.add(ReservationData.fromJson(v));
-      });
-    }
-    if (json['hotel_reservations'] != null) {
-      hotelReservations = <ReservationData>[];
-      json['hotel_reservations'].forEach((v) {
-        hotelReservations!.add(ReservationData.fromJson(v));
+        carReservations!.add(CarReservations.fromJson(v));
       });
     }
     createdBy = json['created_by'] != null ? CreatedBy.fromJson(json['created_by']) : null;
     status = json['status'];
+    createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,18 +36,16 @@ class ReservationModel {
     if (carReservations != null) {
       data['car_reservations'] = carReservations!.map((v) => v.toJson()).toList();
     }
-    if (hotelReservations != null) {
-      data['hotel_reservations'] = hotelReservations!.map((v) => v.toJson()).toList();
-    }
     if (createdBy != null) {
       data['created_by'] = createdBy!.toJson();
     }
     data['status'] = status;
+    data['created_at'] = createdAt;
     return data;
   }
 }
 
-class ReservationData {
+class CarReservations {
   int? id;
   CarService? carService;
   String? pickupTime;
@@ -71,9 +62,9 @@ class ReservationData {
   String? extras;
   String? finalPrice;
   int? subscriptionOption;
-  List<String>? options;
+  List<Options>? options;
 
-  ReservationData({
+  CarReservations({
     this.id,
     this.carService,
     this.pickupTime,
@@ -93,9 +84,8 @@ class ReservationData {
     this.options,
   });
 
-  ReservationData.fromJson(Map<String, dynamic> json) {
+  CarReservations.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    // carService = json['car_service'];
     carService = json['car_service'] != null ? CarService.fromJson(json['car_service']) : null;
     pickupTime = json['pickup_time'];
     pickupAddress = json['pickup_address'];
@@ -111,13 +101,17 @@ class ReservationData {
     extras = json['extras'];
     finalPrice = json['final_price'];
     subscriptionOption = json['subscription_option'];
-    options = json['options'].cast<String>();
+    if (json['options'] != null) {
+      options = <Options>[];
+      json['options'].forEach((v) {
+        options!.add(Options.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    // data['car_service'] = carService;
     if (carService != null) {
       data['car_service'] = carService!.toJson();
     }
@@ -135,7 +129,59 @@ class ReservationData {
     data['extras'] = extras;
     data['final_price'] = finalPrice;
     data['subscription_option'] = subscriptionOption;
-    data['options'] = options;
+    if (options != null) {
+      data['options'] = options!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class CarService {
+  int? id;
+  String? model;
+  String? make;
+  int? numberOfSeats;
+  int? year;
+  String? type;
+
+  CarService({this.id, this.model, this.make, this.numberOfSeats, this.year, this.type});
+
+  CarService.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    model = json['model'];
+    make = json['make'];
+    numberOfSeats = json['number_of_seats'];
+    year = json['year'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model'] = model;
+    data['make'] = make;
+    data['number_of_seats'] = numberOfSeats;
+    data['year'] = year;
+    data['type'] = type;
+    return data;
+  }
+}
+
+class Options {
+  int? serviceOption;
+  int? quantity;
+
+  Options({this.serviceOption, this.quantity});
+
+  Options.fromJson(Map<String, dynamic> json) {
+    serviceOption = json['service_option'];
+    quantity = json['quantity'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['service_option'] = serviceOption;
+    data['quantity'] = quantity;
     return data;
   }
 }
@@ -167,44 +213,6 @@ class CreatedBy {
     data['mobile'] = mobile;
     data['wallet'] = wallet;
     data['is_staff'] = isStaff;
-    return data;
-  }
-}
-
-class CarService {
-  int? id;
-  String? model;
-  String? make;
-  int? numberOfSeats;
-  int? year;
-  String? type;
-
-  CarService({
-    this.id,
-    this.model,
-    this.make,
-    this.numberOfSeats,
-    this.year,
-    this.type,
-  });
-
-  CarService.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    model = json['model'];
-    make = json['make'];
-    numberOfSeats = json['number_of_seats'];
-    year = json['year'];
-    type = json['type'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['model'] = model;
-    data['make'] = make;
-    data['number_of_seats'] = numberOfSeats;
-    data['year'] = year;
-    data['type'] = type;
     return data;
   }
 }
