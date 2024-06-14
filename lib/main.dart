@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/config/app_environment.dart';
@@ -20,9 +21,9 @@ void main() async {
   try {
     AppEnvironment.initialize(EnvironmentType.development);
     WidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: "assets/.env");
     await Future.wait([
       SharedPref.initialize(),
-      // dotenv.load(),
       Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) {
         FirebaseNotificationService.initializeFirebaseMessagingListener();
       }),

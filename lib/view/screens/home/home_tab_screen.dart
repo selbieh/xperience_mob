@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
@@ -23,11 +21,6 @@ class HomeTabScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget<HomeTabViewModel>(
       model: HomeTabViewModel(auth: Provider.of<AuthService>(context)),
-      initState: (model) async {
-        await dotenv.load(fileName: "assets/.env");
-        String apiKey = dotenv.env['HI']!;
-        Logger.printt("============> $apiKey");
-      },
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
@@ -75,7 +68,6 @@ class HomeTabScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Text(DotEnv().get("HI")),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(

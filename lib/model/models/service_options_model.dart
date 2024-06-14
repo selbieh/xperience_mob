@@ -9,6 +9,7 @@ class ServiceOptionsModel {
   String? price;
   bool? active;
   int? count;
+  bool? isSelected;
 
   ServiceOptionsModel({
     this.id,
@@ -20,7 +21,8 @@ class ServiceOptionsModel {
     this.maxFree,
     this.price,
     this.active,
-    this.count = 0,
+    this.count,
+    this.isSelected,
   });
 
   static ServiceOptionsModel fromJsonModel(Object? json) => ServiceOptionsModel.fromJson(json as Map<String, dynamic>);
@@ -35,6 +37,8 @@ class ServiceOptionsModel {
     maxFree = json['max_free'];
     price = json['price'];
     active = json['active'];
+    count = 0;
+    isSelected = false;
   }
 
   Map<String, dynamic> toJson() {

@@ -216,16 +216,18 @@ ThemeData? darkTheme(BuildContext context) {
     //============================================ Checkbox Theme
     checkboxTheme: CheckboxThemeData(
       // fillColor: MaterialStateProperty.all<Color>(AppColors.primaryColorLight),
-      checkColor: MaterialStateProperty.all<Color>(Colors.white),
+      // checkColor: MaterialStateProperty.all<Color>(Colors.white),
+      checkColor: MaterialStateProperty.all<Color>(AppColors.goldColor),
       overlayColor: MaterialStateProperty.all<Color>(AppColors.primaryColorLight.withOpacity(0.2)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
       side: MaterialStateBorderSide.resolveWith(
-        (states) => const BorderSide(width: 1.5, color: AppColors.primaryColorLight),
+        (states) => const BorderSide(width: 1.5, color: AppColors.grey),
       ),
     ),
     //============================================ Radio Theme
     radioTheme: RadioThemeData(
-      fillColor: MaterialStateProperty.all<Color>(AppColors.primaryColorLight),
+      // fillColor: MaterialStateProperty.all<Color>(AppColors.primaryColorLight),
+      fillColor: MaterialStateProperty.all<Color>(AppColors.goldColor),
       overlayColor: MaterialStateProperty.all<Color>(AppColors.primaryColorLight.withOpacity(0.2)),
     ),
   );

@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -179,6 +181,7 @@ class CarBookingScreen extends StatelessWidget {
                             ),
                           ],
                           const SizedBox(height: 20),
+                          // =============================================================================================== Pick-Up Time
                           const Text(
                             "Pick-Up Time",
                             style: TextStyle(color: AppColors.grey),
@@ -219,6 +222,240 @@ class CarBookingScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+
+                          // =============================================================================================== Extras
+                          if (model.optionsExtras.isNotEmpty) ...[
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Extras",
+                              style: TextStyle(color: AppColors.grey),
+                            ).localize(context),
+                            Column(
+                              children: List.generate(
+                                model.optionsExtras.length,
+                                (index) {
+                                  return ListTile(
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.all(0),
+                                    leading: Checkbox(
+                                      value: model.optionsExtras[index].isSelected ?? false,
+                                      onChanged: (value) {
+                                        model.optionsExtras[index].isSelected = value ?? false;
+                                        model.setState();
+                                      },
+                                    ),
+                                    title: Text(
+                                      // "Meet & Greet",
+                                      model.optionsExtras[index].name ?? "",
+                                      style: const TextStyle(fontSize: 14),
+                                      maxLines: 2,
+                                    ),
+                                    trailing: model.optionsExtras[index].isSelected != true
+                                        ? null
+                                        : Wrap(
+                                            crossAxisAlignment: WrapCrossAlignment.center,
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(Icons.remove),
+                                                onPressed: () {
+                                                  if ((model.optionsExtras[index].count ?? 0) > 0) {
+                                                    model.optionsExtras[index].count = (model.optionsExtras[index].count ?? 0) - 1;
+                                                    model.setState();
+                                                  }
+                                                },
+                                              ),
+                                              Text("${model.optionsExtras[index].count}", style: const TextStyle(fontSize: 16)),
+                                              IconButton(
+                                                icon: const Icon(Icons.add),
+                                                onPressed: () {
+                                                  if ((model.optionsExtras[index].count ?? 0) < 8) {
+                                                    model.optionsExtras[index].count = (model.optionsExtras[index].count ?? 0) + 1;
+                                                    model.setState();
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                          // =============================================================================================== Baverages
+                          if (model.optionsBeverages.isNotEmpty) ...[
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Baverages",
+                              style: TextStyle(color: AppColors.grey),
+                            ).localize(context),
+                            Column(
+                              children: List.generate(
+                                model.optionsBeverages.length,
+                                (index) {
+                                  return ListTile(
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.all(0),
+                                    leading: Radio(
+                                      value: model.optionsBeverages[index].id,
+                                      groupValue: model.selectedBaveragesGroupValue,
+                                      onChanged: (value) {
+                                        model.selectedBaveragesGroupValue = value ?? 0;
+                                        model.setState();
+                                      },
+                                    ),
+                                    title: Text(
+                                      model.optionsBeverages[index].name ?? "",
+                                      style: const TextStyle(fontSize: 14),
+                                      maxLines: 2,
+                                    ),
+                                    trailing: model.optionsBeverages[index].id != model.selectedBaveragesGroupValue
+                                        ? null
+                                        : Wrap(
+                                            crossAxisAlignment: WrapCrossAlignment.center,
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(Icons.remove),
+                                                onPressed: () {
+                                                  if ((model.optionsBeverages[index].count ?? 0) > 0) {
+                                                    model.optionsBeverages[index].count = (model.optionsBeverages[index].count ?? 0) - 1;
+                                                    model.setState();
+                                                  }
+                                                },
+                                              ),
+                                              Text("${model.optionsBeverages[index].count}", style: const TextStyle(fontSize: 16)),
+                                              IconButton(
+                                                icon: const Icon(Icons.add),
+                                                onPressed: () {
+                                                  if ((model.optionsBeverages[index].count ?? 0) < 8) {
+                                                    model.optionsBeverages[index].count = (model.optionsBeverages[index].count ?? 0) + 1;
+                                                    model.setState();
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                          // =============================================================================================== Scent Service
+                          if (model.optionsScent.isNotEmpty) ...[
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Scent Service",
+                              style: TextStyle(color: AppColors.grey),
+                            ).localize(context),
+                            Column(
+                              children: List.generate(
+                                model.optionsScent.length,
+                                (index) {
+                                  return ListTile(
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.all(0),
+                                    leading: Radio(
+                                      value: model.optionsScent[index].id,
+                                      groupValue: model.selectedScentGroupValue,
+                                      onChanged: (value) {
+                                        model.selectedScentGroupValue = value ?? 0;
+                                        model.setState();
+                                      },
+                                    ),
+                                    title: Text(
+                                      model.optionsScent[index].name ?? "",
+                                      style: const TextStyle(fontSize: 14),
+                                      maxLines: 2,
+                                    ),
+                                    trailing: model.optionsScent[index].id != model.selectedScentGroupValue
+                                        ? null
+                                        : Wrap(
+                                            crossAxisAlignment: WrapCrossAlignment.center,
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(Icons.remove),
+                                                onPressed: () {
+                                                  if ((model.optionsScent[index].count ?? 0) > 0) {
+                                                    model.optionsScent[index].count = (model.optionsScent[index].count ?? 0) - 1;
+                                                    model.setState();
+                                                  }
+                                                },
+                                              ),
+                                              Text("${model.optionsScent[index].count}", style: const TextStyle(fontSize: 16)),
+                                              IconButton(
+                                                icon: const Icon(Icons.add),
+                                                onPressed: () {
+                                                  if ((model.optionsScent[index].count ?? 0) < 8) {
+                                                    model.optionsScent[index].count = (model.optionsScent[index].count ?? 0) + 1;
+                                                    model.setState();
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                          // =============================================================================================== Snacks
+                          if (model.optionsSnacks.isNotEmpty) ...[
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Snacks",
+                              style: TextStyle(color: AppColors.grey),
+                            ).localize(context),
+                            Column(
+                              children: List.generate(
+                                model.optionsSnacks.length,
+                                (index) {
+                                  return ListTile(
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.all(0),
+                                    leading: Radio(
+                                      value: model.optionsSnacks[index].id,
+                                      groupValue: model.selectedSnacksGroupValue,
+                                      onChanged: (value) {
+                                        model.selectedSnacksGroupValue = value ?? 0;
+                                        model.setState();
+                                      },
+                                    ),
+                                    title: Text(
+                                      model.optionsSnacks[index].name ?? "",
+                                      style: const TextStyle(fontSize: 14),
+                                      maxLines: 2,
+                                    ),
+                                    trailing: model.optionsSnacks[index].id != model.selectedSnacksGroupValue
+                                        ? null
+                                        : Wrap(
+                                            crossAxisAlignment: WrapCrossAlignment.center,
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(Icons.remove),
+                                                onPressed: () {
+                                                  if ((model.optionsSnacks[index].count ?? 0) > 0) {
+                                                    model.optionsSnacks[index].count = (model.optionsSnacks[index].count ?? 0) - 1;
+                                                    model.setState();
+                                                  }
+                                                },
+                                              ),
+                                              Text("${model.optionsSnacks[index].count}", style: const TextStyle(fontSize: 16)),
+                                              IconButton(
+                                                icon: const Icon(Icons.add),
+                                                onPressed: () {
+                                                  if ((model.optionsSnacks[index].count ?? 0) < 8) {
+                                                    model.optionsSnacks[index].count = (model.optionsSnacks[index].count ?? 0) + 1;
+                                                    model.setState();
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                          // ===============================================================================================
                           const SizedBox(height: 20),
                           const Text(
                             "Extras",
@@ -270,9 +507,16 @@ class CarBookingViewModel extends BaseNotifier {
   final extrasController = TextEditingController();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+  SubscriptionOptionModel? selectedSubscription;
   PaginationModel<SubscriptionOptionModel>? subscriptionOptions;
   PaginationModel<ServiceOptionsModel>? serviceOptions;
-  SubscriptionOptionModel? selectedSubscription;
+  List<ServiceOptionsModel> optionsExtras = [];
+  List<ServiceOptionsModel> optionsBeverages = [];
+  List<ServiceOptionsModel> optionsScent = [];
+  List<ServiceOptionsModel> optionsSnacks = [];
+  int selectedBaveragesGroupValue = 0;
+  int selectedScentGroupValue = 0;
+  int selectedSnacksGroupValue = 0;
 
   void submitFun() {
     if (formKey.currentState!.validate()) {
@@ -314,7 +558,7 @@ class CarBookingViewModel extends BaseNotifier {
     var res = await carsRepo.getSubscriptionOptions(
       queryParams: {
         "offset": "0",
-        "limit": "100",
+        "limit": "1000",
         "type": planType,
       },
     );
@@ -343,6 +587,17 @@ class CarBookingViewModel extends BaseNotifier {
       setError();
     } else {
       serviceOptions = res.right;
+      for (var item in (serviceOptions?.results ?? <ServiceOptionsModel>[])) {
+        if (item.type == "Extras") {
+          optionsExtras.add(item);
+        } else if (item.type == "Beverages") {
+          optionsBeverages.add(item);
+        } else if (item.type == "Snacks") {
+          optionsSnacks.add(item);
+        } else if (item.type == "Scent Service") {
+          optionsScent.add(item);
+        }
+      }
       setIdle();
     }
   }

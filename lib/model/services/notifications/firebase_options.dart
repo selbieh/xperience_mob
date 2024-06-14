@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -40,12 +41,12 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: "AIzaSyDo2pozKWpVhdSyCgZBr67iRfZ8l_CxqGM",
-    appId: "1:514143788543:android:4cdebdcf95e763d3025bca",
-    messagingSenderId: "514143788543",
-    projectId: "experience-9062b",
-    storageBucket: "experience-9062b.appspot.com",
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env["ANDROID_API_KEY"] ?? "",
+    appId: dotenv.env["ANDROID_APP_ID"] ?? "",
+    messagingSenderId: dotenv.env["ANDROID_MESSAGE_SENDER_ID"] ?? "",
+    projectId: dotenv.env["ANDROID_PROJECT_ID"] ?? "",
+    storageBucket: dotenv.env["ANDROID_STORAGE_BUCKET"] ?? "",
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
