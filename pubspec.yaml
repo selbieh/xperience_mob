@@ -42,9 +42,14 @@ dependencies:
   get_it: ^7.6.7
   provider: ^6.1.2
 
-  # ========================== UI
+  # ========================== Images
   flutter_svg: ^2.0.10+1
   cached_network_image: ^3.3.1
+  # panorama: ^0.4.1
+  # panorama: ^0.4.0
+  panorama_viewer: ^1.0.5
+  
+  # ========================== UI
   carousel_slider: ^4.2.1
   pull_to_refresh_flutter3: ^2.0.2
 
