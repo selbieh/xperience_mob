@@ -1,5 +1,6 @@
 import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/models/pagination_model.dart';
+import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/services/api/app_failure.dart';
 import 'package:xperience/model/services/api/either.dart';
 import 'package:xperience/model/services/api/end_points.dart';
@@ -19,6 +20,27 @@ class HotelsServicesDataSource {
       );
       if (res.right != null) {
         final resData = PaginationModel<HotelServiceModel>.fromJson(res.right, HotelServiceModel.fromJsonModel);
+        return Either(right: resData);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
+
+  static Future<Either<AppFailure, ReservationBookingModel>> bookingHotelService({
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: EndPoints.reservations,
+        requestType: RequestType.post,
+        header: Headers.userHeader,
+        body: body,
+      );
+      if (res.right != null) {
+        final resData = ReservationBookingModel.fromJson(res.right);
         return Either(right: resData);
       } else {
         return Either(left: res.left);

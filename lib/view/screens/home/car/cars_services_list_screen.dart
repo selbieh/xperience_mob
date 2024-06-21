@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/models/car_make_model.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
@@ -48,7 +47,8 @@ class CarsServicesListScreen extends StatelessWidget {
                 type: ButtonType.text,
                 title: "Reset".localize(context),
                 color: AppColors.goldColor,
-                onPressed: model.reset,
+                // onPressed: model.resetFilter,
+                onPressed: model.selectedMake != null || model.selectedModel != null || model.searchController.text != "" ? model.resetFilter : null,
               )
             ],
           ),
@@ -154,7 +154,6 @@ class CarsServicesListScreen extends StatelessWidget {
                               return CarExperienceItemWidget(
                                 carService: item,
                                 onPressed: () {
-                                  Logger.printObject(item);
                                   NavService().pushKey(CarDetailsScreen(carService: item));
                                 },
                               );
@@ -203,7 +202,7 @@ class CarsServicesListViewModel extends BaseNotifier {
     await getCarServices();
   }
 
-  void reset() {
+  void resetFilter() {
     if (selectedMake != null || selectedModel != null || searchController.text != "") {
       selectedMake = null;
       selectedModel = null;

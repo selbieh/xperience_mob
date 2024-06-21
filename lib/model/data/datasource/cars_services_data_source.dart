@@ -11,6 +11,26 @@ import 'package:xperience/model/services/api/headers.dart';
 import 'package:xperience/model/services/api/http_service.dart';
 
 class CarsServicesDataSource {
+  static Future<Either<AppFailure, CarServiceModel>> getCarServiceById({
+    required int serviceId,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: "${EndPoints.carServices}$serviceId/",
+        requestType: RequestType.get,
+        header: Headers.guestHeader,
+      );
+      if (res.right != null) {
+        final resData = CarServiceModel.fromJson(res.right);
+        return Either(right: resData);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
+
   static Future<Either<AppFailure, PaginationModel<CarServiceModel>>> getCarsServices({
     Map<String, String>? queryParams,
   }) async {

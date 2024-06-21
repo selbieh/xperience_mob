@@ -30,12 +30,13 @@ class HomeTabScreen extends StatelessWidget {
               style: const TextStyle(color: AppColors.greyText),
             ),
             actions: [
-              IconButton(
-                icon: SvgPicture.asset("assets/svgs/ic_bell.svg"),
-                onPressed: () {
-                  NavService().pushKey(const NotificationsScreen());
-                },
-              ),
+              if (model.auth.isLogged)
+                IconButton(
+                  icon: SvgPicture.asset("assets/svgs/ic_bell.svg"),
+                  onPressed: () {
+                    NavService().pushKey(const NotificationsScreen());
+                  },
+                ),
             ],
           ),
           body: SingleChildScrollView(

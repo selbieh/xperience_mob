@@ -33,12 +33,13 @@ class PrivacyPolicyScreen extends StatelessWidget {
               ? const MainProgress()
               : ListView(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Html(
-                        data: """${model.infoRepo.privacyPolicy?.content}""",
+                    if (model.infoRepo.termsOfUse?.content != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Html(
+                          data: """${model.infoRepo.privacyPolicy?.content}""",
+                        ),
                       ),
-                    ),
                   ],
                 ),
         );

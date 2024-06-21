@@ -16,6 +16,21 @@ class CarsServiceRepo extends ChangeNotifier {
   int _pageOffset = 0;
   final int _pageLimit = 10;
 
+  Future<Either<AppFailure, CarServiceModel>> getCarServiceById({
+    required int carServiceId,
+  }) async {
+    try {
+      var res = await CarsServicesDataSource.getCarServiceById(serviceId: carServiceId);
+      if (res.left != null) {
+        return Either(left: res.left);
+      } else {
+        return Either(right: res.right);
+      }
+    } catch (e) {
+      return Either(left: AppFailure(message: e.toString()));
+    }
+  }
+
   Future<Either<AppFailure, PaginationModel<CarServiceModel>>> getCarsServices({Map<String, String>? queryParams}) async {
     try {
       if (carsServicesPaginated == null) {

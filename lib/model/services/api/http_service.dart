@@ -32,8 +32,6 @@ class HttpService {
     try {
       http.Response? response;
       Duration timeoutDuration = const Duration(seconds: 30);
-      final Stopwatch stopwatch = Stopwatch();
-      stopwatch.start();
       Uri uri = Uri.parse((serverURL ?? AppEnvironment.instance.serverURL) + endPoint);
       uri = uri.replace(queryParameters: queryParams);
 
@@ -104,11 +102,9 @@ class HttpService {
           }
           break;
       }
-      stopwatch.stop();
-      Logger.printt("⏱️ Execution Time: ${stopwatch.elapsedMilliseconds} ms ⏱️");
       // To fix arabic litters from displayed like this "ÙØ±Ù"
-      // dynamic responseJson = json.decode(utf8.decode(response.bodyBytes));
-      dynamic responseJson = json.decode(response.body);
+      dynamic responseJson = json.decode(utf8.decode(response.bodyBytes));
+      // dynamic responseJson = json.decode(response.body);
       Either<AppFailure, dynamic> responseResult = Either();
       switch (response.statusCode) {
         case 200:

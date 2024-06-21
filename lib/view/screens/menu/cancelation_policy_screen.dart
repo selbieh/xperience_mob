@@ -33,12 +33,13 @@ class CancelationPolicyScreen extends StatelessWidget {
               ? const MainProgress()
               : ListView(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Html(
-                        data: """${model.infoRepo.cancellationPolicy?.content}""",
+                    if (model.infoRepo.termsOfUse?.content != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Html(
+                          data: """${model.infoRepo.cancellationPolicy?.content}""",
+                        ),
                       ),
-                    ),
                   ],
                 ),
         );

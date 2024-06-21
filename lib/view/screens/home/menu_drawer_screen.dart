@@ -116,22 +116,24 @@ class MenuDrawerScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
-                      MenuTitleItem("Account".localize(context)),
-                      MenuListTileItemWidget(
-                        title: "Wallet".localize(context),
-                        icon: "assets/svgs/ic_wallet.svg",
-                        onTap: () {
-                          NavService().pushKey(const WalletScreen());
-                        },
-                      ),
-                      MenuListTileItemWidget(
-                        title: "My reservations".localize(context),
-                        icon: "assets/svgs/ic_reservations.svg",
-                        onTap: () {
-                          NavService().pushKey(const MyReservationsScreen());
-                        },
-                      ),
+                      if (model.auth.isLogged) ...[
+                        const SizedBox(height: 20),
+                        MenuTitleItem("Account".localize(context)),
+                        MenuListTileItemWidget(
+                          title: "Wallet".localize(context),
+                          icon: "assets/svgs/ic_wallet.svg",
+                          onTap: () {
+                            NavService().pushKey(const WalletScreen());
+                          },
+                        ),
+                        MenuListTileItemWidget(
+                          title: "My reservations".localize(context),
+                          icon: "assets/svgs/ic_reservations.svg",
+                          onTap: () {
+                            NavService().pushKey(const MyReservationsScreen());
+                          },
+                        ),
+                      ],
                       const SizedBox(height: 20),
                       MenuTitleItem("App".localize(context)),
                       MenuListTileItemWidget(

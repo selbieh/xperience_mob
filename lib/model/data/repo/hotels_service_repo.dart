@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xperience/model/data/datasource/hotels_services_data_source.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/models/pagination_model.dart';
+import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/services/api/app_failure.dart';
 import 'package:xperience/model/services/api/either.dart';
 
@@ -35,6 +36,21 @@ class HotelsServiceRepo extends ChangeNotifier {
           hotelsServicesPaginated?.previous = tempServicesPaginated?.previous;
           hotelsServicesPaginated?.results?.addAll(tempServicesPaginated?.results ?? []);
         }
+        return Either(right: res.right);
+      }
+    } catch (e) {
+      return Either(left: AppFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<AppFailure, ReservationBookingModel>> bookingHotelService({
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      var res = await HotelsServicesDataSource.bookingHotelService(body: body);
+      if (res.left != null) {
+        return Either(left: res.left);
+      } else {
         return Either(right: res.right);
       }
     } catch (e) {

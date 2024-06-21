@@ -310,6 +310,28 @@ I/flutter (10554): =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
       "status": "CONFIRMED",
       "created_at": "2024-06-14T09:14:42.350743Z"
  }
+================================================================================== Service search error
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ URI: https://impressive-domini-royals-1be52931.koyeb.app/api/car-services/?offset=0&limit=10&search=test
+ EndPoint: /api/car-services/
+ Request Type: GET
+ Header: {Accept: application/json, Content-Type: application/json, Accept-Language: en}
+ Body: null
+ QueryParams: {offset: 0, limit: 10, search: test}
+W/IInputConnectionWrapper( 5931): getTextAfterCursor on inactive InputConnection
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ ❌❌ Request Failed (500) ❌❌
+ {
+      "type": "server_error",
+      "errors": [
+           {
+                "code": "error",
+                "detail": "Unsupported lookup 'icontains' for ForeignKey or join on the field not permitted.",
+                "attr": null
+           }
+      ]
+ }
+==================================================================================
 ==================================================================================
 ==================================================================================
 

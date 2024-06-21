@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/size_config.dart';
+import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/models/car_service_model.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
@@ -17,6 +18,9 @@ import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/car_info_item.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
 import 'package:xperience/view/widgets/car_feature_border_item.dart';
+import 'package:xperience/view/widgets/components/main_progress.dart';
+import 'package:xperience/view/widgets/components/text_expansion.dart';
+import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 
 class CarDetailsScreen extends StatelessWidget {
   const CarDetailsScreen({this.carService, Key? key}) : super(key: key);
@@ -25,9 +29,12 @@ class CarDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<CarDetailsViewModel>(
+      initState: (model) {
+        model.getCarServiceById(carService?.id ?? -1);
+      },
       model: CarDetailsViewModel(
         auth: Provider.of<AuthService>(context),
-        carService: carService,
+        carsRepo: Provider.of<CarsServiceRepo>(context),
       ),
       builder: (_, model, child) {
         return Scaffold(
@@ -35,205 +42,213 @@ class CarDetailsScreen extends StatelessWidget {
             // title: const Text("GLA 250 SUV"),
             title: Text(carService?.model ?? ""),
           ),
-          body: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(0),
-            child: SingleChildScrollView(
-              // physics: const BouncingScrollPhysics(),
-              physics: const RangeMaintainingScrollPhysics(),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(width: double.infinity),
-                  InkWell(
-                    child: SizedBox(
-                      height: 0.25.h,
-                      width: double.infinity,
-                      child: PanoramaViewer(
-                        // child: Image.asset("assets/images/panorama_image.jpg"),
-                        child: Image.network(
-                          // "https://gc.360-data.com/tours/M-k_nsFh14dU/M-k_nsFh14dU-LbX_CN6G8T-thumb.jpg",
-                          // "https://t3.ftcdn.net/jpg/03/82/44/22/360_F_382442286_tfcS8WLlnrRDhTASaWd5yVxxyJQktpBc.jpg",
-                          "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg",
+          body: model.isBusy
+              ? const MainProgress()
+              : Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(0),
+                  child: SingleChildScrollView(
+                    // physics: const BouncingScrollPhysics(),
+                    physics: const RangeMaintainingScrollPhysics(),
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(width: double.infinity),
+                        InkWell(
+                          child: SizedBox(
+                            height: 0.25.h,
+                            width: double.infinity,
+                            child: PanoramaViewer(
+                              // child: Image.asset("assets/images/panorama_image.jpg"),
+                              child: Image.network(
+                                // "https://gc.360-data.com/tours/M-k_nsFh14dU/M-k_nsFh14dU-LbX_CN6G8T-thumb.jpg",
+                                // "https://t3.ftcdn.net/jpg/03/82/44/22/360_F_382442286_tfcS8WLlnrRDhTASaWd5yVxxyJQktpBc.jpg",
+                                "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg",
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            NavService().pushKey(
+                              const PanoramaPreviewScreen(imageUrl: "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg"),
+                            );
+                          },
                         ),
-                      ),
-                    ),
-                    onTap: () {
-                      NavService().pushKey(
-                        const PanoramaPreviewScreen(imageUrl: "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg"),
-                      );
-                    },
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    decoration: const BoxDecoration(
-                      color: AppColors.primaryColorLight,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                    ),
-                    child: const MainImage.network(
-                      imagePath:
-                          "https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/695deff6-4f71-47aa-803f-661efa168c87/7dd59989-82ce-4b6b-80bf-20f4bb2f7381.png",
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  // Expanded(
-                  //   child: SingleChildScrollView(
-                  // physics: const BouncingScrollPhysics(),
-                  Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                          decoration: const BoxDecoration(
+                            color: AppColors.primaryColorLight,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                            ),
+                          ),
+                          child: const MainImage.network(
+                            imagePath:
+                                "https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/695deff6-4f71-47aa-803f-661efa168c87/7dd59989-82ce-4b6b-80bf-20f4bb2f7381.png",
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        // Expanded(
+                        //   child: SingleChildScrollView(
+                        // physics: const BouncingScrollPhysics(),
+                        Column(
                           children: [
-                            Text(
-                              // "GLA 250 SUV",
-                              carService?.model ?? "-",
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              // "Mercedes",
-                              carService?.make ?? "-",
-                              style: const TextStyle(color: AppColors.greyText, fontSize: 14),
-                            ),
                             const SizedBox(height: 20),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CarInfoItem(
-                                    title: "Make".localize(context),
-                                    // value: "Mercedes",
-                                    value: carService?.make ?? "-",
+                                  Text(
+                                    // "GLA 250 SUV",
+                                    carService?.model ?? "-",
+                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                                   ),
-                                  CarInfoItem(
-                                    title: "Model".localize(context),
-                                    // value: "GLA 250",
-                                    value: carService?.model ?? "-",
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    // "Mercedes",
+                                    carService?.make ?? "-",
+                                    style: const TextStyle(color: AppColors.greyText, fontSize: 14),
                                   ),
-                                  CarInfoItem(
-                                    title: "Year".localize(context),
-                                    // value: "2020",
-                                    value: "${carService?.year ?? "-"}",
+                                  const SizedBox(height: 0),
+                                  TextExpansion(
+                                    // text: "dasdasd dasdas  d dasdasd dasdasdasd das" * 5,
+                                    text: carService?.description ?? "",
+                                    maxLines: 1,
                                   ),
-                                  CarInfoItem(
-                                    title: "Color".localize(context),
-                                    // value: "Black",
-                                    value: carService?.color ?? "-",
+                                  const SizedBox(height: 20),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        CarInfoItem(
+                                          title: "Make".localize(context),
+                                          // value: "Mercedes",
+                                          value: carService?.make ?? "-",
+                                        ),
+                                        CarInfoItem(
+                                          title: "Model".localize(context),
+                                          // value: "GLA 250",
+                                          value: carService?.model ?? "-",
+                                        ),
+                                        CarInfoItem(
+                                          title: "Year".localize(context),
+                                          // value: "2020",
+                                          value: "${carService?.year ?? "-"}",
+                                        ),
+                                        CarInfoItem(
+                                          title: "Color".localize(context),
+                                          // value: "Black",
+                                          value: carService?.color ?? "-",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  const Text(
+                                    "Features",
+                                    style: TextStyle(fontSize: 16),
+                                  ).localize(context),
+                                  const SizedBox(height: 10),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        CarFeatureBoarderItem(
+                                          icon: "assets/svgs/ic_car.svg",
+                                          title: "Type".localize(context),
+                                          // value: "SUV",
+                                          value: carService?.type ?? "",
+                                        ),
+                                        const SizedBox(width: 10),
+                                        CarFeatureBoarderItem(
+                                          icon: "assets/svgs/ic_people.svg",
+                                          title: "Capacity".localize(context),
+                                          // value: "6 People",
+                                          value: "${carService?.numberOfSeats} ${"Seats".localize(context)}",
+                                        ),
+                                        const SizedBox(width: 10),
+                                        if (carService?.cool ?? false)
+                                          CarFeatureBoarderItem(
+                                            icon: "assets/svgs/ic_cool_seat.svg",
+                                            title: "Cool Seat".localize(context),
+                                            // value: "Temp Control on seat",
+                                            value: "Cool",
+                                          ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
                             const SizedBox(height: 20),
-                            const Text(
-                              "Features",
-                              style: TextStyle(fontSize: 16),
-                            ).localize(context),
-                            const SizedBox(height: 10),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
+                            Container(
+                              width: double.infinity,
+                              margin: const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryColorLight,
+                                // color: const Color(0xFF292d4a),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: AppColors.grey, width: 0.5),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CarFeatureBoarderItem(
-                                    icon: "assets/svgs/ic_car.svg",
-                                    title: "Type".localize(context),
-                                    // value: "SUV",
-                                    value: carService?.type ?? "",
-                                  ),
-                                  const SizedBox(width: 10),
-                                  CarFeatureBoarderItem(
-                                    icon: "assets/svgs/ic_people.svg",
-                                    title: "Capacity".localize(context),
-                                    // value: "6 People",
-                                    value: "${carService?.numberOfSeats} ${"Seats".localize(context)}",
-                                  ),
-                                  const SizedBox(width: 10),
-                                  if (carService?.cool ?? false)
-                                    CarFeatureBoarderItem(
-                                      icon: "assets/svgs/ic_cool_seat.svg",
-                                      title: "Cool Seat".localize(context),
-                                      // value: "Temp Control on seat",
-                                      value: "Cool",
+                                  const Text("Choose your plan").localize(context),
+                                  const SizedBox(height: 20),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: model.plansList.map((e) {
+                                        bool isSelected = model.selectedPlan == e;
+                                        return InkWell(
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                                            decoration: BoxDecoration(
+                                              color: isSelected ? AppColors.selectedColor : null,
+                                              borderRadius: BorderRadius.circular(10),
+                                              border: Border.all(color: AppColors.grey, width: 0.5),
+                                            ),
+                                            child: Text(
+                                              e,
+                                              style: const TextStyle(fontSize: 12),
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            model.selectedPlan = e;
+                                            model.setState();
+                                          },
+                                        );
+                                      }).toList(),
                                     ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  const Text(
+                                    "Get your best ride without time limitation",
+                                    style: TextStyle(color: AppColors.grey, fontSize: 12),
+                                  ).localize(context),
+                                  const SizedBox(height: 20),
+                                  Center(
+                                    child: BookNowButton(
+                                      title: "BOOK YOUR TRIP".localize(context),
+                                      onPressed: model.goToBooking,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryColorLight,
-                          // color: const Color(0xFF292d4a),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.grey, width: 0.5),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("Choose your plan").localize(context),
-                            const SizedBox(height: 20),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: model.plansList.map((e) {
-                                  bool isSelected = model.selectedPlan == e;
-                                  return InkWell(
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-                                      decoration: BoxDecoration(
-                                        color: isSelected ? AppColors.selectedColor : null,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(color: AppColors.grey, width: 0.5),
-                                      ),
-                                      child: Text(
-                                        e,
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      model.selectedPlan = e;
-                                      model.setState();
-                                    },
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              "Get your best ride without time limitation",
-                              style: TextStyle(color: AppColors.grey, fontSize: 12),
-                            ).localize(context),
-                            const SizedBox(height: 20),
-                            Center(
-                              child: BookNowButton(
-                                title: "BOOK YOUR TRIP".localize(context),
-                                onPressed: model.goToBooking,
-                              ),
-                            ),
                             const SizedBox(height: 20),
                           ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
         );
       },
     );
@@ -241,9 +256,11 @@ class CarDetailsScreen extends StatelessWidget {
 }
 
 class CarDetailsViewModel extends BaseNotifier {
-  CarDetailsViewModel({required this.auth, this.carService});
+  CarDetailsViewModel({required this.auth, required this.carsRepo});
   final AuthService auth;
-  final CarServiceModel? carService;
+  final CarsServiceRepo carsRepo;
+
+  CarServiceModel? carServiceModel;
 
   String selectedPlan = "RIDE";
   List<String> plansList = [
@@ -252,6 +269,19 @@ class CarDetailsViewModel extends BaseNotifier {
     "AIRPORT",
   ];
 
+  Future<void> getCarServiceById(int carSerId) async {
+    setBusy();
+    var res = await carsRepo.getCarServiceById(carServiceId: carSerId);
+    if (res.left != null) {
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
+    } else {
+      carServiceModel = res.right;
+      setIdle();
+    }
+  }
+
   void goToBooking() {
     if (auth.isLogged) {
       if ((auth.userModel?.user?.email ?? "") == "") {
@@ -259,7 +289,7 @@ class CarDetailsViewModel extends BaseNotifier {
       } else {
         NavService().pushKey(CarBookingScreen(
           planType: selectedPlan,
-          carServiceId: carService?.id ?? -1,
+          carServiceId: carServiceModel?.id ?? -1,
         ));
       }
     } else {

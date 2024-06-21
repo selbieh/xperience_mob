@@ -567,7 +567,7 @@ class CarBookingViewModel extends BaseNotifier {
     }
   }
 
-  Map<String, dynamic> generatebookingBody() {
+  Map<String, dynamic> generateCarBookingBody() {
     selectedDate = DateTime(
       selectedDate!.year,
       selectedDate!.month,
@@ -624,7 +624,7 @@ class CarBookingViewModel extends BaseNotifier {
       bookingLoading = true;
       setState();
       var res = await carsRepo.bookingCarService(
-        body: generatebookingBody(),
+        body: generateCarBookingBody(),
       );
       bookingLoading = false;
       if (res.left != null) {
