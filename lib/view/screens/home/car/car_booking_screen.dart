@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
@@ -126,7 +127,13 @@ class CarBookingScreen extends StatelessWidget {
                                         hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                                         isReadOnly: true,
                                         borderWidth: 0.5,
-                                        onTap: () {},
+                                        onTap: () async {
+                                          LatLng? latLng = await PickerHelper.getLocationPicker(context, targetLatLng: model.pickupLatLng);
+                                          if (latLng != null) {
+                                            model.pickupLatLng = latLng;
+                                            model.pickUpDateController.text = "Change pickup location".tr();
+                                          }
+                                        },
                                       ),
                                       const SizedBox(height: 10),
                                       const Text(
@@ -134,13 +141,19 @@ class CarBookingScreen extends StatelessWidget {
                                         style: TextStyle(color: AppColors.grey),
                                       ).localize(context),
                                       MainTextField(
-                                        controller: model.pickUpDateController,
+                                        controller: model.dropOffLocationController,
                                         validator: Validator.required,
                                         hint: "Drop-off Location".localize(context),
                                         hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                                         isReadOnly: true,
                                         borderWidth: 0.5,
-                                        onTap: () {},
+                                        onTap: () async {
+                                          LatLng? latLng = await PickerHelper.getLocationPicker(context, targetLatLng: model.dropOffLatLng);
+                                          if (latLng != null) {
+                                            model.dropOffLatLng = latLng;
+                                            model.dropOffLocationController.text = "Change drop off location".tr();
+                                          }
+                                        },
                                       ),
                                     ],
                                   ),
@@ -448,6 +461,10 @@ class CarBookingViewModel extends BaseNotifier {
 
   final formKey = GlobalKey<FormState>();
   var autovalidateMode = AutovalidateMode.disabled;
+  final pickUpLocationController = TextEditingController();
+  final dropOffLocationController = TextEditingController();
+  LatLng? pickupLatLng;
+  LatLng? dropOffLatLng;
   final pickUpDateController = TextEditingController();
   final pickUpTimeController = TextEditingController();
   final extrasController = TextEditingController();
@@ -488,6 +505,10 @@ class CarBookingViewModel extends BaseNotifier {
     selectedTime = null;
     pickUpDateController.clear();
     pickUpTimeController.clear();
+    pickUpLocationController.clear();
+    dropOffLocationController.clear();
+    pickupLatLng = null;
+    dropOffLatLng = null;
     extrasController.clear();
     setState();
   }
@@ -598,12 +619,18 @@ class CarBookingViewModel extends BaseNotifier {
           "car_service_id": carServiceId,
           // "pickup_time": "2023-06-15T15:00:00Z",
           "pickup_time": "${selectedDate?.toUtc().toIso8601String()}",
-          "pickup_address": "Giza, 6th of october city",
-          "pickup_lat": 29.970402,
-          "pickup_long": 30.952246,
-          "dropoff_address": "Cairo, tahrir square",
-          "dropoff_lat": 30.044318,
-          "dropoff_long": 31.235752,
+          // "pickup_address": "Giza, 6th of october city",
+          // "pickup_lat": 29.970402,
+          // "pickup_long": 30.952246,
+          // "dropoff_address": "Cairo, tahrir square",
+          // "dropoff_lat": 30.044318,
+          // "dropoff_long": 31.235752,
+          "pickup_address": "test",
+          "dropoff_address": "test",
+          "pickup_lat": pickupLatLng?.latitude,
+          "pickup_long": pickupLatLng?.longitude,
+          "dropoff_lat": dropOffLatLng?.latitude,
+          "dropoff_long": dropOffLatLng?.longitude,
           // "terminal": "",
           // "flight_number": "",
           "extras": extrasController.text,

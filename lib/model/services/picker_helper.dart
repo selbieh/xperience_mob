@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
 
 class PickerHelper {
   static Future<TimeOfDay?> getTimePicker(
@@ -78,5 +81,63 @@ class PickerHelper {
       },
     );
     return dateTimeRange;
+  }
+
+
+  ///==================================================================================
+  ///================================================================== Location Picker
+  static Future<LatLng?> getLocationPicker(BuildContext context, {LatLng? targetLatLng}) async {
+    List<Marker> markers = [];
+    LatLng? latLng = await showDialog(
+      context: (context),
+      builder: (context) {
+        if (targetLatLng != null) {
+          markers.add(Marker(markerId: const MarkerId('MarkerID'), position: targetLatLng!));
+        }
+        return StatefulBuilder(
+          builder: (context, newSetState) {
+            return Dialog(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.75,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: GoogleMap(
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: true,
+                        initialCameraPosition: CameraPosition(
+                          target: targetLatLng ?? const LatLng(30.043241, 31.239521),
+                          zoom: 7,
+                        ),
+                        markers: markers.toSet(),
+                        onTap: (value) {
+                          newSetState(() {
+                            markers.clear();
+                            markers.add(
+                              Marker(markerId: const MarkerId('MarkerID'), position: value),
+                            );
+                          });
+                          targetLatLng = value;
+                        },
+                      ),
+                    ),
+                    MainButton(
+                      height: 45,
+                      width: double.infinity,
+                      radius: 0,
+                      title: "Ok".localize(context),
+                      onPressed: () {
+                        Navigator.of(context).pop(targetLatLng);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+    return latLng;
   }
 }

@@ -5,6 +5,8 @@ class AppConst {
   static const String packageName = "com.codemaker.xperience";
   static const String bundleIdentifier = "com.codemaker.xperience";
 
+  // -------------------------------------------------------------------------------- Keys
+
   // -------------------------------------------------------------------------------- Others
   static const String defaultError = "Something went wrong.";
 

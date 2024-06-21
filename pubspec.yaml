@@ -67,6 +67,10 @@ dependencies:
   # ========================== Network
   http: ^1.2.0
 
+  # ========================== Maps
+  # google_maps_flutter: ^2.7.0
+  google_maps_flutter: ^2.5.3
+
   # ========================== Firebase
   # firebase_core: ^3.0.0
   # firebase_messaging: ^15.0.0
