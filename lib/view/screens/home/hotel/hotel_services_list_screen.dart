@@ -78,7 +78,7 @@ class HotelServicesListScreen extends StatelessWidget {
                     ),
                     MainTextField(
                       controller: model.checkInOutController,
-                      hint: "check-in date - check-out date".localize(context),
+                      hint: "Check-in date - Check-out date".localize(context),
                       hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                       isReadOnly: true,
                       borderWidth: 0.5,
@@ -135,7 +135,10 @@ class HotelServicesListScreen extends StatelessWidget {
                     ),
                     // const SizedBox(height: 10),
                     model.isBusy
-                        ? const MainProgress()
+                        ? const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: MainProgress(),
+                          )
                         : ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -145,7 +148,7 @@ class HotelServicesListScreen extends StatelessWidget {
                               return HotelServiceItemWidget(
                                 hotelService: item,
                                 onPressed: () {
-                                  NavService().pushKey(const HotelDetailsScreen());
+                                  NavService().pushKey(HotelDetailsScreen(hotelService: item));
                                 },
                               );
                             },

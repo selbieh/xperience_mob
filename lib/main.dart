@@ -335,4 +335,28 @@ W/IInputConnectionWrapper( 5931): getTextAfterCursor on inactive InputConnection
 ==================================================================================
 ==================================================================================
 
+
+
+               "user": 3,
+               "car_reservations": [],
+               "hotel_reservations": [
+                    {
+                         "id": 2,
+                         "hotel_service": {
+                              "id": 2,
+                              "name": "Hurghada hotel",
+                              "address": "Hurghada"
+                         },
+                         "check_in_date": "2024-07-03",
+                         "check_out_date": "2024-07-05",
+                         "extras": "2 beds",
+                         "final_price": "2000.00",
+                         "options": [
+                               {
+                                  "service_option": 3,
+                                  "quantity": 2
+                             }
+                         ]
+                    }
+               ],
 */

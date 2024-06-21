@@ -40,7 +40,7 @@ class CarDetailsScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             // title: const Text("GLA 250 SUV"),
-            title: Text(carService?.model ?? ""),
+            title: Text(model.carServiceModel?.model ?? ""),
           ),
           body: model.isBusy
               ? const MainProgress()
@@ -103,19 +103,19 @@ class CarDetailsScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     // "GLA 250 SUV",
-                                    carService?.model ?? "-",
+                                    model.carServiceModel?.model ?? "-",
                                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
                                     // "Mercedes",
-                                    carService?.make ?? "-",
+                                    model.carServiceModel?.make ?? "-",
                                     style: const TextStyle(color: AppColors.greyText, fontSize: 14),
                                   ),
-                                  const SizedBox(height: 0),
+                                  const SizedBox(height: 20),
                                   TextExpansion(
                                     // text: "dasdasd dasdas  d dasdasd dasdasdasd das" * 5,
-                                    text: carService?.description ?? "",
+                                    text: model.carServiceModel?.description ?? "",
                                     maxLines: 1,
                                   ),
                                   const SizedBox(height: 20),
@@ -131,7 +131,7 @@ class CarDetailsScreen extends StatelessWidget {
                                         CarInfoItem(
                                           title: "Model".localize(context),
                                           // value: "GLA 250",
-                                          value: carService?.model ?? "-",
+                                          value: model.carServiceModel?.model ?? "-",
                                         ),
                                         CarInfoItem(
                                           title: "Year".localize(context),

@@ -1,10 +1,11 @@
 class ReservationModel {
   int? id;
   int? user;
-  List<ReservationData>? carReservations;
-  List<ReservationData>? hotelReservations;
+  List<CarReservationData>? carReservations;
+  List<HotelReservationData>? hotelReservations;
   CreatedBy? createdBy;
   String? status;
+  String? createdAt;
 
   ReservationModel({
     this.id,
@@ -13,6 +14,7 @@ class ReservationModel {
     this.hotelReservations,
     this.createdBy,
     this.status,
+    this.createdAt,
   });
 
   static ReservationModel fromJsonModel(Object? json) => ReservationModel.fromJson(json as Map<String, dynamic>);
@@ -21,19 +23,20 @@ class ReservationModel {
     id = json['id'];
     user = json['user'];
     if (json['car_reservations'] != null) {
-      carReservations = <ReservationData>[];
+      carReservations = <CarReservationData>[];
       json['car_reservations'].forEach((v) {
-        carReservations!.add(ReservationData.fromJson(v));
+        carReservations!.add(CarReservationData.fromJson(v));
       });
     }
     if (json['hotel_reservations'] != null) {
-      hotelReservations = <ReservationData>[];
+      hotelReservations = <HotelReservationData>[];
       json['hotel_reservations'].forEach((v) {
-        hotelReservations!.add(ReservationData.fromJson(v));
+        hotelReservations!.add(HotelReservationData.fromJson(v));
       });
     }
     createdBy = json['created_by'] != null ? CreatedBy.fromJson(json['created_by']) : null;
     status = json['status'];
+    createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,11 +53,12 @@ class ReservationModel {
       data['created_by'] = createdBy!.toJson();
     }
     data['status'] = status;
+    data['created_at'] = createdAt;
     return data;
   }
 }
 
-class ReservationData {
+class CarReservationData {
   int? id;
   CarService? carService;
   String? pickupTime;
@@ -73,7 +77,7 @@ class ReservationData {
   int? subscriptionOption;
   List<String>? options;
 
-  ReservationData({
+  CarReservationData({
     this.id,
     this.carService,
     this.pickupTime,
@@ -93,7 +97,7 @@ class ReservationData {
     this.options,
   });
 
-  ReservationData.fromJson(Map<String, dynamic> json) {
+  CarReservationData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     // carService = json['car_service'];
     carService = json['car_service'] != null ? CarService.fromJson(json['car_service']) : null;
@@ -205,6 +209,90 @@ class CarService {
     data['number_of_seats'] = numberOfSeats;
     data['year'] = year;
     data['type'] = type;
+    return data;
+  }
+}
+
+class HotelReservationData {
+  int? id;
+  HotelService? hotelService;
+  String? checkInDate;
+  String? checkOutDate;
+  String? extras;
+  String? finalPrice;
+  List<HotelOptions>? options;
+
+  HotelReservationData({this.id, this.hotelService, this.checkInDate, this.checkOutDate, this.extras, this.finalPrice, this.options});
+
+  HotelReservationData.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    hotelService = json['hotel_service'] != null ? HotelService.fromJson(json['hotel_service']) : null;
+    checkInDate = json['check_in_date'];
+    checkOutDate = json['check_out_date'];
+    extras = json['extras'];
+    finalPrice = json['final_price'];
+    if (json['options'] != null) {
+      options = <HotelOptions>[];
+      json['options'].forEach((v) {
+        options!.add(HotelOptions.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    if (hotelService != null) {
+      data['hotel_service'] = hotelService!.toJson();
+    }
+    data['check_in_date'] = checkInDate;
+    data['check_out_date'] = checkOutDate;
+    data['extras'] = extras;
+    data['final_price'] = finalPrice;
+    if (options != null) {
+      data['options'] = options!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class HotelService {
+  int? id;
+  String? name;
+  String? address;
+
+  HotelService({this.id, this.name, this.address});
+
+  HotelService.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    address = json['address'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['address'] = address;
+    return data;
+  }
+}
+
+class HotelOptions {
+  int? serviceOption;
+  int? quantity;
+
+  HotelOptions({this.serviceOption, this.quantity});
+
+  HotelOptions.fromJson(Map<String, dynamic> json) {
+    serviceOption = json['service_option'];
+    quantity = json['quantity'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['service_option'] = serviceOption;
+    data['quantity'] = quantity;
     return data;
   }
 }

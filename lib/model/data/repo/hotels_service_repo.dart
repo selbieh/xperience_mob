@@ -11,6 +11,22 @@ class HotelsServiceRepo extends ChangeNotifier {
   int _pageOffset = 0;
   final int _pageLimit = 10;
 
+
+  Future<Either<AppFailure, HotelServiceModel>> getHotelServiceById({
+    required int carServiceId,
+  }) async {
+    try {
+      var res = await HotelsServicesDataSource.getHotelServiceById(serviceId: carServiceId);
+      if (res.left != null) {
+        return Either(left: res.left);
+      } else {
+        return Either(right: res.right);
+      }
+    } catch (e) {
+      return Either(left: AppFailure(message: e.toString()));
+    }
+  }
+
   Future<Either<AppFailure, PaginationModel<HotelServiceModel>>> getHotelsServices() async {
     try {
       if (hotelsServicesPaginated == null) {

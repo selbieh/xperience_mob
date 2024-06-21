@@ -8,6 +8,26 @@ import 'package:xperience/model/services/api/headers.dart';
 import 'package:xperience/model/services/api/http_service.dart';
 
 class HotelsServicesDataSource {
+  static Future<Either<AppFailure, HotelServiceModel>> getHotelServiceById({
+    required int serviceId,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: "${EndPoints.hotelServices}$serviceId/",
+        requestType: RequestType.get,
+        header: Headers.guestHeader,
+      );
+      if (res.right != null) {
+        final resData = HotelServiceModel.fromJson(res.right);
+        return Either(right: resData);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
+
   static Future<Either<AppFailure, PaginationModel<HotelServiceModel>>> getHotelsServices({
     Map<String, String>? queryParams,
   }) async {

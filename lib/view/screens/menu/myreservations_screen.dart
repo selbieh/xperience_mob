@@ -20,9 +20,11 @@ class MyReservationsScreen extends StatelessWidget {
       ),
       initState: (model) {
         model.initScrollController();
-        if ((model.reservationRepo.reservationsPaginated?.results ?? []).isEmpty) {
-          model.getCarServices();
-        }
+        // if ((model.reservationRepo.reservationsPaginated?.results ?? []).isEmpty) {
+        //   model.getCarServices();
+        // }
+        model.reservationRepo.reservationsPaginated = null;
+        model.getCarServices();
       },
       builder: (_, model, child) {
         return Scaffold(

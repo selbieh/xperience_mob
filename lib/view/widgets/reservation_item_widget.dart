@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:xperience/model/models/car_service_model.dart';
+import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/models/reservation_model.dart';
+import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
+import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/home/car/car_details_screen.dart';
+import 'package:xperience/view/screens/home/hotel/hotel_details_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 
 class ReservationItemWidget extends StatelessWidget {
@@ -34,9 +40,10 @@ class ReservationItemWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "5/19/2024 - 11:12PM",
-                      style: TextStyle(fontSize: 11, color: AppColors.greyText),
+                    Text(
+                      // "5/19/2024 - 11:12PM",
+                      "${FormatHelper.formatStringDateTime(reservationItem?.createdAt ?? "", pattern: "d/M/yyyy - h:mma")}",
+                      style: const TextStyle(fontSize: 11, color: AppColors.greyText),
                     ),
                     Text(
                       // "Done",
@@ -53,8 +60,12 @@ class ReservationItemWidget extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   isCarBooking
-                      ? "${reservationItem?.carReservations?[0].carService?.model ?? ""} ${reservationItem?.carReservations?[0].carService?.type ?? ""}  - ${reservationItem?.carReservations?[0].carService?.make ?? ""}"
-                      : "Ain Sokhna - Eastern El-Galala Aquapark ",
+                      ? (reservationItem?.carReservations ?? []).isNotEmpty
+                          ? "${reservationItem?.carReservations?[0].carService?.model ?? ""} ${reservationItem?.carReservations?[0].carService?.type ?? ""}  - ${reservationItem?.carReservations?[0].carService?.make ?? ""}"
+                          : "-"
+                      : (reservationItem?.hotelReservations ?? []).isNotEmpty
+                          ? "${reservationItem?.hotelReservations?[0].hotelService?.name ?? ""} "
+                          : "-",
                   style: const TextStyle(fontSize: 12, color: AppColors.greyText),
                 ),
                 const SizedBox(height: 10),
@@ -63,7 +74,13 @@ class ReservationItemWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "${reservationItem?.carReservations?[0].finalPrice} ${"EGP".localize(context)}",
+                        isCarBooking
+                            ? (reservationItem?.carReservations ?? []).isNotEmpty
+                                ? "${reservationItem?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                                : "-"
+                            : (reservationItem?.hotelReservations ?? []).isNotEmpty
+                                ? "${reservationItem?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                                : "-",
                         style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.greyText,
@@ -71,10 +88,25 @@ class ReservationItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    BookNowButton(
-                      title: "BOOK AGAIN".localize(context),
-                      onPressed: () {},
-                    ),
+                    if ((reservationItem?.carReservations ?? []).isNotEmpty || (reservationItem?.hotelReservations ?? []).isNotEmpty)
+                      BookNowButton(
+                        title: "BOOK AGAIN".localize(context),
+                        onPressed: () {
+                          if (isCarBooking) {
+                            NavService().pushKey(
+                              CarDetailsScreen(
+                                carService: CarServiceModel(id: reservationItem?.carReservations?[0].carService?.id ?? -1),
+                              ),
+                            );
+                          } else {
+                            NavService().pushKey(
+                              HotelDetailsScreen(
+                                hotelService: HotelServiceModel(id: reservationItem?.hotelReservations?[0].hotelService?.id ?? -1),
+                              ),
+                            );
+                          }
+                        },
+                      ),
                   ],
                 ),
               ],
