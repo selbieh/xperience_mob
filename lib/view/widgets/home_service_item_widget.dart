@@ -25,23 +25,17 @@ class HomeServiceItemWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.goldColor),
+          // border: Border.all(color: AppColors.goldColor),
         ),
         child: Stack(
           alignment: AlignmentDirectional.bottomStart,
           children: [
-            // MainImage.network(
-            //   imagePath: imageUrl,
-            //   height: 0.50.h,
-            //   width: 0.75.w,
-            //   fit: BoxFit.cover,
-            //   radius: 10,
-            // ),
             MainImage.asset(
               imagePath: imageUrl,
               height: 0.50.h,
               width: 0.75.w,
-              fit: BoxFit.cover,
+              // fit: BoxFit.cover,
+              fit: BoxFit.fill,
               radius: 10,
             ),
             Container(

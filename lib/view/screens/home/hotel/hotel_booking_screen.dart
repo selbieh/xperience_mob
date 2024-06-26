@@ -15,6 +15,7 @@ import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
@@ -435,7 +436,8 @@ class HotelBookingViewModel extends BaseNotifier {
         setError();
       } else {
         reservationBookingModel = res.right;
-        NavService().popKey();
+        // NavService().popKey();
+        NavService().popUntilKey(settings: const RouteSettings(name: RouteNames.mainScreen));
         setIdle();
       }
     } catch (e) {

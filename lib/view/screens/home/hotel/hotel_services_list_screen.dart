@@ -49,7 +49,7 @@ class HotelServicesListScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                 controller: model.scrollController,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

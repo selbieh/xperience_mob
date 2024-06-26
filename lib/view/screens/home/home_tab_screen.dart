@@ -8,6 +8,7 @@ import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/home/Ultimate/ultimate_start_screen.dart';
 import 'package:xperience/view/screens/home/car/cars_services_list_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_services_list_screen.dart';
 import 'package:xperience/view/screens/menu/notifications_screen.dart';
@@ -95,7 +96,8 @@ class HomeTabScreen extends StatelessWidget {
                               title: "Car Experience".localize(context),
                               subtitle: "Book A Ride!".localize(context),
                               // imageUrl: "https://japan-land-service.com/wp-content/uploads/2019/02/AdobeStock_180552191-2-478x360.jpg",
-                              imageUrl: "assets/images/car_exp.jpeg",
+                              // imageUrl: "assets/images/car_exp.jpeg",
+                              imageUrl: "assets/images/service_1.png",
                               onTap: () {
                                 NavService().pushKey(
                                   const CarsServicesListScreen(),
@@ -108,11 +110,26 @@ class HomeTabScreen extends StatelessWidget {
                               title: "Hotel Experience".localize(context),
                               subtitle: "Book An Hotel Apartment".localize(context),
                               // imageUrl: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iyix1OYhVxdA/v2/-1x-1.jpg",
-                              imageUrl: "assets/images/hotel_exp.jpeg",
+                              // imageUrl: "assets/images/hotel_exp.jpeg",
+                              imageUrl: "assets/images/service_2.png",
                               onTap: () {
                                 NavService().pushKey(
                                   const HotelServicesListScreen(),
                                   settings: const RouteSettings(name: RouteNames.hotelExperience),
+                                );
+                              },
+                            ),
+                            const SizedBox(width: 20),
+                            HomeServiceItemWidget(
+                              title: "Ultimate Experience".localize(context),
+                              subtitle: "Book Fully Service!".localize(context),
+                              // imageUrl: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iyix1OYhVxdA/v2/-1x-1.jpg",
+                              // imageUrl: "assets/images/hotel_exp.jpeg",
+                              imageUrl: "assets/images/service_3.png",
+                              onTap: () {
+                                NavService().pushKey(
+                                  const UltimateStartScreen(),
+                                  settings: const RouteSettings(name: RouteNames.ultimateExperience),
                                 );
                               },
                             ),

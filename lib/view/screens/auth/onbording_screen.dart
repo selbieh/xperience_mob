@@ -3,6 +3,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/shared_preference.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/main_screen.dart';
@@ -29,7 +30,7 @@ class OnboardingScreen extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   controller: model.pageController,
                   onPageChanged: model.onPageChanged,
-                  children:  [
+                  children: [
                     OnboardingPageItem(
                       imagePath: "assets/images/onboarding_2.jpg",
                       title: "Welcome to".localize(context),
@@ -40,14 +41,16 @@ class OnboardingScreen extends StatelessWidget {
                       imagePath: "assets/images/onboarding_3.jpeg",
                       title: "Find the".localize(context),
                       subtitle: "Perfect Ride".localize(context),
-                      description: "Explore our diverse range of cars, from compact city rides to spacious SUVs, ensuring we meet all your travel needs.".localize(context),
+                      description: "Explore our diverse range of cars, from compact city rides to spacious SUVs, ensuring we meet all your travel needs."
+                          .localize(context),
                     ),
                     OnboardingPageItem(
                       imagePath: "assets/images/onboarding_4.jpg",
                       title: "Your Home".localize(context),
                       subtitle: "Away From Home".localize(context),
                       description:
-                          "Discover a variety of hotels, from cozy boutiques to luxurious resorts, providing exceptional comfort and service for your next trip.".localize(context),
+                          "Discover a variety of hotels, from cozy boutiques to luxurious resorts, providing exceptional comfort and service for your next trip."
+                              .localize(context),
                     ),
                     OnboardingPageItem(
                       imagePath: "assets/images/onboarding_5.jpg",
@@ -63,7 +66,7 @@ class OnboardingScreen extends StatelessWidget {
                     buildPageIndicator(model),
                     const SizedBox(height: 50),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       child: Row(
                         children: [
                           if (model.currentPage != model.pageCount - 1)
@@ -85,13 +88,17 @@ class OnboardingScreen extends StatelessWidget {
                               title: model.currentPage == model.pageCount - 1 ? "START NOW".localize(context) : "Next".localize(context),
                               onPressed: () {
                                 if (model.currentPage == model.pageCount - 1) {
-                                  NavService().pushAndRemoveUntilKey(const MainScreen());
+                                  NavService().pushAndRemoveUntilKey(
+                                    const MainScreen(),
+                                    settings: const RouteSettings(name: RouteNames.mainScreen),
+                                  );
                                 } else {
                                   model.animateToPage(model.currentPage + 1);
                                 }
                               },
                             ),
                           ),
+                          // const SizedBox(height: 20),
                         ],
                       ),
                     ),

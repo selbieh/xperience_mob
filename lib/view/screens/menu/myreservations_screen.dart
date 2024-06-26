@@ -38,7 +38,7 @@ class MyReservationsScreen extends StatelessWidget {
                   color: AppColors.goldColor,
                   onRefresh: model.refreshCarServices,
                   child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                     controller: model.scrollController,
                     child: Column(
                       children: [

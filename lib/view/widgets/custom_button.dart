@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.goldColor),
+        border: Border.all(color: onPressed == null ? AppColors.grey : AppColors.goldColor),
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(

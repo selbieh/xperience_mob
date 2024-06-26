@@ -6,6 +6,7 @@ import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/notifications/firebase_notification_service.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/shared_preference.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -61,9 +62,15 @@ class SplashScreenViewModel extends BaseNotifier {
         NavService().pushReplacementKey(const OnboardingScreen());
       } else {
         if (auth.isLogged) {
-          NavService().pushReplacementKey(const MainScreen());
+          NavService().pushReplacementKey(
+            const MainScreen(),
+            settings: const RouteSettings(name: RouteNames.mainScreen),
+          );
         } else {
-          NavService().pushReplacementKey(const MainScreen());
+          NavService().pushReplacementKey(
+            const MainScreen(),
+            settings: const RouteSettings(name: RouteNames.mainScreen),
+          );
         }
       }
     });

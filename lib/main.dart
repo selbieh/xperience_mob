@@ -332,6 +332,22 @@ W/IInputConnectionWrapper( 5931): getTextAfterCursor on inactive InputConnection
       ]
  }
 ==================================================================================
+I/flutter (26420): ╔════════════════════════════════════════════════════════════════════════════════════════════════ ( loadUser 👤👤 ) 
+I/flutter (26420): ║ {
+I/flutter (26420): ║      "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcyMjk1MTMyMCwiaWF0IjoxNzE5MDYzMzIwLCJqdGkiOiI2NmUyMmExYjYzOTU0ZDc2OTIwOGM0MDZkYmVlZWRlOSIsInVzZXJfaWQiOjN9.crRipN20KvQmV-8jdMYeJw_NDmk0Fp9ineKITJ149Wc",
+I/flutter (26420): ║      "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIxNjU1MzIwLCJpYXQiOjE3MTkwNjMzMjAsImp0aSI6IjZhMGJhNDQ0ZDFlZDQ2OWRiZjQzMjM5YjlmYmZkZTU4IiwidXNlcl9pZCI6M30.xnRs_ifuZOB5tvHQyj3-JMNlTYyL0E-CK-NDTz-ru7c",
+I/flutter (26420): ║      "user": {
+I/flutter (26420): ║           "id": 3,
+I/flutter (26420): ║           "name": "ahmed2",
+I/flutter (26420): ║           "email": "ahmed2@test.com",
+I/flutter (26420): ║           "mobile": "+201009658566",
+I/flutter (26420): ║           "wallet": 0,
+I/flutter (26420): ║           "is_staff": false
+I/flutter (26420): ║      }
+I/flutter (26420): ║ }
+I/flutter (26420): ╚════════════════════════════════════════════════════════════════════════════════════════════════ 
+[log] FCM Token From Preference ---> c_Oa7_mWSSSqdz1-EgoYWW:APA91bEFiG4GBMcG3ZqWIIH9RsOfJ-zvU1OUX8VmMp4O_e2UNUbceP6PfAkkffAykArMSpbcaugFotlAHh3ME8FgxroFXqin2GqeZABcJrSP8hC7F2mNeUj8IRmRQN5JHi94gORuM9Pi
+==================================================================================
 ==================================================================================
 ==================================================================================
 
