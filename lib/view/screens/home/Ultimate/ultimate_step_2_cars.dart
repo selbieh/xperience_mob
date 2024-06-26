@@ -60,31 +60,35 @@ class UltimateStep2CarScreen extends StatelessWidget {
               // ),
               const SizedBox(height: 20),
               Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  controller: model.scrollController,
-                  child: Container(
-                    child: model.isBusy
-                        ? const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: MainProgress(),
-                          )
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: (model.carsRepo.carsServicesPaginated?.results ?? []).length,
-                            itemBuilder: (ctx, index) {
-                              var item = model.carsRepo.carsServicesPaginated?.results?[index];
-                              return UltimateCarServiceItemWidget(
-                                carService: item,
-                                groupValue: model.carGroupValueId,
-                                onChanged: (_) {
-                                  model.carGroupValueId = item?.id ?? 0;
-                                  model.setState();
-                                },
-                              );
-                            },
-                          ),
+                child: RefreshIndicator(
+                  color: AppColors.goldColor,
+                  onRefresh: model.refreshCarServices,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                    controller: model.scrollController,
+                    child: Container(
+                      child: model.isBusy
+                          ? const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: MainProgress(),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: (model.carsRepo.carsServicesPaginated?.results ?? []).length,
+                              itemBuilder: (ctx, index) {
+                                var item = model.carsRepo.carsServicesPaginated?.results?[index];
+                                return UltimateCarServiceItemWidget(
+                                  carService: item,
+                                  groupValue: model.carGroupValueId,
+                                  onChanged: (_) {
+                                    model.carGroupValueId = item?.id ?? 0;
+                                    model.setState();
+                                  },
+                                );
+                              },
+                            ),
+                    ),
                   ),
                 ),
               ),
@@ -93,7 +97,6 @@ class UltimateStep2CarScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 15),
                   child: MainProgress(),
                 ),
-              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: CustomButton(

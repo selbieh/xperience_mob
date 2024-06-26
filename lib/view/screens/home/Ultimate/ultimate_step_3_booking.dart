@@ -12,6 +12,7 @@ import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/models/service_options_model.dart';
 import 'package:xperience/model/models/subscription_option_model.dart';
+import 'package:xperience/model/services/app_messenger.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
@@ -59,7 +60,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
             actions: [
               MainButton(
                 type: ButtonType.text,
-                title: "Reset",
+                title: "Reset".localize(context),
                 color: AppColors.goldColor,
                 onPressed: () {
                   model.resetForm();
@@ -996,10 +997,14 @@ class CarBookingViewModel extends BaseNotifier {
         setError();
       } else {
         reservationBookingModel = res.right;
+        setIdle();
         // NavService().popKey();
         NavService().popUntilKey(settings: const RouteSettings(name: RouteNames.mainScreen));
-
-        setIdle();
+        AppMessenger.snackBar(
+          backgroundColor: Colors.green.shade800,
+          title: "Successfully".tr(),
+          message: "Your successfully created your booking".tr(),
+        );
       }
     } catch (e) {
       bookingLoading = false;

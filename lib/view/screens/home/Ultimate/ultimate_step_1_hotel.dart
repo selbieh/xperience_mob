@@ -4,10 +4,13 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/data/repo/hotels_service_repo.dart';
+import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/auth/login_screen.dart';
 import 'package:xperience/view/screens/home/Ultimate/ultimate_step_2_cars.dart';
+import 'package:xperience/view/screens/home/car/complete_info_screen.dart';
 import 'package:xperience/view/widgets/components/horizental_stepper.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
@@ -21,6 +24,7 @@ class UltimateStep1HotelScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget<UltimateStep1HotelViewModel>(
       model: UltimateStep1HotelViewModel(
+        auth: Provider.of<AuthService>(context),
         hotelsRepo: Provider.of<HotelsServiceRepo>(context),
       ),
       initState: (model) {
@@ -59,31 +63,35 @@ class UltimateStep1HotelScreen extends StatelessWidget {
               // ),
               const SizedBox(height: 20),
               Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  controller: model.scrollController,
-                  child: Container(
-                    child: model.isBusy
-                        ? const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: MainProgress(),
-                          )
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).length,
-                            itemBuilder: (ctx, index) {
-                              var item = model.hotelsRepo.hotelsServicesPaginated?.results?[index];
-                              return UltimateHotelServiceItemWidget(
-                                hotelService: item,
-                                groupValue: model.hotelGroupValueId,
-                                onChanged: (_) {
-                                  model.hotelGroupValueId = item?.id ?? 0;
-                                  model.setState();
-                                },
-                              );
-                            },
-                          ),
+                child: RefreshIndicator(
+                  color: AppColors.goldColor,
+                  onRefresh: model.refreshHotelServices,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                    controller: model.scrollController,
+                    child: Container(
+                      child: model.isBusy
+                          ? const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: MainProgress(),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).length,
+                              itemBuilder: (ctx, index) {
+                                var item = model.hotelsRepo.hotelsServicesPaginated?.results?[index];
+                                return UltimateHotelServiceItemWidget(
+                                  hotelService: item,
+                                  groupValue: model.hotelGroupValueId,
+                                  onChanged: (_) {
+                                    model.hotelGroupValueId = item?.id ?? 0;
+                                    model.setState();
+                                  },
+                                );
+                              },
+                            ),
+                    ),
                   ),
                 ),
               ),
@@ -96,13 +104,7 @@ class UltimateStep1HotelScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: CustomButton(
                   title: "NEXT".localize(context),
-                  onPressed: model.hotelGroupValueId == -1
-                      ? null
-                      : () {
-                          NavService().pushKey(
-                            UltimateStep2CarScreen(hotelServiceId: model.hotelGroupValueId),
-                          );
-                        },
+                  onPressed: model.hotelGroupValueId == -1 ? null : model.goToNext,
                 ),
               )
             ],
@@ -114,7 +116,8 @@ class UltimateStep1HotelScreen extends StatelessWidget {
 }
 
 class UltimateStep1HotelViewModel extends BaseNotifier {
-  UltimateStep1HotelViewModel({required this.hotelsRepo});
+  UltimateStep1HotelViewModel({required this.auth, required this.hotelsRepo});
+  final AuthService auth;
   final HotelsServiceRepo hotelsRepo;
 
   ScrollController scrollController = ScrollController();
@@ -130,6 +133,20 @@ class UltimateStep1HotelViewModel extends BaseNotifier {
         }
       }
     });
+  }
+
+  void goToNext() {
+    if (auth.isLogged) {
+      if ((auth.userModel?.user?.email ?? "") == "") {
+        NavService().pushKey(const CompleteInfoScreen()).then((value) => setState());
+      } else {
+        NavService().pushKey(
+          UltimateStep2CarScreen(hotelServiceId: hotelGroupValueId),
+        );
+      }
+    } else {
+      NavService().pushKey(const LoginScreen());
+    }
   }
 
   Future<void> refreshHotelServices() async {

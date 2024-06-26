@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/app_messenger.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/router/route_names.dart';
@@ -73,6 +74,11 @@ class CheckoutScreen extends StatelessWidget {
                   title: "CHECKOUT".localize(context),
                   onPressed: () {
                     NavService().popUntilKey(settings: const RouteSettings(name: RouteNames.carExperience));
+                    AppMessenger.snackBar(
+                      backgroundColor: Colors.green.shade800,
+                      title: "Successfully".tr(),
+                      message: "Your successfully created your booking".tr(),
+                    );
                   },
                 )
               ],

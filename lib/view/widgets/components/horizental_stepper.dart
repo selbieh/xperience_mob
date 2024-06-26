@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 
 class HorizentalStepper extends StatelessWidget {
@@ -37,7 +38,6 @@ class HorizentalStepper extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0),
             child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 stepsTitleList.length,
@@ -55,7 +55,6 @@ class HorizentalStepper extends StatelessWidget {
                         CustomPaint(
                           size: Size(stepLineWidth, 0),
                           painter: DashedLineHorizontalPainter(
-                            // isDashed: isNotCurrent ? !isActive : true,
                             isDashed: false,
                             color: isActive && isNotCurrent ? activeColor : disableColor,
                             strokeWidth: strokeWidth,
@@ -77,11 +76,6 @@ class HorizentalStepper extends StatelessWidget {
             children: List.generate(
               stepsTitleList.length,
               (index) {
-                // int currentIndex = stepsTitleList.indexOf(currentStep);
-                // bool isActive = currentIndex >= index;
-                // bool isNotCurrent = currentIndex != index;
-                // bool isLast = index == stepsTitleList.length - 1;
-                // Color pointColor = isActive ? activeColor : disableColor;
                 CrossAxisAlignment axisAlignment = index == 0
                     ? CrossAxisAlignment.start
                     : index == stepsTitleList.length - 1
@@ -94,18 +88,12 @@ class HorizentalStepper extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        stepsTitleList[index],
+                        stepsTitleList[index].localize(context),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 10,
                           color: AppColors.grey,
-                          // fontWeight: isActive ? FontWeight.bold : null,
-                          // color: isLast
-                          //     ? pointColor
-                          //     : isNotCurrent
-                          //         ? pointColor
-                          //         : currentStepColor,
                         ),
                       ),
                       if (stepsSubtitleList != null && stepsSubtitleList!.isNotEmpty && stepsSubtitleList!.length == stepsTitleList.length)
@@ -130,17 +118,10 @@ class HorizentalStepper extends StatelessWidget {
       height: pointSize,
       width: pointSize,
       decoration: BoxDecoration(
-        // color: color,
         color: AppColors.white,
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: color, width: 2),
       ),
-
-      // child: const Icon(
-      //   Icons.check,
-      //   color: Colors.white,
-      //   size: 20,
-      // ),
       child: Center(
           child: Text(
         "${index + 1}",
