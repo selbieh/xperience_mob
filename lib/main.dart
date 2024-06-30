@@ -375,4 +375,34 @@ I/flutter (26420): ╚═══════════════════�
                          ]
                     }
                ],
+
+
+==================================================================================
+
+               I/flutter ( 8996): =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+I/flutter ( 8996): URI: https://impressive-domini-royals-1be52931.koyeb.app/api/user/profile/
+I/flutter ( 8996): EndPoint: /api/user/profile/
+I/flutter ( 8996): Request Type: PATCH
+I/flutter ( 8996): Header: {Accept: application/json, Content-Type: application/json, Accept-Language: en, Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyMTEzNTMyLCJpYXQiOjE3MTk1MjE1MzIsImp0aSI6IjIyYTJjMmMzMTA1ODQ4N2ViMzExNzQ1NGUxZTkyZmU0IiwidXNlcl9pZCI6M30.kaoSj5T684olTBqsMwe9J-eoe1YtXtswenf0LNBxw98}
+I/flutter ( 8996): Body: {name: ahmed22, email: ahmed2@test.com}
+I/flutter ( 8996): QueryParams: null
+I/flutter ( 8996): =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+I/flutter ( 8996): ❌❌ Request Failed (500) ❌❌
+I/flutter ( 8996): ╔════════════════════════════════════════════════════════════════════════════════════════════════ ( HTTP request 🛎️🛎️ ) 
+I/flutter ( 8996): ║ {
+I/flutter ( 8996): ║      "type": "server_error",
+I/flutter ( 8996): ║      "errors": [
+I/flutter ( 8996): ║           {
+I/flutter ( 8996): ║                "code": "error",
+I/flutter ( 8996): ║                "detail": "connection to server at \"ep-icy-leaf-a2y40ltg.eu-central-1.pg.koyeb.app\" (2a05:d014:aa3:7a0a:2022:d2c:7ebc:587b), port 5432 failed: ERROR:  Your project has exceeded the active time quota. Upgrade your plan to increase limits.\n",
+I/flutter ( 8996): ║                "attr": null
+I/flutter ( 8996): ║           }
+I/flutter ( 8996): ║      ]
+I/flutter ( 8996): ║ }
+
+
+==================================================================================
+==================================================================================
+==================================================================================
+
 */

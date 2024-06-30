@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/view/widgets/components/main_button.dart';
+import 'package:xperience/model/services/shared_preference.dart';
+import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/widgets/components/main_textfield.dart';
 
 class TestingScreen extends StatelessWidget {
   const TestingScreen({Key? key}) : super(key: key);
@@ -19,10 +21,18 @@ class TestingScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MainButton(
-                  title: "test",
-                  onPressed: () {},
+                MainTextField(
+                  controller: model.fcmController,
+                  label: "FCM  Token",
+                  isFilled: true,
+                  isReadOnly: true,
+                  fillColor: AppColors.primaryColorLight,
+                  maxLines: 10,
                 ),
+                // MainButton(
+                //   title: "test",
+                //   onPressed: () {},
+                // ),
               ],
             ),
           ),
@@ -32,4 +42,9 @@ class TestingScreen extends StatelessWidget {
   }
 }
 
-class TestingViewModel extends BaseNotifier {}
+class TestingViewModel extends BaseNotifier {
+  TestingViewModel() {
+    fcmController.text = SharedPref.getString(SharedPrefKeys.fcmToken) ?? "";
+  }
+  final fcmController = TextEditingController();
+}

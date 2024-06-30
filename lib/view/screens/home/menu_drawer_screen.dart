@@ -16,6 +16,7 @@ import 'package:xperience/view/screens/menu/myreservations_screen.dart';
 import 'package:xperience/view/screens/menu/profile_screen.dart';
 import 'package:xperience/view/screens/menu/settings_screen.dart';
 import 'package:xperience/view/screens/menu/wallet_screen.dart';
+import 'package:xperience/view/screens/testing_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
 import 'package:xperience/view/widgets/menu_listtile_item.dart';
@@ -161,6 +162,14 @@ class MenuDrawerScreen extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 20),
+                      Center(
+                        child: MainButton(
+                          title: "testing",
+                          onPressed: () {
+                            NavService().pushKey(const TestingScreen());
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/models/user_model.dart';
@@ -8,6 +9,7 @@ import 'package:xperience/model/services/api/either.dart';
 import 'package:xperience/model/services/api/end_points.dart';
 import 'package:xperience/model/services/api/headers.dart';
 import 'package:xperience/model/services/api/http_service.dart';
+import 'package:xperience/model/services/notifications/firebase_notification_service.dart';
 import 'package:xperience/model/services/shared_preference.dart';
 
 class AuthService extends ChangeNotifier {
@@ -76,6 +78,7 @@ class AuthService extends ChangeNotifier {
   Future<bool> signOut() async {
     try {
       await removeUser();
+      await FirebaseNotificationService.deleteFcmToken();
       return true;
     } catch (error) {
       Logger.printt("signOut error ---> ${error.toString()}");
@@ -114,6 +117,7 @@ class AuthService extends ChangeNotifier {
       if (res.right != null) {
         final resUser = UserModel.fromJson(res.right);
         await saveUser(resUser);
+        await registrDeviceFcm();
         return Either(right: resUser);
       } else {
         return Either(left: res.left);
@@ -123,7 +127,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  // ///============================================================================== Update Profile
+  ///============================================================================== Update Profile
   Future<Either<AppFailure, UserModel>> updateUserProfile({
     required Map<String, dynamic> body,
   }) async {
@@ -144,6 +148,29 @@ class AuthService extends ChangeNotifier {
           await saveUser(tempUserModel);
         }
         return Either(right: tempUserModel);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
+
+  ///============================================================================== Registr Device FCM
+  Future<Either<AppFailure, bool>> registrDeviceFcm() async {
+    try {
+      final fcmToken = await FirebaseNotificationService.getFcmToken();
+      final res = await HttpService.request(
+        endPoint: EndPoints.registrFCM,
+        requestType: RequestType.post,
+        header: Headers.userHeader,
+        body: {
+          "registration_id": fcmToken,
+          "type": Platform.isIOS ? "ios" : "android",
+        },
+      );
+      if (res.right != null) {
+        return Either(right: true);
       } else {
         return Either(left: res.left);
       }

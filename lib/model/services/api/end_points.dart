@@ -3,6 +3,7 @@ class EndPoints {
   static const String loginRegister = "/api/auth/mobile/";
   static const String verifyPhone = "/api/token/";
   static const String profile = "/api/user/profile/";
+  static const String registrFCM = "/api/devices";
 
   // -------------------------------------------------------------------------------- Cars services
   static const String carServices = "/api/car-services/";
