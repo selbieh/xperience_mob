@@ -75,22 +75,28 @@ class UltimateStep1HotelScreen extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: MainProgress(),
                             )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).length,
-                              itemBuilder: (ctx, index) {
-                                var item = model.hotelsRepo.hotelsServicesPaginated?.results?[index];
-                                return UltimateHotelServiceItemWidget(
-                                  hotelService: item,
-                                  groupValue: model.hotelGroupValueId,
-                                  onChanged: (_) {
-                                    model.hotelGroupValueId = item?.id ?? 0;
-                                    model.setState();
+                          : (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).isEmpty
+                              ? Center(
+                                  child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+                                  child: Text("No items found".tr()),
+                                ))
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).length,
+                                  itemBuilder: (ctx, index) {
+                                    var item = model.hotelsRepo.hotelsServicesPaginated?.results?[index];
+                                    return UltimateHotelServiceItemWidget(
+                                      hotelService: item,
+                                      groupValue: model.hotelGroupValueId,
+                                      onChanged: (_) {
+                                        model.hotelGroupValueId = item?.id ?? 0;
+                                        model.setState();
+                                      },
+                                    );
                                   },
-                                );
-                              },
-                            ),
+                                ),
                     ),
                   ),
                 ),
@@ -140,9 +146,7 @@ class UltimateStep1HotelViewModel extends BaseNotifier {
       if ((auth.userModel?.user?.email ?? "") == "") {
         NavService().pushKey(const CompleteInfoScreen()).then((value) => setState());
       } else {
-        NavService().pushKey(
-          UltimateStep2CarScreen(hotelServiceId: hotelGroupValueId),
-        );
+        NavService().pushKey(UltimateStep2CarScreen(hotelServiceId: hotelGroupValueId));
       }
     } else {
       NavService().pushKey(const LoginScreen());

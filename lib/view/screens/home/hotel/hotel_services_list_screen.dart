@@ -150,7 +150,7 @@ class HotelServicesListScreen extends StatelessWidget {
                         : (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).isEmpty
                             ? Center(
                                 child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                                padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
                                 child: Text("No items found".tr()),
                               ))
                             : ListView.builder(

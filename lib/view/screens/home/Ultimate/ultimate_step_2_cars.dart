@@ -72,22 +72,28 @@ class UltimateStep2CarScreen extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: MainProgress(),
                             )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: (model.carsRepo.carsServicesPaginated?.results ?? []).length,
-                              itemBuilder: (ctx, index) {
-                                var item = model.carsRepo.carsServicesPaginated?.results?[index];
-                                return UltimateCarServiceItemWidget(
-                                  carService: item,
-                                  groupValue: model.carGroupValueId,
-                                  onChanged: (_) {
-                                    model.carGroupValueId = item?.id ?? 0;
-                                    model.setState();
+                          : (model.carsRepo.carsServicesPaginated?.results ?? []).isEmpty
+                              ? Center(
+                                  child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+                                  child: Text("No items found".tr()),
+                                ))
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: (model.carsRepo.carsServicesPaginated?.results ?? []).length,
+                                  itemBuilder: (ctx, index) {
+                                    var item = model.carsRepo.carsServicesPaginated?.results?[index];
+                                    return UltimateCarServiceItemWidget(
+                                      carService: item,
+                                      groupValue: model.carGroupValueId,
+                                      onChanged: (_) {
+                                        model.carGroupValueId = item?.id ?? 0;
+                                        model.setState();
+                                      },
+                                    );
                                   },
-                                );
-                              },
-                            ),
+                                ),
                     ),
                   ),
                 ),
