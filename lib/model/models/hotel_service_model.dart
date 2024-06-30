@@ -1,3 +1,5 @@
+import 'package:xperience/model/models/car_service_model.dart';
+
 class HotelServiceModel {
   int? id;
   String? name;
@@ -7,6 +9,7 @@ class HotelServiceModel {
   int? numberOfBeds;
   String? dayPrice;
   String? image;
+  List<ImagesModel>? images;
 
   HotelServiceModel({
     this.id,
@@ -17,6 +20,7 @@ class HotelServiceModel {
     this.numberOfBeds,
     this.dayPrice,
     this.image,
+    this.images,
   });
 
   static HotelServiceModel fromJsonModel(Object? json) => HotelServiceModel.fromJson(json as Map<String, dynamic>);
@@ -30,6 +34,12 @@ class HotelServiceModel {
     numberOfBeds = json['number_of_beds'];
     dayPrice = json['day_price'];
     image = json['image'];
+    if (json['images'] != null) {
+      images = <ImagesModel>[];
+      json['images'].forEach((v) {
+        images!.add(ImagesModel.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -42,6 +52,9 @@ class HotelServiceModel {
     data['number_of_beds'] = numberOfBeds;
     data['day_price'] = dayPrice;
     data['image'] = image;
+    if (images != null) {
+      data['images'] = images!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

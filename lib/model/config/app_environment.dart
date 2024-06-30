@@ -22,7 +22,8 @@ class AppEnvironment {
     EnvironmentType.production: "MyTemp",
   };
   final serverURLsMap = {
-    EnvironmentType.development: "https://impressive-domini-royals-1be52931.koyeb.app",
+    // EnvironmentType.development: "https://impressive-domini-royals-1be52931.koyeb.app",
+    EnvironmentType.development: "https://api.xperiences.vip",
     EnvironmentType.staging: "",
     EnvironmentType.production: "",
   };

@@ -3,6 +3,7 @@ import 'package:panorama_viewer/panorama_viewer.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/models/car_service_model.dart';
@@ -16,7 +17,6 @@ import 'package:xperience/view/screens/home/car/car_panorama_preview_screen.dart
 import 'package:xperience/view/screens/home/car/complete_info_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/car_info_item.dart';
-import 'package:xperience/view/widgets/components/main_image.dart';
 import 'package:xperience/view/widgets/car_feature_border_item.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/text_expansion.dart';
@@ -48,48 +48,83 @@ class CarDetailsScreen extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.all(0),
                   child: SingleChildScrollView(
-                    // physics: const BouncingScrollPhysics(),
                     physics: const RangeMaintainingScrollPhysics(),
                     child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(width: double.infinity),
-                        InkWell(
-                          child: SizedBox(
-                            height: 0.25.h,
-                            width: double.infinity,
-                            child: PanoramaViewer(
-                              // child: Image.asset("assets/images/panorama_image.jpg"),
-                              child: Image.network(
-                                // "https://gc.360-data.com/tours/M-k_nsFh14dU/M-k_nsFh14dU-LbX_CN6G8T-thumb.jpg",
-                                // "https://t3.ftcdn.net/jpg/03/82/44/22/360_F_382442286_tfcS8WLlnrRDhTASaWd5yVxxyJQktpBc.jpg",
-                                "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg",
+                        if (model.selectedImageIndex != -1)
+                          InkWell(
+                            child: SizedBox(
+                              height: 0.25.h,
+                              width: double.infinity,
+                              child: PanoramaViewer(
+                                // child: Image.network(model.image360List[model.selectedImageIndex ?? 0]),
+                                child: Image.network(model.carServiceModel?.images?[model.selectedImageIndex ?? 0].image ?? ""),
                               ),
                             ),
+                            onTap: () {
+                              NavService().pushKey(
+                                PanoramaPreviewScreen(
+                                  // imageUrl: "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg",
+                                  // imageUrl: model.image360List[model.selectedImageIndex ?? 0],
+                                  imageUrl: model.carServiceModel?.images?[model.selectedImageIndex ?? 0].image ?? "",
+                                ),
+                              );
+                            },
                           ),
-                          onTap: () {
-                            NavService().pushKey(
-                              const PanoramaPreviewScreen(imageUrl: "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg"),
-                            );
-                          },
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                          decoration: const BoxDecoration(
-                            color: AppColors.primaryColorLight,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
+                        if (model.selectedImageIndex != -1)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                            decoration: const BoxDecoration(
+                              color: AppColors.primaryColorLight,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15),
+                              ),
+                            ),
+                            // child: const SizedBox(height: 10, width: double.infinity),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.arrow_back),
+                                  onPressed: () {
+                                    if ((model.selectedImageIndex ?? 0) > 0) {
+                                      model.selectedImageIndex = (model.selectedImageIndex ?? 0) - 1;
+                                      model.setState();
+                                    }
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.arrow_forward),
+                                  onPressed: () {
+                                    // if ((model.selectedImageIndex ?? 0) < model.image360List.length - 1) {
+                                    if ((model.selectedImageIndex ?? 0) < (model.carServiceModel?.images?.length ?? 0) - 1) {
+                                      model.selectedImageIndex = (model.selectedImageIndex ?? 0) + 1;
+                                      model.setState();
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
                           ),
-                          child: const MainImage.network(
-                            imagePath:
-                                "https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/695deff6-4f71-47aa-803f-661efa168c87/7dd59989-82ce-4b6b-80bf-20f4bb2f7381.png",
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                        // Container(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        //   decoration: const BoxDecoration(
+                        //     color: AppColors.primaryColorLight,
+                        //     borderRadius: BorderRadius.only(
+                        //       bottomLeft: Radius.circular(15),
+                        //       bottomRight: Radius.circular(15),
+                        //     ),
+                        //   ),
+                        //   child: const MainImage.network(
+                        //     imagePath:
+                        //         "https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/695deff6-4f71-47aa-803f-661efa168c87/7dd59989-82ce-4b6b-80bf-20f4bb2f7381.png",
+                        //     width: double.infinity,
+                        //     fit: BoxFit.cover,
+                        //   ),
+                        // ),
                         // Expanded(
                         //   child: SingleChildScrollView(
                         // physics: const BouncingScrollPhysics(),
@@ -262,25 +297,19 @@ class CarDetailsViewModel extends BaseNotifier {
 
   CarServiceModel? carServiceModel;
 
-  String selectedPlan = "RIDE";
+  // List<String> image360List = [
+  //   "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg",
+  //   "https://t3.ftcdn.net/jpg/03/82/44/22/360_F_382442286_tfcS8WLlnrRDhTASaWd5yVxxyJQktpBc.jpg",
+  //   "https://gc.360-data.com/tours/M-k_nsFh14dU/M-k_nsFh14dU-LbX_CN6G8T-thumb.jpg",
+  // ];
+  int? selectedImageIndex = -1;
+
   List<String> plansList = [
     "RIDE",
     "TRAVEL",
     "AIRPORT",
   ];
-
-  Future<void> getCarServiceById(int carSerId) async {
-    setBusy();
-    var res = await carsRepo.getCarServiceById(carServiceId: carSerId);
-    if (res.left != null) {
-      failure = res.left?.message;
-      DialogsHelper.messageDialog(message: "${res.left?.message}");
-      setError();
-    } else {
-      carServiceModel = res.right;
-      setIdle();
-    }
-  }
+  String selectedPlan = "RIDE";
 
   void goToBooking() {
     if (auth.isLogged) {
@@ -294,6 +323,31 @@ class CarDetailsViewModel extends BaseNotifier {
       }
     } else {
       NavService().pushKey(const LoginScreen());
+    }
+  }
+
+  Future<void> getCarServiceById(int carSerId) async {
+    setState();
+    setBusy();
+    var res = await carsRepo.getCarServiceById(carServiceId: carSerId);
+    if (res.left != null) {
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
+    } else {
+      carServiceModel = res.right;
+      //===============================================
+      carServiceModel?.images = [
+        ImagesModel(image: "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg"),
+        ImagesModel(image: "https://t3.ftcdn.net/jpg/03/82/44/22/360_F_382442286_tfcS8WLlnrRDhTASaWd5yVxxyJQktpBc.jpg"),
+        ImagesModel(image: "https://gc.360-data.com/tours/M-k_nsFh14dU/M-k_nsFh14dU-LbX_CN6G8T-thumb.jpg"),
+      ];
+      //===============================================
+      if ((carServiceModel?.images ?? []).isNotEmpty) {
+        selectedImageIndex = 0;
+        Logger.log("carServiceModel?.images?.length: ${carServiceModel?.images?.length}");
+      }
+      setIdle();
     }
   }
 }

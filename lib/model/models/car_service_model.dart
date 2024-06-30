@@ -10,7 +10,7 @@ class CarServiceModel {
   bool? cool;
   String? image;
   List<String>? subscriptionOptions;
-  List<Images>? images;
+  List<ImagesModel>? images;
 
   CarServiceModel({
     this.id,
@@ -44,9 +44,9 @@ class CarServiceModel {
       subscriptionOptions = json['subscription_options'].cast<String>();
     }
     if (json['images'] != null) {
-      images = <Images>[];
+      images = <ImagesModel>[];
       json['images'].forEach((v) {
-        images!.add(Images.fromJson(v));
+        images!.add(ImagesModel.fromJson(v));
       });
     }
   }
@@ -71,14 +71,14 @@ class CarServiceModel {
   }
 }
 
-class Images {
+class ImagesModel {
   int? id;
   String? image;
   int? carService;
 
-  Images({this.id, this.image, this.carService});
+  ImagesModel({this.id, this.image, this.carService});
 
-  Images.fromJson(Map<String, dynamic> json) {
+  ImagesModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     image = json['image'];
     carService = json['car_service'];

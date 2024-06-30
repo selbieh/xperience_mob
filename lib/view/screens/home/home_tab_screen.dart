@@ -36,6 +36,7 @@ class HomeTabScreen extends StatelessWidget {
                   icon: SvgPicture.asset("assets/svgs/ic_bell.svg"),
                   onPressed: () {
                     NavService().pushKey(const NotificationsScreen());
+                    // NavService().pushKey(const CarDetailsScreen());
                   },
                 ),
             ],

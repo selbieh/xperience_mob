@@ -11,7 +11,6 @@ class HotelsServiceRepo extends ChangeNotifier {
   int _pageOffset = 0;
   final int _pageLimit = 10;
 
-
   Future<Either<AppFailure, HotelServiceModel>> getHotelServiceById({
     required int carServiceId,
   }) async {
@@ -27,7 +26,7 @@ class HotelsServiceRepo extends ChangeNotifier {
     }
   }
 
-  Future<Either<AppFailure, PaginationModel<HotelServiceModel>>> getHotelsServices() async {
+  Future<Either<AppFailure, PaginationModel<HotelServiceModel>>> getHotelsServices({Map<String, String>? queryParams}) async {
     try {
       if (hotelsServicesPaginated == null) {
         _pageOffset = 0;
@@ -38,6 +37,7 @@ class HotelsServiceRepo extends ChangeNotifier {
         queryParams: {
           "offset": "$_pageOffset",
           "limit": "$_pageLimit",
+          ...queryParams ?? {},
         },
       );
       if (res.left != null) {

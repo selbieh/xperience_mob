@@ -5,11 +5,13 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/repo/hotels_service_repo.dart';
+import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_details_screen.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/components/main_textfield_dropdown.dart';
@@ -37,10 +39,12 @@ class HotelServicesListScreen extends StatelessWidget {
             backgroundColor: AppColors.primaryColorDark,
             title: const Text("Hotel Experience").localize(context),
             actions: [
-              IconButton(
-                icon: SvgPicture.asset("assets/svgs/ic_search.svg"),
-                onPressed: () {},
-              ),
+              MainButton(
+                type: ButtonType.text,
+                title: "Reset".localize(context),
+                color: AppColors.goldColor,
+                onPressed: model.searchController.text != "" || model.checkInOutRange != null ? model.resetFilter : null,
+              )
             ],
           ),
           body: RefreshIndicator(
@@ -55,7 +59,7 @@ class HotelServicesListScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MainTextField(
-                      controller: TextEditingController(),
+                      controller: model.searchController,
                       hint: "Search".localize(context),
                       hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
                       borderRadius: 5,
@@ -64,6 +68,10 @@ class HotelServicesListScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(12),
                         child: SvgPicture.asset("assets/svgs/ic_search_2.svg"),
                       ),
+                      textInputAction: TextInputAction.search,
+                      onFieldSubmitted: (_) {
+                        model.refreshHotelServices();
+                      },
                     ),
                     const SizedBox(height: 20),
                     Wrap(
@@ -139,20 +147,26 @@ class HotelServicesListScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(vertical: 20),
                             child: MainProgress(),
                           )
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).length,
-                            itemBuilder: (ctx, index) {
-                              var item = model.hotelsRepo.hotelsServicesPaginated?.results?[index];
-                              return HotelServiceItemWidget(
-                                hotelService: item,
-                                onPressed: () {
-                                  NavService().pushKey(HotelDetailsScreen(hotelService: item));
+                        : (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).isEmpty
+                            ? Center(
+                                child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                                child: Text("No items found".tr()),
+                              ))
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: (model.hotelsRepo.hotelsServicesPaginated?.results ?? []).length,
+                                itemBuilder: (ctx, index) {
+                                  var item = model.hotelsRepo.hotelsServicesPaginated?.results?[index];
+                                  return HotelServiceItemWidget(
+                                    hotelService: item,
+                                    onPressed: () {
+                                      NavService().pushKey(HotelDetailsScreen(hotelService: item));
+                                    },
+                                  );
                                 },
-                              );
-                            },
-                          ),
+                              ),
                     if (model.isLoadingMore)
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 15),
@@ -176,6 +190,8 @@ class HotelServicesListViewModel extends BaseNotifier {
 
   String? selectedLocation;
   String? selectedRoom;
+  final searchController = TextEditingController();
+  DateTimeRange? checkInOutRange;
   final checkInOutController = TextEditingController();
   ScrollController scrollController = ScrollController();
   bool isLoadingMore = false;
@@ -204,6 +220,14 @@ class HotelServicesListViewModel extends BaseNotifier {
     });
   }
 
+  void resetFilter() {
+    if (searchController.text != "" || checkInOutRange != null) {
+      searchController.clear();
+      checkInOutRange = null;
+      refreshHotelServices();
+    }
+  }
+
   Future<void> selectCheckInOutDate(BuildContext context) async {
     DateTimeRange? dateTimeRange = await PickerHelper.getDateRangePicker(
       context,
@@ -212,6 +236,12 @@ class HotelServicesListViewModel extends BaseNotifier {
     );
     if (dateTimeRange != null) {
       Logger.log("$dateTimeRange");
+      checkInOutRange = dateTimeRange;
+      checkInOutController.text = "${FormatHelper.formatDateTime(dateTimeRange.start, pattern: "dd/MM/yyyy")}"
+          " - "
+          "${FormatHelper.formatDateTime(dateTimeRange.end, pattern: "dd/MM/yyyy")}";
+      refreshHotelServices();
+      // setState();
     }
   }
 
@@ -221,13 +251,23 @@ class HotelServicesListViewModel extends BaseNotifier {
   }
 
   Future<void> getHotelsServices() async {
-    if (hotelsRepo.hotelsServicesPaginated == null) {
+    // if (hotelsRepo.hotelsServicesPaginated == null) {
+    if ((hotelsRepo.hotelsServicesPaginated?.results ?? []).isEmpty) {
       setBusy();
     } else {
       isLoadingMore = true;
       setState();
     }
-    var res = await hotelsRepo.getHotelsServices();
+    await Future.delayed(const Duration(milliseconds: 5000));
+    Map<String, String> filterData = {};
+    if (searchController.text.isNotEmpty) {
+      filterData.addAll({"search": searchController.text});
+    }
+    if (checkInOutRange != null) {
+      filterData.addAll({"availability_start_gte": FormatHelper.formatDateTime(checkInOutRange!.start, pattern: "yyyy-MM-dd")});
+      filterData.addAll({"availability_end_lte": FormatHelper.formatDateTime(checkInOutRange!.end, pattern: "yyyy-MM-dd")});
+    }
+    var res = await hotelsRepo.getHotelsServices(queryParams: filterData);
     if (res.left != null) {
       isLoadingMore = false;
       failure = res.left?.message;

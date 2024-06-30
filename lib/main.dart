@@ -86,9 +86,16 @@ class MyApp extends StatelessWidget {
 /*
 ================================================================================== Todo
  - Notifications
- - Car 360 image 
- - implement cars list 
- - implement hotel list 
+
+==================================================================================
+
+  https://virtual-staging.archicgi.com/wp-content/uploads/2021/11/how-to-make-a-real-estate-virtual-tour-with-cgi.jpg
+  https://listing3d.com/insights/wp-content/uploads/2023/04/Real-estate-360-virtual-tour-example-2-1024x585.png
+  https://realestatephotographersydney.com.au/wp-content/uploads/2021/12/360-panorama-real-estate-photography.jpg
+
+  https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg
+  https://t3.ftcdn.net/jpg/03/82/44/22/360_F_382442286_tfcS8WLlnrRDhTASaWd5yVxxyJQktpBc.jpg
+  https://gc.360-data.com/tours/M-k_nsFh14dU/M-k_nsFh14dU-LbX_CN6G8T-thumb.jpg
 
 ==================================================================================
 {
@@ -401,6 +408,25 @@ I/flutter ( 8996): ║      ]
 I/flutter ( 8996): ║ }
 
 
+==================================================================================
+
+ URI: https://api.xperiences.vip/api/user/profile/
+ EndPoint: /api/user/profile/
+ Request Type: PATCH
+ Header: {Accept: application/json, Content-Type: application/json, Accept-Language: en, Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyMzUwNTMzLCJpYXQiOjE3MTk3NTg1MzMsImp0aSI6IjQ3OGQzZmFjMWIwYzRhOWFhODA5OWZiMTg1ZDlkODcyIiwidXNlcl9pZCI6NH0.e08wP9Y4n_4Z3E6azn7Np56QE-XZdYiej9ywu6AEkqk}
+ Body: {name: ahmed, email: ahmed@test.com}
+ QueryParams: null
+ ❌❌ Request Failed (405) ❌❌
+  {
+       "type": "client_error",
+       "errors": [
+            {
+                 "code": "method_not_allowed",
+                 "detail": "Method \"PATCH\" not allowed.",
+                 "attr": null
+            }
+       ]
+  }
 ==================================================================================
 ==================================================================================
 ==================================================================================

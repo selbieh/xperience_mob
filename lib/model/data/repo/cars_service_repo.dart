@@ -11,8 +11,8 @@ import 'package:xperience/model/services/api/either.dart';
 
 class CarsServiceRepo extends ChangeNotifier {
   PaginationModel<CarServiceModel>? carsServicesPaginated;
-  PaginationModel<CarMakeModel>? carMakesPaginated;
-  PaginationModel<CarMakeModel>? carModelsPaginated;
+  PaginationModel<CarMakeModel>? carMakesList;
+  PaginationModel<CarMakeModel>? carModelsList;
   int _pageOffset = 0;
   final int _pageLimit = 10;
 
@@ -74,8 +74,8 @@ class CarsServiceRepo extends ChangeNotifier {
       if (res.left != null) {
         return Either(left: res.left);
       } else {
-        carMakesPaginated = res.right;
-        return Either(right: carMakesPaginated);
+        carMakesList = res.right;
+        return Either(right: carMakesList);
       }
     } catch (e) {
       return Either(left: AppFailure(message: e.toString()));
@@ -92,8 +92,8 @@ class CarsServiceRepo extends ChangeNotifier {
       if (res.left != null) {
         return Either(left: res.left);
       } else {
-        carModelsPaginated = res.right;
-        return Either(right: carModelsPaginated);
+        carModelsList = res.right;
+        return Either(right: carModelsList);
       }
     } catch (e) {
       return Either(left: AppFailure(message: e.toString()));
