@@ -55,12 +55,12 @@ class UltimateCarServiceItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      carService?.model ?? "",
+                      carService?.modelName ?? "",
                       style: const TextStyle(fontSize: 14),
                       maxLines: 2,
                     ),
                     Text(
-                      carService?.make ?? "",
+                      carService?.makeName ?? "",
                       style: const TextStyle(fontSize: 12, color: AppColors.grey),
                       maxLines: 2,
                     ),

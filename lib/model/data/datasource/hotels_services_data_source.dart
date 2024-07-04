@@ -1,3 +1,4 @@
+import 'package:xperience/model/models/hotel_service_features_model.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/models/reservation_booking_model.dart';
@@ -40,6 +41,27 @@ class HotelsServicesDataSource {
       );
       if (res.right != null) {
         final resData = PaginationModel<HotelServiceModel>.fromJson(res.right, HotelServiceModel.fromJsonModel);
+        return Either(right: resData);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
+
+  static Future<Either<AppFailure, PaginationModel<HotelServiceFeaturesModel>>> getHotelsServiceFeatures({
+    Map<String, String>? queryParams,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: EndPoints.hotelServiceFeatures,
+        requestType: RequestType.get,
+        header: Headers.guestHeader,
+        queryParams: queryParams,
+      );
+      if (res.right != null) {
+        final resData = PaginationModel<HotelServiceFeaturesModel>.fromJson(res.right, HotelServiceFeaturesModel.fromJsonModel);
         return Either(right: resData);
       } else {
         return Either(left: res.left);

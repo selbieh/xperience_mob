@@ -3,7 +3,6 @@ import 'package:panorama_viewer/panorama_viewer.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/models/car_service_model.dart';
@@ -38,10 +37,7 @@ class CarDetailsScreen extends StatelessWidget {
       ),
       builder: (_, model, child) {
         return Scaffold(
-          appBar: AppBar(
-            // title: const Text("GLA 250 SUV"),
-            title: Text(model.carServiceModel?.model ?? ""),
-          ),
+          appBar: AppBar(title: Text(model.carServiceModel?.modelName ?? "")),
           body: model.isBusy
               ? const MainProgress()
               : Container(
@@ -59,15 +55,12 @@ class CarDetailsScreen extends StatelessWidget {
                               height: 0.25.h,
                               width: double.infinity,
                               child: PanoramaViewer(
-                                // child: Image.network(model.image360List[model.selectedImageIndex ?? 0]),
                                 child: Image.network(model.carServiceModel?.images?[model.selectedImageIndex ?? 0].image ?? ""),
                               ),
                             ),
                             onTap: () {
                               NavService().pushKey(
                                 PanoramaPreviewScreen(
-                                  // imageUrl: "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg",
-                                  // imageUrl: model.image360List[model.selectedImageIndex ?? 0],
                                   imageUrl: model.carServiceModel?.images?[model.selectedImageIndex ?? 0].image ?? "",
                                 ),
                               );
@@ -138,13 +131,13 @@ class CarDetailsScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     // "GLA 250 SUV",
-                                    model.carServiceModel?.model ?? "-",
+                                    model.carServiceModel?.modelName ?? "-",
                                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
                                     // "Mercedes",
-                                    model.carServiceModel?.make ?? "-",
+                                    model.carServiceModel?.makeName ?? "-",
                                     style: const TextStyle(color: AppColors.greyText, fontSize: 14),
                                   ),
                                   const SizedBox(height: 20),
@@ -161,12 +154,12 @@ class CarDetailsScreen extends StatelessWidget {
                                         CarInfoItem(
                                           title: "Make".localize(context),
                                           // value: "Mercedes",
-                                          value: carService?.make ?? "-",
+                                          value: carService?.makeName ?? "-",
                                         ),
                                         CarInfoItem(
                                           title: "Model".localize(context),
                                           // value: "GLA 250",
-                                          value: model.carServiceModel?.model ?? "-",
+                                          value: model.carServiceModel?.modelName ?? "-",
                                         ),
                                         CarInfoItem(
                                           title: "Year".localize(context),
@@ -296,12 +289,6 @@ class CarDetailsViewModel extends BaseNotifier {
   final CarsServiceRepo carsRepo;
 
   CarServiceModel? carServiceModel;
-
-  // List<String> image360List = [
-  //   "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg",
-  //   "https://t3.ftcdn.net/jpg/03/82/44/22/360_F_382442286_tfcS8WLlnrRDhTASaWd5yVxxyJQktpBc.jpg",
-  //   "https://gc.360-data.com/tours/M-k_nsFh14dU/M-k_nsFh14dU-LbX_CN6G8T-thumb.jpg",
-  // ];
   int? selectedImageIndex = -1;
 
   List<String> plansList = [
@@ -327,7 +314,6 @@ class CarDetailsViewModel extends BaseNotifier {
   }
 
   Future<void> getCarServiceById(int carSerId) async {
-    setState();
     setBusy();
     var res = await carsRepo.getCarServiceById(carServiceId: carSerId);
     if (res.left != null) {
@@ -336,16 +322,8 @@ class CarDetailsViewModel extends BaseNotifier {
       setError();
     } else {
       carServiceModel = res.right;
-      //===============================================
-      carServiceModel?.images = [
-        ImagesModel(image: "https://live.staticflickr.com/4066/5147559690_54a4024c80_b.jpg"),
-        ImagesModel(image: "https://t3.ftcdn.net/jpg/03/82/44/22/360_F_382442286_tfcS8WLlnrRDhTASaWd5yVxxyJQktpBc.jpg"),
-        ImagesModel(image: "https://gc.360-data.com/tours/M-k_nsFh14dU/M-k_nsFh14dU-LbX_CN6G8T-thumb.jpg"),
-      ];
-      //===============================================
       if ((carServiceModel?.images ?? []).isNotEmpty) {
         selectedImageIndex = 0;
-        Logger.log("carServiceModel?.images?.length: ${carServiceModel?.images?.length}");
       }
       setIdle();
     }

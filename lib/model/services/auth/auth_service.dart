@@ -156,11 +156,12 @@ class AuthService extends ChangeNotifier {
 
   ///============================================================================== Update Profile
   Future<Either<AppFailure, UserModel>> updateUserProfile({
+    required int userId,
     required Map<String, dynamic> body,
   }) async {
     try {
       final res = await HttpService.request(
-        endPoint: EndPoints.profile,
+        endPoint: "${EndPoints.profile}$userId/",
         requestType: RequestType.patch,
         header: Headers.userHeader,
         body: body,

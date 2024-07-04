@@ -35,7 +35,7 @@ class CarExperienceItemWidget extends StatelessWidget {
             children: [
               Text(
                 // "GLA 250 SUV",
-                carService?.model ?? "",
+                carService?.modelName ?? "",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -43,7 +43,7 @@ class CarExperienceItemWidget extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               // const Text("Mercedes"),
-              Text(carService?.make ?? ""),
+              Text(carService?.makeName ?? ""),
               const SizedBox(height: 20),
               Row(
                 children: [
@@ -89,9 +89,9 @@ class CarExperienceItemWidget extends StatelessWidget {
         ),
         MainImage.network(
           imagePath:
-              "https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/695deff6-4f71-47aa-803f-661efa168c87/7dd59989-82ce-4b6b-80bf-20f4bb2f7381.png",
-          // "${carService.image}",
-          width: 0.45.w,
+              // "https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/695deff6-4f71-47aa-803f-661efa168c87/7dd59989-82ce-4b6b-80bf-20f4bb2f7381.png",
+              "${carService?.image}",
+          width: 0.40.w,
           // height: 100,
           fit: BoxFit.cover,
         ),

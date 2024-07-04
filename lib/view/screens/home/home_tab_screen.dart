@@ -90,7 +90,8 @@ class HomeTabScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        physics: const PageScrollPhysics(),
+                        // physics: const PageScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         child: Row(
                           children: [
                             HomeServiceItemWidget(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/data/datasource/hotels_services_data_source.dart';
+import 'package:xperience/model/models/hotel_service_features_model.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/models/reservation_booking_model.dart';
@@ -8,6 +9,7 @@ import 'package:xperience/model/services/api/either.dart';
 
 class HotelsServiceRepo extends ChangeNotifier {
   PaginationModel<HotelServiceModel>? hotelsServicesPaginated;
+  PaginationModel<HotelServiceFeaturesModel>? hotelFeaturesList;
   int _pageOffset = 0;
   final int _pageLimit = 10;
 
@@ -68,6 +70,24 @@ class HotelsServiceRepo extends ChangeNotifier {
         return Either(left: res.left);
       } else {
         return Either(right: res.right);
+      }
+    } catch (e) {
+      return Either(left: AppFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<AppFailure, PaginationModel<HotelServiceFeaturesModel>>> getHotelsServiceFeatures({
+    Map<String, String>? queryParams,
+  }) async {
+    try {
+      var res = await HotelsServicesDataSource.getHotelsServiceFeatures(
+        queryParams: queryParams,
+      );
+      if (res.left != null) {
+        return Either(left: res.left);
+      } else {
+        hotelFeaturesList = res.right;
+        return Either(right: hotelFeaturesList);
       }
     } catch (e) {
       return Either(left: AppFailure(message: e.toString()));

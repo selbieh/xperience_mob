@@ -232,6 +232,9 @@ class CarsServicesListViewModel extends BaseNotifier {
     if (selectedMake != null) {
       filterData.addAll({"make": "${selectedMake?.id}"});
     }
+    if (selectedModel != null) {
+      filterData.addAll({"model": "${selectedModel?.id}"});
+    }
     var res = await carsRepo.getCarsServices(queryParams: filterData);
     if (res.left != null) {
       isLoadingMore = false;

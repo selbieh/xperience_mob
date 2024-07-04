@@ -191,7 +191,7 @@ class HotelBookingScreen extends StatelessWidget {
                           if (model.optionsScent.isNotEmpty) ...[
                             const SizedBox(height: 20),
                             const Text(
-                              "Scent Service",
+                              "in-room scent",
                               style: TextStyle(color: AppColors.grey),
                             ).localize(context),
                             Column(

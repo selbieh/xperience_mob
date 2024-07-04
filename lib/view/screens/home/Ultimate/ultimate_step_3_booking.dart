@@ -221,7 +221,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                   if (model.hotelOptionsScent.isNotEmpty) ...[
                                     const SizedBox(height: 20),
                                     const Text(
-                                      "Scent Service",
+                                      "in-room scent",
                                       style: TextStyle(color: AppColors.grey),
                                     ).localize(context),
                                     Column(

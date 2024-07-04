@@ -37,30 +37,32 @@ class MyReservationsScreen extends StatelessWidget {
               : RefreshIndicator(
                   color: AppColors.goldColor,
                   onRefresh: model.refreshCarServices,
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                    controller: model.scrollController,
-                    child: Column(
-                      children: [
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: (model.reservationRepo.reservationsPaginated?.results ?? []).length,
-                          separatorBuilder: (context, index) => const SizedBox(height: 10),
-                          itemBuilder: (context, index) {
-                            var item = model.reservationRepo.reservationsPaginated?.results?[index];
-                            return ReservationItemWidget(reservationItem: item);
-                          },
-                        ),
-                        if (model.isLoadingMore)
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            child: MainProgress(),
+                  child: (model.reservationRepo.reservationsPaginated?.results ?? []).isEmpty
+                      ? Center(child: Text("No items found".tr()))
+                      : SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                          controller: model.scrollController,
+                          child: Column(
+                            children: [
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: (model.reservationRepo.reservationsPaginated?.results ?? []).length,
+                                separatorBuilder: (context, index) => const SizedBox(height: 10),
+                                itemBuilder: (context, index) {
+                                  var item = model.reservationRepo.reservationsPaginated?.results?[index];
+                                  return ReservationItemWidget(reservationItem: item);
+                                },
+                              ),
+                              if (model.isLoadingMore)
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  child: MainProgress(),
+                                ),
+                              const SizedBox(height: 20),
+                            ],
                           ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
-                  ),
+                        ),
                 ),
         );
       },

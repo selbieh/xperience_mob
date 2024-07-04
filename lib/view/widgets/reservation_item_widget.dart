@@ -20,7 +20,9 @@ class ReservationItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isCarBooking = (reservationItem?.carReservations ?? []).isNotEmpty;
+    bool isHasHotelBooking = (reservationItem?.hotelReservations ?? []).isNotEmpty;
+    bool isHasCarBooking = (reservationItem?.carReservations ?? []).isNotEmpty;
+    bool isHasMultiBooking = isHasHotelBooking && isHasCarBooking;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -31,7 +33,20 @@ class ReservationItemWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SvgPicture.asset(isCarBooking ? "assets/svgs/ic_car_2.svg" : "assets/svgs/ic_hotel_2.svg"),
+          Column(
+            children: [
+              if (isHasHotelBooking)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: SvgPicture.asset("assets/svgs/ic_hotel_2.svg"),
+                ),
+              if (isHasCarBooking)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: SvgPicture.asset("assets/svgs/ic_car_2.svg"),
+                ),
+            ],
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -54,33 +69,43 @@ class ReservationItemWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  isCarBooking ? "Car booking".localize(context) : "Hotel booking".localize(context),
+                  isHasMultiBooking
+                      ? "Hotel & Car booking".localize(context)
+                      : isHasCarBooking
+                          ? "Car booking".localize(context)
+                          : "Hotel booking".localize(context),
                   style: const TextStyle(fontSize: 14),
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  isCarBooking
-                      ? (reservationItem?.carReservations ?? []).isNotEmpty
-                          ? "${reservationItem?.carReservations?[0].carService?.model ?? ""} ${reservationItem?.carReservations?[0].carService?.type ?? ""}  - ${reservationItem?.carReservations?[0].carService?.make ?? ""}"
-                          : "-"
-                      : (reservationItem?.hotelReservations ?? []).isNotEmpty
-                          ? "${reservationItem?.hotelReservations?[0].hotelService?.name ?? ""} "
-                          : "-",
-                  style: const TextStyle(fontSize: 12, color: AppColors.greyText),
-                ),
+                if (isHasHotelBooking)
+                  Text(
+                    (reservationItem?.hotelReservations ?? []).isNotEmpty ? "${reservationItem?.hotelReservations?[0].hotelService?.name ?? ""} " : "-",
+                    style: const TextStyle(fontSize: 12, color: AppColors.greyText),
+                  ),
+                if (isHasCarBooking)
+                  Text(
+                    (reservationItem?.carReservations ?? []).isNotEmpty
+                        ? "${reservationItem?.carReservations?[0].carService?.model ?? ""} ${reservationItem?.carReservations?[0].carService?.type ?? ""}  - ${reservationItem?.carReservations?[0].carService?.make ?? ""}"
+                        : "-",
+                    style: const TextStyle(fontSize: 12, color: AppColors.greyText),
+                  ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Text(
-                        isCarBooking
+                        isHasMultiBooking
                             ? (reservationItem?.carReservations ?? []).isNotEmpty
-                                ? "${reservationItem?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                                ? "${(double.tryParse("${reservationItem?.hotelReservations?[0].finalPrice}") ?? 0) + (double.tryParse("${reservationItem?.carReservations?[0].finalPrice}") ?? 0)} ${"EGP".localize(context)}"
                                 : "-"
-                            : (reservationItem?.hotelReservations ?? []).isNotEmpty
-                                ? "${reservationItem?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
-                                : "-",
+                            : isHasHotelBooking
+                                ? (reservationItem?.hotelReservations ?? []).isNotEmpty
+                                    ? "${reservationItem?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                                    : "-"
+                                : (reservationItem?.carReservations ?? []).isNotEmpty
+                                    ? "${reservationItem?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                                    : "-",
                         style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.greyText,
@@ -92,7 +117,7 @@ class ReservationItemWidget extends StatelessWidget {
                       BookNowButton(
                         title: "BOOK AGAIN".localize(context),
                         onPressed: () {
-                          if (isCarBooking) {
+                          if (isHasCarBooking) {
                             NavService().pushKey(
                               CarDetailsScreen(
                                 carService: CarServiceModel(id: reservationItem?.carReservations?[0].carService?.id ?? -1),

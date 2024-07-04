@@ -4,6 +4,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/data/repo/hotels_service_repo.dart';
 import 'package:xperience/model/data/repo/info_repo.dart';
+import 'package:xperience/model/data/repo/notifications_repo.dart';
 import 'package:xperience/model/data/repo/reservations_repo.dart';
 // import 'package:xperience/model/services/api/http_api.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
@@ -30,4 +31,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => HotelsServiceRepo()),
   ChangeNotifierProvider(create: (_) => ReservationRepo()),
   ChangeNotifierProvider(create: (_) => InfoRepo()),
+  ChangeNotifierProvider(create: (_) => NotificationsRepo()),
 ];

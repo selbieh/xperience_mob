@@ -5,6 +5,7 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/repo/hotels_service_repo.dart';
+import 'package:xperience/model/models/hotel_service_features_model.dart';
 import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
@@ -31,6 +32,9 @@ class HotelServicesListScreen extends StatelessWidget {
         model.initScrollController();
         if ((model.hotelsRepo.hotelsServicesPaginated?.results ?? []).isEmpty) {
           model.getHotelsServices();
+        }
+        if ((model.hotelsRepo.hotelFeaturesList?.results ?? []).isEmpty) {
+          model.getHotelsServiceFeatures();
         }
       },
       builder: (_, model, child) {
@@ -96,50 +100,71 @@ class HotelServicesListScreen extends StatelessWidget {
                       ),
                       onTap: () => model.selectCheckInOutDate(context),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: MainTextFieldDropdown<String>(
-                            items: model.locationList
-                                .map(
-                                  (e) => DropdownMenuItem(value: e, child: Text(e)),
-                                )
-                                .toList(),
-                            hint: "Location".localize(context),
-                            icon: const Icon(Icons.arrow_drop_down),
-                            style: const TextStyle(fontSize: 14, color: AppColors.white),
-                            hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
-                            borderWidth: 0.5,
-                            menuMaxHeight: 300,
-                            value: model.selectedLocation,
-                            onChanged: (value) {
-                              model.selectedLocation = value;
-                              model.setState();
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: MainTextFieldDropdown<String>(
-                            items: model.roomsList
-                                .map(
-                                  (e) => DropdownMenuItem(value: e, child: Text(e)),
-                                )
-                                .toList(),
-                            hint: "Room facilities".localize(context),
-                            icon: const Icon(Icons.arrow_drop_down),
-                            style: const TextStyle(fontSize: 14, color: AppColors.white),
-                            hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
-                            borderWidth: 0.5,
-                            menuMaxHeight: 300,
-                            value: model.selectedRoom,
-                            onChanged: (value) {
-                              model.selectedRoom = value;
-                              model.setState();
-                            },
-                          ),
-                        ),
-                      ],
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: MainTextFieldDropdown<String>(
+                    //         items: model.locationList
+                    //             .map(
+                    //               (e) => DropdownMenuItem(value: e, child: Text(e)),
+                    //             )
+                    //             .toList(),
+                    //         hint: "Location".localize(context),
+                    //         icon: const Icon(Icons.arrow_drop_down),
+                    //         style: const TextStyle(fontSize: 14, color: AppColors.white),
+                    //         hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                    //         borderWidth: 0.5,
+                    //         menuMaxHeight: 300,
+                    //         value: model.selectedLocation,
+                    //         onChanged: (value) {
+                    //           model.selectedLocation = value;
+                    //           model.setState();
+                    //         },
+                    //       ),
+                    //     ),
+                    //     const SizedBox(width: 10),
+                    //     Expanded(
+                    //       child: MainTextFieldDropdown<String>(
+                    //         items: model.roomsList
+                    //             .map(
+                    //               (e) => DropdownMenuItem(value: e, child: Text(e)),
+                    //             )
+                    //             .toList(),
+                    //         hint: "Room facilities".localize(context),
+                    //         icon: const Icon(Icons.arrow_drop_down),
+                    //         style: const TextStyle(fontSize: 14, color: AppColors.white),
+                    //         hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                    //         borderWidth: 0.5,
+                    //         menuMaxHeight: 300,
+                    //         value: model.selectedRoom,
+                    //         onChanged: (value) {
+                    //           model.selectedRoom = value;
+                    //           model.setState();
+                    //         },
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    MainTextFieldDropdown<HotelServiceFeaturesModel>(
+                      items: (model.hotelsRepo.hotelFeaturesList?.results ?? [])
+                          .map(
+                            (e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e.name ?? ""),
+                            ),
+                          )
+                          .toList(),
+                      hint: "Features".localize(context),
+                      icon: const Icon(Icons.arrow_drop_down),
+                      style: const TextStyle(fontSize: 14, color: AppColors.white),
+                      hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                      borderWidth: 0.5,
+                      menuMaxHeight: 300,
+                      value: model.selectedHotelFeature,
+                      onChanged: (value) {
+                        model.selectedHotelFeature = value;
+                        model.refreshHotelServices();
+                      },
                     ),
                     // const SizedBox(height: 10),
                     model.isBusy
@@ -188,27 +213,12 @@ class HotelServicesListViewModel extends BaseNotifier {
   HotelServicesListViewModel({required this.hotelsRepo});
   final HotelsServiceRepo hotelsRepo;
 
-  String? selectedLocation;
-  String? selectedRoom;
   final searchController = TextEditingController();
+  HotelServiceFeaturesModel? selectedHotelFeature;
   DateTimeRange? checkInOutRange;
   final checkInOutController = TextEditingController();
   ScrollController scrollController = ScrollController();
   bool isLoadingMore = false;
-
-  List<String> locationList = [
-    "Cairo",
-    "Giza",
-    "Alexandria",
-    "Sharm El-Sheikh",
-  ];
-  List<String> roomsList = [
-    "Room 1",
-    "Room 2",
-    "Room 3",
-    "Room 4",
-    "Room 5",
-  ];
 
   Future<void> initScrollController() async {
     scrollController.addListener(() async {
@@ -224,6 +234,7 @@ class HotelServicesListViewModel extends BaseNotifier {
     if (searchController.text != "" || checkInOutRange != null) {
       searchController.clear();
       checkInOutRange = null;
+      selectedHotelFeature = null;
       refreshHotelServices();
     }
   }
@@ -251,7 +262,6 @@ class HotelServicesListViewModel extends BaseNotifier {
   }
 
   Future<void> getHotelsServices() async {
-    // if (hotelsRepo.hotelsServicesPaginated == null) {
     if ((hotelsRepo.hotelsServicesPaginated?.results ?? []).isEmpty) {
       setBusy();
     } else {
@@ -262,6 +272,9 @@ class HotelServicesListViewModel extends BaseNotifier {
     Map<String, String> filterData = {};
     if (searchController.text.isNotEmpty) {
       filterData.addAll({"search": searchController.text});
+    }
+    if (selectedHotelFeature != null) {
+      filterData.addAll({"features__id": "${selectedHotelFeature?.id}"});
     }
     if (checkInOutRange != null) {
       filterData.addAll({"availability_start_gte": FormatHelper.formatDateTime(checkInOutRange!.start, pattern: "yyyy-MM-dd")});
@@ -276,6 +289,23 @@ class HotelServicesListViewModel extends BaseNotifier {
     } else {
       isLoadingMore = false;
       setIdle();
+    }
+  }
+
+  Future<void> getHotelsServiceFeatures() async {
+    var res = await hotelsRepo.getHotelsServiceFeatures(
+      queryParams: {
+        "offset": "0",
+        "limit": "1000",
+      },
+    );
+    if (res.left != null) {
+      isLoadingMore = false;
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
+    } else {
+      // setIdle();
     }
   }
 }

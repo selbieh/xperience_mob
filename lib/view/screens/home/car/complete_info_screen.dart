@@ -122,6 +122,7 @@ class CompleteInfoViewModel extends BaseNotifier {
   Future<void> updateProfile() async {
     setBusy();
     final res = await auth.updateUserProfile(
+      userId: auth.userModel?.user?.id ?? -1,
       body: {
         "name": nameController.text,
         "email": emailController.text,

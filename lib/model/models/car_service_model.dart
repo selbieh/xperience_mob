@@ -1,7 +1,9 @@
 class CarServiceModel {
   int? id;
-  String? model;
-  String? make;
+  int? model;
+  int? make;
+  String? modelName;
+  String? makeName;
   String? description;
   int? numberOfSeats;
   int? year;
@@ -9,13 +11,15 @@ class CarServiceModel {
   String? type;
   bool? cool;
   String? image;
-  List<String>? subscriptionOptions;
+  List<SubscriptionOptions>? subscriptionOptions;
   List<ImagesModel>? images;
 
   CarServiceModel({
     this.id,
     this.model,
     this.make,
+    this.modelName,
+    this.makeName,
     this.description,
     this.numberOfSeats,
     this.year,
@@ -33,6 +37,8 @@ class CarServiceModel {
     id = json['id'];
     model = json['model'];
     make = json['make'];
+    modelName = json['model_name'];
+    makeName = json['make_name'];
     description = json['description'];
     numberOfSeats = json['number_of_seats'];
     year = json['year'];
@@ -41,7 +47,10 @@ class CarServiceModel {
     cool = json['cool'];
     image = json['image'];
     if (json['subscription_options'] != null) {
-      subscriptionOptions = json['subscription_options'].cast<String>();
+      subscriptionOptions = <SubscriptionOptions>[];
+      json['subscription_options'].forEach((v) {
+        subscriptionOptions!.add(SubscriptionOptions.fromJson(v));
+      });
     }
     if (json['images'] != null) {
       images = <ImagesModel>[];
@@ -56,6 +65,8 @@ class CarServiceModel {
     data['id'] = id;
     data['model'] = model;
     data['make'] = make;
+    data['model_name'] = modelName;
+    data['make_name'] = makeName;
     data['description'] = description;
     data['number_of_seats'] = numberOfSeats;
     data['year'] = year;
@@ -67,6 +78,77 @@ class CarServiceModel {
     if (images != null) {
       data['images'] = images!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class SubscriptionOptions {
+  int? id;
+  int? durationHours;
+  String? price;
+  CarService? carService;
+  String? type;
+  int? points;
+
+  SubscriptionOptions({this.id, this.durationHours, this.price, this.carService, this.type, this.points});
+
+  SubscriptionOptions.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    durationHours = json['duration_hours'];
+    price = json['price'];
+    carService = json['car_service'] != null ? CarService.fromJson(json['car_service']) : null;
+    type = json['type'];
+    points = json['points'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['duration_hours'] = durationHours;
+    data['price'] = price;
+    if (carService != null) {
+      data['car_service'] = carService!.toJson();
+    }
+    data['type'] = type;
+    data['points'] = points;
+    return data;
+  }
+}
+
+class CarService {
+  int? id;
+  String? model;
+  String? make;
+  int? numberOfSeats;
+  int? year;
+  String? type;
+
+  CarService({
+    this.id,
+    this.model,
+    this.make,
+    this.numberOfSeats,
+    this.year,
+    this.type,
+  });
+
+  CarService.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    model = json['model'];
+    make = json['make'];
+    numberOfSeats = json['number_of_seats'];
+    year = json['year'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model'] = model;
+    data['make'] = make;
+    data['number_of_seats'] = numberOfSeats;
+    data['year'] = year;
+    data['type'] = type;
     return data;
   }
 }
