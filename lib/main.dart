@@ -21,7 +21,8 @@ void main() async {
   try {
     AppEnvironment.initialize(EnvironmentType.development);
     WidgetsFlutterBinding.ensureInitialized();
-    await dotenv.load(fileName: "assets/.env");
+    // await dotenv.load(fileName: "assets/.env");
+    await dotenv.load(fileName: ".env");
     await Future.wait([
       SharedPref.initialize(),
       Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) {

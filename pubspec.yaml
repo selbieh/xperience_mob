@@ -106,7 +106,8 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/.env
+    # - assets/.env
+    - .env
     - assets/svgs/
     - assets/images/
     - lib/model/services/localization/
