@@ -8,9 +8,7 @@ import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/auth/login_screen.dart';
 import 'package:xperience/view/screens/home/Ultimate/ultimate_step_2_cars.dart';
-import 'package:xperience/view/screens/home/car/complete_info_screen.dart';
 import 'package:xperience/view/widgets/components/horizental_stepper.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
@@ -110,7 +108,15 @@ class UltimateStep1HotelScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: CustomButton(
                   title: "NEXT".localize(context),
-                  onPressed: model.hotelGroupValueId == -1 ? null : model.goToNext,
+                  onPressed: model.hotelGroupValueId == -1
+                      ? null
+                      : () {
+                          NavService().pushKey(
+                            UltimateStep2CarScreen(
+                              hotelServiceId: model.hotelGroupValueId,
+                            ),
+                          );
+                        },
                 ),
               )
             ],
@@ -139,18 +145,6 @@ class UltimateStep1HotelViewModel extends BaseNotifier {
         }
       }
     });
-  }
-
-  void goToNext() {
-    if (auth.isLogged) {
-      if ((auth.userModel?.user?.email ?? "") == "") {
-        NavService().pushKey(const CompleteInfoScreen()).then((value) => setState());
-      } else {
-        NavService().pushKey(UltimateStep2CarScreen(hotelServiceId: hotelGroupValueId));
-      }
-    } else {
-      NavService().pushKey(const LoginScreen());
-    }
   }
 
   Future<void> refreshHotelServices() async {

@@ -7,7 +7,6 @@ import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/home/car/checkout_screen.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
@@ -85,10 +84,9 @@ class CompleteInfoScreen extends StatelessWidget {
                     ),
                   ),
                   CustomButton(
-                    title: "CHECKOUT".localize(context),
-                    onPressed: () {
-                      NavService().pushKey(const CheckoutScreen());
-                    },
+                    // title: "CHECKOUT".localize(context),
+                    title: "UPDATE".localize(context),
+                    onPressed: model.submitFun,
                   ),
                   const SizedBox(height: 30),
                 ],
@@ -134,6 +132,10 @@ class CompleteInfoViewModel extends BaseNotifier {
     } else {
       setIdle();
       NavService().popKey(true);
+      // DialogsHelper.messageDialog(
+      //   type: MessageDialogType.success,
+      //   message: "Profile updated successfully".tr(),
+      // );
     }
   }
 }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/auth/login_screen.dart';
 import 'package:xperience/view/screens/home/Ultimate/ultimate_step_1_hotel.dart';
+import 'package:xperience/view/screens/home/car/complete_info_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 
 class UltimateStartScreen extends StatelessWidget {
@@ -13,7 +17,9 @@ class UltimateStartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<UltimateStartViewModel>(
-      model: UltimateStartViewModel(),
+      model: UltimateStartViewModel(
+        auth: Provider.of<AuthService>(context),
+      ),
       builder: (_, model, child) {
         return Scaffold(
           backgroundColor: AppColors.primaryColorDark,
@@ -92,9 +98,7 @@ class UltimateStartScreen extends StatelessWidget {
                   color: AppColors.goldColor,
                   textStyle: const TextStyle(color: AppColors.black),
                   title: "GET STARTED".localize(context),
-                  onPressed: () {
-                    NavService().pushKey(const UltimateStep1HotelScreen());
-                  },
+                  onPressed: model.getStart,
                 ),
               ],
             ),
@@ -105,4 +109,19 @@ class UltimateStartScreen extends StatelessWidget {
   }
 }
 
-class UltimateStartViewModel extends BaseNotifier {}
+class UltimateStartViewModel extends BaseNotifier {
+  UltimateStartViewModel({required this.auth});
+  final AuthService auth;
+
+  void getStart() {
+    if (auth.isLogged) {
+      if ((auth.userModel?.user?.email ?? "") == "") {
+        NavService().pushKey(const CompleteInfoScreen()).then((value) => setState());
+      } else {
+        NavService().pushKey(const UltimateStep1HotelScreen());
+      }
+    } else {
+      NavService().pushKey(const LoginScreen());
+    }
+  }
+}

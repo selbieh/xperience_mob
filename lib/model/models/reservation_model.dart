@@ -1,6 +1,9 @@
+import 'package:xperience/model/models/user_model.dart';
+
 class ReservationModel {
   int? id;
-  int? user;
+  // int? user;
+  UserInfo? user;
   List<CarReservationData>? carReservations;
   List<HotelReservationData>? hotelReservations;
   CreatedBy? createdBy;
@@ -21,7 +24,8 @@ class ReservationModel {
 
   ReservationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    user = json['user'];
+    // user = json['user'];
+    user = json['user'] != null ? UserInfo.fromJson(json['user']) : null;
     if (json['car_reservations'] != null) {
       carReservations = <CarReservationData>[];
       json['car_reservations'].forEach((v) {
@@ -42,7 +46,10 @@ class ReservationModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['user'] = user;
+    // data['user'] = user;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
     if (carReservations != null) {
       data['car_reservations'] = carReservations!.map((v) => v.toJson()).toList();
     }
