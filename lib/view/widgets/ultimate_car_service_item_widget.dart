@@ -69,7 +69,10 @@ class UltimateCarServiceItemWidget extends StatelessWidget {
                 BookNowButton(
                   title: "VIEW".localize(context),
                   onPressed: () {
-                    NavService().pushKey(CarDetailsScreen(carService: carService));
+                    NavService().pushKey(CarDetailsScreen(
+                      carService: carService,
+                      isFromUltimate: true,
+                    ));
                   },
                 ),
               ],

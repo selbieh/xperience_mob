@@ -69,7 +69,10 @@ class UltimateHotelServiceItemWidget extends StatelessWidget {
                 BookNowButton(
                   title: "VIEW".localize(context),
                   onPressed: () {
-                    NavService().pushKey(HotelDetailsScreen(hotelService: hotelService));
+                    NavService().pushKey(HotelDetailsScreen(
+                      hotelService: hotelService,
+                      isFromUltimate: true,
+                    ));
                   },
                 ),
               ],

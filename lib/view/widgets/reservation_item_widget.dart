@@ -7,6 +7,7 @@ import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/home/Ultimate/ultimate_start_screen.dart';
 import 'package:xperience/view/screens/home/car/car_details_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_details_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
@@ -117,18 +118,22 @@ class ReservationItemWidget extends StatelessWidget {
                       BookNowButton(
                         title: "BOOK AGAIN".localize(context),
                         onPressed: () {
-                          if (isHasCarBooking) {
-                            NavService().pushKey(
-                              CarDetailsScreen(
-                                carService: CarServiceModel(id: reservationItem?.carReservations?[0].carService?.id ?? -1),
-                              ),
-                            );
+                          if (isHasMultiBooking) {
+                            NavService().pushKey(const UltimateStartScreen());
                           } else {
-                            NavService().pushKey(
-                              HotelDetailsScreen(
-                                hotelService: HotelServiceModel(id: reservationItem?.hotelReservations?[0].hotelService?.id ?? -1),
-                              ),
-                            );
+                            if (isHasCarBooking) {
+                              NavService().pushKey(
+                                CarDetailsScreen(
+                                  carService: CarServiceModel(id: reservationItem?.carReservations?[0].carService?.id ?? -1),
+                                ),
+                              );
+                            } else {
+                              NavService().pushKey(
+                                HotelDetailsScreen(
+                                  hotelService: HotelServiceModel(id: reservationItem?.hotelReservations?[0].hotelService?.id ?? -1),
+                                ),
+                              );
+                            }
                           }
                         },
                       ),

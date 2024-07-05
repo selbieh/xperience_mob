@@ -24,8 +24,14 @@ import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 import 'package:xperience/view/widgets/hotel_feature_border_item.dart';
 
 class HotelDetailsScreen extends StatelessWidget {
-  const HotelDetailsScreen({required this.hotelService, Key? key}) : super(key: key);
+  const HotelDetailsScreen({
+    required this.hotelService,
+    this.isFromUltimate = false,
+    Key? key,
+  }) : super(key: key);
+
   final HotelServiceModel? hotelService;
+  final bool isFromUltimate;
 
   @override
   Widget build(BuildContext context) {
@@ -219,12 +225,13 @@ class HotelDetailsScreen extends StatelessWidget {
                                 onTap: () => model.selectCheckInOutDate(context),
                               ),
                               const SizedBox(height: 20),
-                              Center(
-                                child: BookNowButton(
-                                  title: "BOOK PROPERTY".localize(context),
-                                  onPressed: model.goToBooking,
+                              if (isFromUltimate == false)
+                                Center(
+                                  child: BookNowButton(
+                                    title: "BOOK PROPERTY".localize(context),
+                                    onPressed: model.goToBooking,
+                                  ),
                                 ),
-                              ),
                               // const SizedBox(height: 20),
                             ],
                           ),

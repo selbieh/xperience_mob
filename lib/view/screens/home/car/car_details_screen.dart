@@ -22,8 +22,14 @@ import 'package:xperience/view/widgets/components/text_expansion.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 
 class CarDetailsScreen extends StatelessWidget {
-  const CarDetailsScreen({this.carService, Key? key}) : super(key: key);
+  const CarDetailsScreen({
+    this.carService,
+    this.isFromUltimate = false,
+    Key? key,
+  }) : super(key: key);
+
   final CarServiceModel? carService;
+  final bool isFromUltimate;
 
   @override
   Widget build(BuildContext context) {
@@ -260,12 +266,13 @@ class CarDetailsScreen extends StatelessWidget {
                                     style: TextStyle(color: AppColors.grey, fontSize: 12),
                                   ).localize(context),
                                   const SizedBox(height: 20),
-                                  Center(
-                                    child: BookNowButton(
-                                      title: "BOOK YOUR TRIP".localize(context),
-                                      onPressed: model.goToBooking,
+                                  if (isFromUltimate == false)
+                                    Center(
+                                      child: BookNowButton(
+                                        title: "BOOK YOUR TRIP".localize(context),
+                                        onPressed: model.goToBooking,
+                                      ),
                                     ),
-                                  ),
                                   const SizedBox(height: 20),
                                 ],
                               ),
