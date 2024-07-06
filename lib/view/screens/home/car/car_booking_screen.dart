@@ -11,14 +11,13 @@ import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/models/service_options_model.dart';
 import 'package:xperience/model/models/subscription_option_model.dart';
-import 'package:xperience/model/services/app_messenger.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
-import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/home/payment/payment_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
@@ -662,20 +661,34 @@ class CarBookingViewModel extends BaseNotifier {
         setError();
       } else {
         reservationBookingModel = res.right;
-        setIdle();
-        // NavService().popKey();
-        NavService().popUntilKey(settings: const RouteSettings(name: RouteNames.mainScreen));
-        AppMessenger.snackBar(
-          backgroundColor: Colors.green.shade800,
-          title: "Successfully".tr(),
-          message: "Your successfully created your booking".tr(),
-        );
+        // setIdle();
+        // NavService().popUntilKey(settings: const RouteSettings(name: RouteNames.mainScreen));
+        // AppMessenger.snackBar(
+        //   backgroundColor: Colors.green.shade800,
+        //   title: "Successfully".tr(),
+        //   message: "Your successfully created your booking".tr(),
+        // );
+        getPaymentURL(reservationBookingModel?.id);
       }
     } catch (e) {
       bookingLoading = false;
       failure = e.toString();
       DialogsHelper.messageDialog(message: "$e");
       setError();
+    }
+  }
+
+  Future<void> getPaymentURL(int? reservationId) async {
+    var res = await carsRepo.getPaymentURL(
+      body: {"reservation_id": reservationId},
+    );
+    if (res.left != null) {
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
+    } else {
+      setIdle();
+      NavService().pushKey(PaymentScreen(paymentUrl: "${res.right}"));
     }
   }
 }

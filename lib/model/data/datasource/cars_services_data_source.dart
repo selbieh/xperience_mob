@@ -171,4 +171,29 @@ class CarsServicesDataSource {
       return Either(left: AppFailure(message: error.toString()));
     }
   }
+
+  static Future<Either<AppFailure, String>> getPaymentURL({
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: EndPoints.payment,
+        requestType: RequestType.post,
+        header: Headers.userHeader,
+        body: body,
+      );
+      if (res.right != null) {
+        String? redirectURL = res.right["redirect_url"];
+        if (redirectURL == null) {
+          return Either(left: AppFailure(message: "Redirect url not found"));
+        } else {
+          return Either(right: redirectURL);
+        }
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
 }

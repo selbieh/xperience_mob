@@ -7,6 +7,7 @@ import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/main_screen.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
@@ -118,7 +119,10 @@ class OTPScreenModel extends BaseNotifier {
       DialogsHelper.messageDialog(message: "${res.left?.message}");
     } else {
       setIdle();
-      NavService().pushAndRemoveUntilKey(const MainScreen());
+      NavService().pushAndRemoveUntilKey(
+        const MainScreen(),
+        settings: const RouteSettings(name: RouteNames.mainScreen),
+      );
     }
   }
 
@@ -132,7 +136,10 @@ class OTPScreenModel extends BaseNotifier {
       DialogsHelper.messageDialog(message: "${res.left?.message}");
     } else {
       setIdle();
-      NavService().pushAndRemoveUntilKey(const MainScreen());
+      NavService().pushAndRemoveUntilKey(
+        const MainScreen(),
+        settings: const RouteSettings(name: RouteNames.mainScreen),
+      );
     }
   }
 }

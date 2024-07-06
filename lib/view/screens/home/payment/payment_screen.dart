@@ -84,6 +84,7 @@ class PaymentScreen extends StatelessWidget {
                   onLoadStart: (InAppWebViewController controller, Uri? url) {
                     String fullUrl = "${url?.host}${url?.path}/?${url?.query}";
                     Logger.log("InAppWebViewController URL ===> $fullUrl");
+                    Logger.printObject({"InAppWebViewControllerURL": fullUrl});
                     // https://um-in.com/myTickets/?status=Paid // success URL
                     // https://secure-egypt.paytabs.com/payment/page/5C7BC50082E4929950748C8CC7F9D009134C8DCCA5BC68952635C7C1/result
                     if (fullUrl.contains("status=Paid")) {
