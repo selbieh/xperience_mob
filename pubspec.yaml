@@ -56,10 +56,11 @@ dependencies:
   # ========================== Fields
   phone_form_field: ^9.2.3
 
-  # ========================== URL & HTML
+  # ========================== Web
   url_launcher: ^6.3.0
   # flutter_html: ^2.2.1
   flutter_html: ^3.0.0-beta.2
+  flutter_inappwebview: ^6.0.0
 
   # ========================== Storage
   shared_preferences: ^2.2.3

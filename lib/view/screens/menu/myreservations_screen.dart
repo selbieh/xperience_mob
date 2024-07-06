@@ -4,7 +4,9 @@ import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/data/repo/reservations_repo.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
+import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/home/payment/payment_screen.dart';
 import 'package:xperience/view/widgets/components/main_error_widget.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
@@ -30,8 +32,21 @@ class MyReservationsScreen extends StatelessWidget {
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("My resevations").localize(context),
             backgroundColor: AppColors.primaryColorDark,
+            title: const Text("My resevations").localize(context),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.payment),
+                onPressed: () {
+                  NavService().pushKey(
+                    // const SuccessScreen(isSuccess: false),
+                    const PaymentScreen(
+                      paymentUrl: "https://secure-egypt.paytabs.com/payment/wr/5C7BC50082E4929950748C8CC7F9D009134C8DCCA5BC68952635C7C1",
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           body: model.isBusy
               ? const MainProgress()

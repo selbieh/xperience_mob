@@ -186,7 +186,8 @@ class MenuDrawerScreen extends StatelessWidget {
                   radius: 10,
                   onPressed: () async {
                     if (model.auth.isLogged) {
-                      await model.auth.signOut();
+                      // await model.auth.signOut();
+                      model.auth.signOut();
                       NavService().pushAndRemoveUntilKey(const SplashScreen());
                     } else {
                       NavService().pushKey(const LoginScreen());

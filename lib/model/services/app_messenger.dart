@@ -5,6 +5,7 @@ import 'package:xperience/model/services/theme/app_colors.dart';
 class AppMessenger {
   static snackBar({
     required String message,
+    BuildContext? context,
     String? title,
     TextStyle? style,
     TextAlign textAlign = TextAlign.start,
@@ -18,9 +19,9 @@ class AppMessenger {
     EdgeInsetsGeometry? margin,
     Color? backgroundColor,
   }) {
-    BuildContext context = NavService().context();
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
+    BuildContext ctx = context ?? NavService().context();
+    ScaffoldMessenger.of(ctx).removeCurrentSnackBar();
+    ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -160,6 +160,16 @@
     "NEXT": "التالي",
     "VIEW": "عرض",
     "No items found": "لم يتم العثور على أي عناصر",
-    "AAAAAAAA": "AAAAAAAA",
+    "in-room scent": "عطر داخل الغرفة",
+    "Confirmation": "تأكيد",
+    "Are you sure you want to cancel payment process?": "هل أنت متأكد أنك تريد إلغاء عملية الدفع؟",
+    "Cancel": "إلغاء",
+    "Confirm": "تأكيد",
+    "Payment": "دفع",
+    "Error in payment": "خطأ في الدفع",
+    "Success": "نجاح",
+    "Error": "خطأ",
+    "Congratulations": "تهانينا",
+    "Go to home": "الذهاب إلى الصفحة الرئيسية",
     "LAST": "الأخير"
 }

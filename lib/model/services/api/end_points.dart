@@ -16,8 +16,9 @@ class EndPoints {
   static const String hotelServices = "/api/hotel-services/";
   static const String hotelServiceFeatures = "/api/hotel-service-features/";
 
-  // -------------------------------------------------------------------------------- reservations
+  // -------------------------------------------------------------------------------- Booking
   static const String reservations = "/api/reservations/";
+  static const String payment = "/api/payment/pay/";
 
   // -------------------------------------------------------------------------------- Info
   static const String policy = "/api/policy/";
