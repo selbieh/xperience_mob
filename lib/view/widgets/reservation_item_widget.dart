@@ -11,13 +11,16 @@ import 'package:xperience/view/screens/home/Ultimate/ultimate_start_screen.dart'
 import 'package:xperience/view/screens/home/car/car_details_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_details_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
 
 class ReservationItemWidget extends StatelessWidget {
   const ReservationItemWidget({
     this.reservationItem,
+    this.onPressedPay,
     super.key,
   });
   final ReservationModel? reservationItem;
+  final Function()? onPressedPay;
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +64,18 @@ class ReservationItemWidget extends StatelessWidget {
                       "${FormatHelper.formatStringDateTime(reservationItem?.createdAt ?? "", pattern: "d/M/yyyy - h:mma")}",
                       style: const TextStyle(fontSize: 11, color: AppColors.greyText),
                     ),
-                    Text(
-                      // "Done",
-                      reservationItem?.status ?? "",
-                      style: const TextStyle(fontSize: 11, color: AppColors.greyText),
-                    ),
+                    reservationItem?.status == "WAITING_FOR_PAYMENT"
+                        ? MainButton(
+                            height: 25,
+                            radius: 10,
+                            title: "Pay".localize(context),
+                            onPressed: onPressedPay,
+                          )
+                        : Text(
+                            // "Done",
+                            reservationItem?.status ?? "",
+                            style: const TextStyle(fontSize: 11, color: AppColors.greyText),
+                          ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -86,7 +96,10 @@ class ReservationItemWidget extends StatelessWidget {
                 if (isHasCarBooking)
                   Text(
                     (reservationItem?.carReservations ?? []).isNotEmpty
-                        ? "${reservationItem?.carReservations?[0].carService?.model ?? ""} ${reservationItem?.carReservations?[0].carService?.type ?? ""}  - ${reservationItem?.carReservations?[0].carService?.make ?? ""}"
+                        ? "${reservationItem?.carReservations?[0].carService?.model ?? ""}"
+                            "${reservationItem?.carReservations?[0].carService?.type ?? ""}"
+                            "  - "
+                            "${reservationItem?.carReservations?[0].carService?.make ?? ""}"
                         : "-",
                     style: const TextStyle(fontSize: 12, color: AppColors.greyText),
                   ),

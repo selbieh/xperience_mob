@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/data/repo/reservations_repo.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
@@ -20,6 +21,7 @@ class MyReservationsScreen extends StatelessWidget {
     return BaseWidget<MyReservationsScreenModel>(
       model: MyReservationsScreenModel(
         reservationRepo: Provider.of<ReservationRepo>(context),
+        carsRepo: Provider.of<CarsServiceRepo>(context),
       ),
       initState: (model) {
         model.initScrollController();
@@ -34,19 +36,19 @@ class MyReservationsScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: AppColors.primaryColorDark,
             title: const Text("My resevations").localize(context),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.payment),
-                onPressed: () {
-                  NavService().pushKey(
-                    // const SuccessScreen(isSuccess: false),
-                    const PaymentScreen(
-                      paymentUrl: "https://secure-egypt.paytabs.com/payment/wr/5C7BC50082E4929950748C8CC7F9D009134C8DCCA5BC68952635C7C1",
-                    ),
-                  );
-                },
-              ),
-            ],
+            // actions: [
+            //   IconButton(
+            //     icon: const Icon(Icons.payment),
+            //     onPressed: () {
+            //       NavService().pushKey(
+            //         // const SuccessScreen(isSuccess: false),
+            //         const PaymentScreen(
+            //           paymentUrl: "https://secure-egypt.paytabs.com/payment/wr/5C7BC50082E4929950748C8CC7F9D009134C8DCCA5BC68952635C7C1",
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ],
           ),
           body: model.isBusy
               ? const MainProgress()
@@ -72,7 +74,10 @@ class MyReservationsScreen extends StatelessWidget {
                                     separatorBuilder: (context, index) => const SizedBox(height: 10),
                                     itemBuilder: (context, index) {
                                       var item = model.reservationRepo.reservationsPaginated?.results?[index];
-                                      return ReservationItemWidget(reservationItem: item);
+                                      return ReservationItemWidget(
+                                        reservationItem: item,
+                                        onPressedPay: () => model.getPaymentURL(item?.id ?? -1),
+                                      );
                                     },
                                   ),
                                   if (model.isLoadingMore)
@@ -92,8 +97,9 @@ class MyReservationsScreen extends StatelessWidget {
 }
 
 class MyReservationsScreenModel extends BaseNotifier {
-  MyReservationsScreenModel({required this.reservationRepo});
+  MyReservationsScreenModel({required this.reservationRepo, required this.carsRepo});
   final ReservationRepo reservationRepo;
+  final CarsServiceRepo carsRepo;
 
   ScrollController scrollController = ScrollController();
   bool isLoadingMore = false;
@@ -129,6 +135,21 @@ class MyReservationsScreenModel extends BaseNotifier {
     } else {
       isLoadingMore = false;
       setIdle();
+    }
+  }
+
+  Future<void> getPaymentURL(int? reservationId) async {
+    setBusy();
+    var res = await carsRepo.getPaymentURL(
+      body: {"reservation_id": reservationId},
+    );
+    if (res.left != null) {
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
+    } else {
+      setIdle();
+      NavService().pushKey(PaymentScreen(paymentUrl: "${res.right}", isFromReservation: true));
     }
   }
 }
