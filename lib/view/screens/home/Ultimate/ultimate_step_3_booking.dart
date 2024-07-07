@@ -764,7 +764,7 @@ class CarBookingViewModel extends BaseNotifier {
   Future<void> selectCheckInOutDate(BuildContext context) async {
     DateTimeRange? dateTimeRange = await PickerHelper.getDateRangePicker(
       context,
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (dateTimeRange != null) {

@@ -47,7 +47,7 @@ class HotelServicesListScreen extends StatelessWidget {
                 type: ButtonType.text,
                 title: "Reset".localize(context),
                 color: AppColors.goldColor,
-                onPressed: model.searchController.text != "" || model.checkInOutRange != null ? model.resetFilter : null,
+                onPressed: model.searchController.text != "" || model.checkInOutRange != null || model.selectedHotelFeature != null ? model.resetFilter : null,
               )
             ],
           ),
@@ -231,8 +231,9 @@ class HotelServicesListViewModel extends BaseNotifier {
   }
 
   void resetFilter() {
-    if (searchController.text != "" || checkInOutRange != null) {
+    if (searchController.text != "" || checkInOutRange != null || selectedHotelFeature != null) {
       searchController.clear();
+      checkInOutController.clear();
       checkInOutRange = null;
       selectedHotelFeature = null;
       refreshHotelServices();
@@ -242,7 +243,7 @@ class HotelServicesListViewModel extends BaseNotifier {
   Future<void> selectCheckInOutDate(BuildContext context) async {
     DateTimeRange? dateTimeRange = await PickerHelper.getDateRangePicker(
       context,
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (dateTimeRange != null) {

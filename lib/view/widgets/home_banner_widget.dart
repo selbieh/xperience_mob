@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/components/main_image.dart';
 import 'package:xperience/view/widgets/components/main_image_slider.dart';
@@ -46,15 +47,15 @@ class HomeBannerWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(),
-                      SizedBox(),
-                      Text(
+                      const SizedBox(),
+                      const SizedBox(),
+                      const Text(
                         "50%",
                         style: TextStyle(
                           color: AppColors.white,
@@ -64,15 +65,15 @@ class HomeBannerWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "OFF",
-                        style: TextStyle(color: AppColors.white, fontSize: 18),
+                        "OFF".localize(context),
+                        style: const TextStyle(color: AppColors.white, fontSize: 18),
                       ),
                       Text(
-                        "Next 3 Rides",
-                        style: TextStyle(color: AppColors.white, fontSize: 10),
+                        "Next 3 Rides".localize(context),
+                        style: const TextStyle(color: AppColors.white, fontSize: 10),
                       ),
-                      SizedBox(),
-                      SizedBox(),
+                      const SizedBox(),
+                      const SizedBox(),
                     ],
                   ),
                 ),
