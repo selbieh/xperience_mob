@@ -1023,7 +1023,10 @@ class CarBookingViewModel extends BaseNotifier {
       setError();
     } else {
       setIdle();
-      NavService().pushKey(PaymentScreen(paymentUrl: "${res.right}"));
+      NavService().pushKey(PaymentScreen(
+        paymentUrl: "${res.right}",
+        reservationId: reservationId ?? -1,
+      ));
     }
   }
 }

@@ -149,7 +149,14 @@ class MyReservationsScreenModel extends BaseNotifier {
       setError();
     } else {
       setIdle();
-      NavService().pushKey(PaymentScreen(paymentUrl: "${res.right}", isFromReservation: true));
+      final result = await NavService().pushKey(PaymentScreen(
+        paymentUrl: "${res.right}",
+        isFromReservation: true,
+        reservationId: reservationId ?? -1,
+      ));
+      if (result == true) {
+        refreshCarServices();
+      }
     }
   }
 }

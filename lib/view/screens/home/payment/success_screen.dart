@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
-import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/home/home_tab_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 
 class SuccessScreen extends StatelessWidget {
@@ -78,9 +78,7 @@ class SuccessScreen extends StatelessWidget {
                   width: double.infinity,
                   title: "Go to home".localize(context),
                   onPressed: () async {
-                    NavService().popUntilKey(
-                      settings: const RouteSettings(name: RouteNames.mainScreen),
-                    );
+                    NavService().pushAndRemoveUntilKey(const HomeTabScreen());
                   },
                 ),
               ),

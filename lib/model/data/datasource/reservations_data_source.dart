@@ -27,4 +27,24 @@ class ReservationDataSource {
       return Either(left: AppFailure(message: error.toString()));
     }
   }
+
+  static Future<Either<AppFailure, ReservationModel>> getReservationById({
+    required int reservationId,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: "${EndPoints.reservations}$reservationId/",
+        requestType: RequestType.get,
+        header: Headers.userHeader,
+      );
+      if (res.right != null) {
+        final resData = ReservationModel.fromJson(res.right);
+        return Either(right: resData);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
 }

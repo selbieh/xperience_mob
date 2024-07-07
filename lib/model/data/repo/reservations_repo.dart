@@ -41,4 +41,19 @@ class ReservationRepo extends ChangeNotifier {
       return Either(left: AppFailure(message: e.toString()));
     }
   }
+
+  Future<Either<AppFailure, ReservationModel>> getReservationById({
+    required int reservationId,
+  }) async {
+    try {
+      var res = await ReservationDataSource.getReservationById(reservationId: reservationId);
+      if (res.left != null) {
+        return Either(left: res.left);
+      } else {
+        return Either(right: res.right);
+      }
+    } catch (e) {
+      return Either(left: AppFailure(message: e.toString()));
+    }
+  }
 }
