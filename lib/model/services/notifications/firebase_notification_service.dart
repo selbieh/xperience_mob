@@ -43,9 +43,8 @@ class FirebaseNotificationService {
           RemoteNotification? notification = message.notification;
           AndroidNotification? android = message.notification?.android;
           AppleNotification? apple = message.notification?.apple;
-          Logger.log("${message.notification?.title}");
-          Logger.log("${message.notification?.body}");
-
+          Logger.log("Notification title ===> ${message.notification?.title}");
+          Logger.log("Notification body ====> ${message.notification?.body}");
           DialogsHelper.notifyDialog(
             title: "${message.notification?.title}",
             subtitle: "${message.notification?.body}",

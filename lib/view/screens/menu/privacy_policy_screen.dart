@@ -6,6 +6,7 @@ import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/data/repo/info_repo.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/widgets/components/main_error_widget.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 
@@ -31,17 +32,22 @@ class PrivacyPolicyScreen extends StatelessWidget {
           ),
           body: model.isBusy
               ? const MainProgress()
-              : ListView(
-                  children: [
-                    if (model.infoRepo.termsOfUse?.content != null)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Html(
-                          data: """${model.infoRepo.privacyPolicy?.content}""",
-                        ),
-                      ),
-                  ],
-                ),
+              : model.hasError
+                  ? MainErrorWidget(
+                      error: model.failure,
+                      onRetry: model.getPrivacy,
+                    )
+                  : ListView(
+                      children: [
+                        if (model.infoRepo.termsOfUse?.content != null)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Html(
+                              data: """${model.infoRepo.privacyPolicy?.content}""",
+                            ),
+                          ),
+                      ],
+                    ),
         );
       },
     );

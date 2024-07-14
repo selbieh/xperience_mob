@@ -121,8 +121,8 @@ class LoginScreenViewModel extends BaseNotifier {
 
   final formKey = GlobalKey<FormState>();
   var autovalidateMode = AutovalidateMode.disabled;
-  // PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+20"));
-  PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+201009658566"));
+  PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+20"));
+  // PhoneController? phoneController = PhoneController(initialValue: PhoneNumber.parse("+201009658566"));
 
   void submitFun() async {
     if (formKey.currentState!.validate()) {

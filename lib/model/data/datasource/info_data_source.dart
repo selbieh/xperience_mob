@@ -15,7 +15,8 @@ class InfoDataSource {
       final res = await HttpService.request(
         endPoint: EndPoints.faqs,
         requestType: RequestType.get,
-        header: Headers.userHeader,
+        // header: Headers.userHeader,
+        header: Headers.guestHeader,
         queryParams: queryParams,
       );
       if (res.right != null) {
@@ -36,7 +37,8 @@ class InfoDataSource {
       final res = await HttpService.request(
         endPoint: EndPoints.policy,
         requestType: RequestType.get,
-        header: Headers.userHeader,
+        // header: Headers.userHeader,
+        header: Headers.guestHeader,
         queryParams: queryParams,
       );
       if (res.right != null) {
