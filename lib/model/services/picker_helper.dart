@@ -73,6 +73,7 @@ class PickerHelper {
               primary: AppColors.greyText,
               seedColor: AppColors.greyText,
               brightness: Brightness.dark,
+              // ignore: deprecated_member_use
               background: AppColors.primaryColorDark,
             ),
           ),
