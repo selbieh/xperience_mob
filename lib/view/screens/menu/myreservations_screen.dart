@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/data/repo/reservations_repo.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/payment/payment_screen.dart';
+import 'package:xperience/view/screens/menu/reservation_details_screen.dart';
 import 'package:xperience/view/widgets/components/main_error_widget.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
@@ -74,9 +76,15 @@ class MyReservationsScreen extends StatelessWidget {
                                     separatorBuilder: (context, index) => const SizedBox(height: 10),
                                     itemBuilder: (context, index) {
                                       var item = model.reservationRepo.reservationsPaginated?.results?[index];
-                                      return ReservationItemWidget(
-                                        reservationItem: item,
-                                        onPressedPay: () => model.getPaymentURL(item?.id ?? -1),
+                                      return InkWell(
+                                        child: ReservationItemWidget(
+                                          reservationItem: item,
+                                          onPressedPay: () => model.getPaymentURL(item?.id ?? -1),
+                                        ),
+                                        onTap: () {
+                                          Logger.printObject(item?.toJson());
+                                          NavService().pushKey(ReservationDetailsScreen(reservation: item));
+                                        },
                                       );
                                     },
                                   ),

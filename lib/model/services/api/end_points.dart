@@ -19,6 +19,7 @@ class EndPoints {
   // -------------------------------------------------------------------------------- Booking
   static const String reservations = "/api/reservations/";
   static const String payment = "/api/payment/pay/";
+  static const String refund = "/api/payment/refund/";
 
   // -------------------------------------------------------------------------------- Info
   static const String policy = "/api/policy/";

@@ -9,6 +9,7 @@ class ReservationModel {
   CreatedBy? createdBy;
   String? status;
   String? createdAt;
+  String? paymentMethod;
 
   ReservationModel({
     this.id,
@@ -18,6 +19,7 @@ class ReservationModel {
     this.createdBy,
     this.status,
     this.createdAt,
+    this.paymentMethod,
   });
 
   static ReservationModel fromJsonModel(Object? json) => ReservationModel.fromJson(json as Map<String, dynamic>);
@@ -41,6 +43,7 @@ class ReservationModel {
     createdBy = json['created_by'] != null ? CreatedBy.fromJson(json['created_by']) : null;
     status = json['status'];
     createdAt = json['created_at'];
+    paymentMethod = json['payment_method'];
   }
 
   Map<String, dynamic> toJson() {
