@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/view/widgets/dialogs/approve_dialog.dart';
 import 'package:xperience/view/widgets/dialogs/language_dialog.dart';
 import 'package:xperience/view/widgets/dialogs/message_dialog.dart';
 import 'package:xperience/view/widgets/dialogs/notify_dialog.dart';
+import 'package:xperience/view/widgets/dialogs/refund_method_dialog.dart';
 
 class DialogsHelper {
   static Future<dynamic> messageDialog({
@@ -32,6 +34,30 @@ class DialogsHelper {
       context: context,
       builder: (ctx) {
         return const LanguageDialog();
+      },
+    );
+  }
+
+  static Future<dynamic> approveDialog(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+  }) {
+    return showDialog(
+      context: context,
+      builder: (ctx) {
+        return ApproveDialog(title: title, subtitle: subtitle);
+      },
+    );
+  }
+
+  static Future<dynamic> refundMethodDialog(
+    BuildContext context,
+  ) async {
+    return await showDialog(
+      context: context,
+      builder: (ctx) {
+        return const RefundMethodDialog();
       },
     );
   }

@@ -22,7 +22,7 @@ class MainTextFieldDropdown<T> extends StatelessWidget {
   final Widget? icon;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
-  final BorderType? borderType;
+  final BorderType borderType;
   final double borderWidth;
   final double borderRadius;
   final Function(T?)? onChanged;
@@ -62,27 +62,7 @@ class MainTextFieldDropdown<T> extends StatelessWidget {
     InputBorder? focusedBorder;
     InputBorder? errorBorder;
 
-    switch (borderType!) {
-      //======================================================================== None Border
-      /// "border:" in case text field has error and focused in the same time
-      case BorderType.none:
-        {
-          border = InputBorder.none;
-          enabledBorder = InputBorder.none;
-          focusedBorder = InputBorder.none;
-          errorBorder = InputBorder.none;
-        }
-        break;
-      //======================================================================== Underline Border
-      case BorderType.underline:
-        {
-          border = UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: borderWidth));
-          enabledBorder = UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: borderWidth));
-          focusedBorder = UnderlineInputBorder(borderSide: BorderSide(color: AppColors.primaryColorLight, width: borderWidth));
-          errorBorder = UnderlineInputBorder(borderSide: BorderSide(color: Colors.red, width: borderWidth));
-        }
-        break;
-      //======================================================================== Outline Border
+    switch (borderType) {
       case BorderType.outline:
         {
           border = OutlineInputBorder(

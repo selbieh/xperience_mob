@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/repo/info_repo.dart';
 import 'package:xperience/model/models/car_service_model.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
@@ -15,6 +16,7 @@ import 'package:xperience/view/screens/home/Ultimate/ultimate_start_screen.dart'
 import 'package:xperience/view/screens/home/car/car_details_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_details_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
+import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 
 class ReservationDetailsScreen extends StatelessWidget {
   const ReservationDetailsScreen({
@@ -42,130 +44,137 @@ class ReservationDetailsScreen extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${FormatHelper.formatStringDateTime(reservation?.createdAt ?? "", pattern: "d/M/yyyy - h:mma")}",
+                        style: const TextStyle(fontSize: 12, color: AppColors.greyText),
+                      ),
+                      Text(
+                        reservation?.status ?? "",
+                        style: const TextStyle(fontSize: 12, color: AppColors.greyText),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        isHasMultiBooking
+                            ? "Hotel & Car booking".localize(context)
+                            : isHasCarBooking
+                                ? "Car booking".localize(context)
+                                : "Hotel booking".localize(context),
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(),
+                      const SizedBox(),
+                      Column(
+                        children: [
+                          if (isHasHotelBooking)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: SvgPicture.asset("assets/svgs/ic_hotel_2.svg"),
+                            ),
+                          if (isHasCarBooking)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: SvgPicture.asset("assets/svgs/ic_car_2.svg"),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  if (isHasHotelBooking)
                     Text(
-                      "${FormatHelper.formatStringDateTime(reservation?.createdAt ?? "", pattern: "d/M/yyyy - h:mma")}",
+                      (reservation?.hotelReservations ?? []).isNotEmpty ? "${reservation?.hotelReservations?[0].hotelService?.name ?? ""} " : "-",
                       style: const TextStyle(fontSize: 14, color: AppColors.greyText),
                     ),
+                  const SizedBox(height: 20),
+                  if (isHasCarBooking)
                     Text(
-                      reservation?.status ?? "",
+                      (reservation?.carReservations ?? []).isNotEmpty
+                          ? "${reservation?.carReservations?[0].carService?.model ?? ""}"
+                              "${reservation?.carReservations?[0].carService?.type ?? ""}"
+                              "  - "
+                              "${reservation?.carReservations?[0].carService?.make ?? ""}"
+                          : "-",
                       style: const TextStyle(fontSize: 14, color: AppColors.greyText),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      isHasMultiBooking
-                          ? "Hotel & Car booking".localize(context)
-                          : isHasCarBooking
-                              ? "Car booking".localize(context)
-                              : "Hotel booking".localize(context),
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(),
-                    const SizedBox(),
-                    Column(
-                      children: [
-                        if (isHasHotelBooking)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: SvgPicture.asset("assets/svgs/ic_hotel_2.svg"),
-                          ),
-                        if (isHasCarBooking)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: SvgPicture.asset("assets/svgs/ic_car_2.svg"),
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                if (isHasHotelBooking)
+                  const SizedBox(height: 20),
                   Text(
-                    (reservation?.hotelReservations ?? []).isNotEmpty ? "${reservation?.hotelReservations?[0].hotelService?.name ?? ""} " : "-",
-                    style: const TextStyle(fontSize: 14, color: AppColors.greyText),
+                    isHasMultiBooking
+                        ? (reservation?.carReservations ?? []).isNotEmpty
+                            ? "${(double.tryParse("${reservation?.hotelReservations?[0].finalPrice}") ?? 0) + (double.tryParse("${reservation?.carReservations?[0].finalPrice}") ?? 0)} ${"EGP".localize(context)}"
+                            : "-"
+                        : isHasHotelBooking
+                            ? (reservation?.hotelReservations ?? []).isNotEmpty
+                                ? "${reservation?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                                : "-"
+                            : (reservation?.carReservations ?? []).isNotEmpty
+                                ? "${reservation?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                                : "-",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: AppColors.greyText,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                const SizedBox(height: 20),
-                if (isHasCarBooking)
-                  Text(
-                    (reservation?.carReservations ?? []).isNotEmpty
-                        ? "${reservation?.carReservations?[0].carService?.model ?? ""}"
-                            "${reservation?.carReservations?[0].carService?.type ?? ""}"
-                            "  - "
-                            "${reservation?.carReservations?[0].carService?.make ?? ""}"
-                        : "-",
-                    style: const TextStyle(fontSize: 14, color: AppColors.greyText),
-                  ),
-                const SizedBox(height: 20),
-                Text(
-                  isHasMultiBooking
-                      ? (reservation?.carReservations ?? []).isNotEmpty
-                          ? "${(double.tryParse("${reservation?.hotelReservations?[0].finalPrice}") ?? 0) + (double.tryParse("${reservation?.carReservations?[0].finalPrice}") ?? 0)} ${"EGP".localize(context)}"
-                          : "-"
-                      : isHasHotelBooking
-                          ? (reservation?.hotelReservations ?? []).isNotEmpty
-                              ? "${reservation?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
-                              : "-"
-                          : (reservation?.carReservations ?? []).isNotEmpty
-                              ? "${reservation?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
-                              : "-",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: AppColors.greyText,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const SizedBox(height: 20),
-                MainButton(
-                  type: ButtonType.outlined,
-                  width: double.infinity,
-                  height: 55,
-                  title: "REFUND".localize(context),
-                  // color: AppColors.white,
-                  color: AppColors.red,
-                  radius: 10,
-                  onPressed: () async {},
-                ),
-                const SizedBox(height: 20),
-                MainButton(
-                  type: ButtonType.outlined,
-                  width: double.infinity,
-                  height: 55,
-                  title: "BOOK AGAIN".localize(context),
-                  // color: AppColors.white,
-                  color: AppColors.goldColor,
-                  radius: 10,
-                  onPressed: () {
-                    if (isHasMultiBooking) {
-                      NavService().pushKey(const UltimateStartScreen());
-                    } else {
-                      if (isHasCarBooking) {
-                        NavService().pushKey(
-                          CarDetailsScreen(
-                            carService: CarServiceModel(id: reservation?.carReservations?[0].carService?.id ?? -1),
-                          ),
-                        );
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  MainButton(
+                    type: ButtonType.outlined,
+                    width: double.infinity,
+                    height: 55,
+                    title: "REFUND".localize(context),
+                    color: AppColors.red,
+                    radius: 10,
+                    onPressed: () {
+                      if (reservation?.paymentMethod == "Points") {
+                        model.refundReservationPoints(context);
                       } else {
-                        NavService().pushKey(
-                          HotelDetailsScreen(
-                            hotelService: HotelServiceModel(id: reservation?.hotelReservations?[0].hotelService?.id ?? -1),
-                          ),
-                        );
+                        model.refundReservationPoints(context);
+                        // model.refundReservationMethod(context);
                       }
-                    }
-                  },
-                ),
-              ],
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  MainButton(
+                    type: ButtonType.outlined,
+                    width: double.infinity,
+                    height: 55,
+                    title: "BOOK AGAIN".localize(context),
+                    color: AppColors.goldColor,
+                    radius: 10,
+                    onPressed: () {
+                      if (isHasMultiBooking) {
+                        NavService().pushKey(const UltimateStartScreen());
+                      } else {
+                        if (isHasCarBooking) {
+                          NavService().pushKey(
+                            CarDetailsScreen(
+                              carService: CarServiceModel(id: reservation?.carReservations?[0].carService?.id ?? -1),
+                            ),
+                          );
+                        } else {
+                          NavService().pushKey(
+                            HotelDetailsScreen(
+                              hotelService: HotelServiceModel(id: reservation?.hotelReservations?[0].hotelService?.id ?? -1),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -177,4 +186,22 @@ class ReservationDetailsScreen extends StatelessWidget {
 class PrivacyPolicyScreenModel extends BaseNotifier {
   PrivacyPolicyScreenModel({required this.infoRepo});
   final InfoRepo infoRepo;
+
+  Future<void> refundReservationMethod(BuildContext context) async {
+    final result = await DialogsHelper.refundMethodDialog(context);
+    if (result != null) {
+      Logger.printObject(result);
+    }
+  }
+
+  Future<void> refundReservationPoints(BuildContext context) async {
+    final result = await DialogsHelper.approveDialog(
+      context,
+      title: "Refund",
+      subtitle: "Are you sure you want to refund this reservation?",
+    );
+    if (result != null) {
+      Logger.printObject(result);
+    }
+  }
 }

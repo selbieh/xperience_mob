@@ -90,6 +90,28 @@ class MyApp extends StatelessWidget {
  - Hide description if null
 
 ==================================================================================
+==================================== status_choices
+WAITING_FOR_PAYMENT
+WAITING_FOR_CONFIRMATION
+CONFIRMED
+PAID
+CANCELLED
+REFUNDED
+COMPLETED
+
+==================================== payment_methods
+CREDIT_CARD
+WALLET
+CASH_ON_DELIVERY
+CAR_POS
+POINTS
+
+==================================== refund_methods
+WALLET 
+POINTS 
+CREDIT_CARD
+
+==================================================================================
 
   https://virtual-staging.archicgi.com/wp-content/uploads/2021/11/how-to-make-a-real-estate-virtual-tour-with-cgi.jpg
   https://listing3d.com/insights/wp-content/uploads/2023/04/Real-estate-360-virtual-tour-example-2-1024x585.png

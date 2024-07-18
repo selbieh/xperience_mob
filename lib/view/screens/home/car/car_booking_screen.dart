@@ -21,6 +21,7 @@ import 'package:xperience/view/screens/home/payment/payment_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
+import 'package:xperience/view/widgets/components/main_textfield_dropdown.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
 import 'package:xperience/view/widgets/dashed_line_painter.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
@@ -481,6 +482,7 @@ class CarBookingViewModel extends BaseNotifier {
   int selectedBaveragesGroupValue = 0;
   int selectedScentGroupValue = 0;
   int selectedSnacksGroupValue = 0;
+  String? selectedPaymentMethod;
 
   void submitFun() {
     if (formKey.currentState!.validate()) {

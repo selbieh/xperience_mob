@@ -12,8 +12,6 @@ enum Validator {
 }
 
 enum BorderType {
-  none,
-  underline,
   outline,
 }
 
@@ -113,26 +111,6 @@ class MainTextField extends StatelessWidget {
     InputBorder? errorBorder;
 
     switch (borderType!) {
-      //======================================================================== None Border
-      /// "border:" in case text field has error and focused in the same time
-      case BorderType.none:
-        {
-          border = this.border ?? InputBorder.none;
-          enabledBorder = this.enabledBorder ?? InputBorder.none;
-          focusedBorder = this.focusedBorder ?? InputBorder.none;
-          errorBorder = this.errorBorder ?? InputBorder.none;
-        }
-        break;
-      //======================================================================== Underline Border
-      case BorderType.underline:
-        {
-          border = this.border ?? UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: borderWidth));
-          enabledBorder = this.enabledBorder ?? UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: borderWidth));
-          focusedBorder = this.focusedBorder ?? UnderlineInputBorder(borderSide: BorderSide(color: AppColors.primaryColorLight, width: borderWidth));
-          errorBorder = this.errorBorder ?? UnderlineInputBorder(borderSide: BorderSide(color: Colors.red, width: borderWidth));
-        }
-        break;
-      //======================================================================== Outline Border
       case BorderType.outline:
         {
           border = this.border ??
