@@ -176,6 +176,16 @@
     "OFF": "OFF",
     "Next 3 Rides": "Next 3 Rides",
     "Pay": "Pay",
-    "AAAAAAAA": "AAAAAAAA",
+    "Credit card": "Credit card",
+    "Cash on delivery": "Cash on delivery",
+    "Car POS": "Car POS",
+    "Waiting for payment": "Waiting for payment",
+    "Waiting for confirmation": "Waiting for confirmation",
+    "Paid": "Paid",
+    "Confirmed": "Confirmed",
+    "Cancelled": "Cancelled",
+    "Refunded": "Refunded",
+    "Completed": "Completed",
+    "Reservation completed successfully": "Reservation completed successfully",
     "LAST": "LAST"
 }

@@ -85,7 +85,7 @@ class CarReservationData {
   String? extras;
   String? finalPrice;
   int? subscriptionOption;
-  List<String>? options;
+  List<HotelOptions>? options;
 
   CarReservationData({
     this.id,
@@ -125,7 +125,12 @@ class CarReservationData {
     extras = json['extras'];
     finalPrice = json['final_price'];
     subscriptionOption = json['subscription_option'];
-    options = json['options'].cast<String>();
+    if (json['options'] != null) {
+      options = <HotelOptions>[];
+      json['options'].forEach((v) {
+        options!.add(HotelOptions.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -149,7 +154,9 @@ class CarReservationData {
     data['extras'] = extras;
     data['final_price'] = finalPrice;
     data['subscription_option'] = subscriptionOption;
-    data['options'] = options;
+    if (options != null) {
+      data['options'] = options!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

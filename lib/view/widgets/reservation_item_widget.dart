@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/models/car_service_model.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/models/reservation_model.dart';
+import 'package:xperience/model/services/app_helper.dart';
 import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
@@ -73,7 +74,8 @@ class ReservationItemWidget extends StatelessWidget {
                           )
                         : Text(
                             // "Done",
-                            reservationItem?.status ?? "",
+                            // reservationItem?.status ?? "",
+                            AppHelper.getReservationStatus(reservationItem?.status ?? ""),
                             style: const TextStyle(fontSize: 11, color: AppColors.greyText),
                           ),
                   ],
@@ -127,7 +129,8 @@ class ReservationItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if ((reservationItem?.carReservations ?? []).isNotEmpty || (reservationItem?.hotelReservations ?? []).isNotEmpty)
+                    if (((reservationItem?.carReservations ?? []).isNotEmpty || (reservationItem?.hotelReservations ?? []).isNotEmpty) &&
+                        reservationItem?.status == "COMPLETED")
                       BookNowButton(
                         title: "BOOK AGAIN".localize(context),
                         onPressed: () {

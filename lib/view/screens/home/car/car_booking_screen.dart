@@ -11,6 +11,7 @@ import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/models/service_options_model.dart';
 import 'package:xperience/model/models/subscription_option_model.dart';
+import 'package:xperience/model/services/app_helper.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
@@ -18,6 +19,7 @@ import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/payment/payment_screen.dart';
+import 'package:xperience/view/screens/home/payment/success_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
@@ -428,6 +430,26 @@ class CarBookingScreen extends StatelessWidget {
                             borderWidth: 0.5,
                             maxLines: 5,
                           ),
+                          const SizedBox(height: 20),
+                          MainTextFieldDropdown<String>(
+                            hint: "Payment method".localize(context),
+                            items: [
+                              "Credit card",
+                              "Wallet",
+                              "Cash on delivery",
+                              "Car POS",
+                              "Points",
+                            ].map((item) {
+                              return DropdownMenuItem(
+                                value: item,
+                                child: Text(item.localize(context)),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              model.selectedPaymentMethod = AppHelper.getPaymentMethodFromName(value);
+                              Logger.log("selectedPaymentMethod: ${model.selectedPaymentMethod}");
+                            },
+                          ),
                           const SizedBox(height: 40),
                           model.bookingLoading
                               ? const MainProgress()
@@ -640,7 +662,9 @@ class CarBookingViewModel extends BaseNotifier {
           "options": optionsList,
           "subscription_option": selectedSubscription?.id
         }
-      ]
+      ],
+      // "payment_method": AppHelper.getPaymentMethod(selectedPaymentMethod),
+      "payment_method": selectedPaymentMethod,
     };
     Logger.printObject(bookingBody);
     return bookingBody;
@@ -663,14 +687,16 @@ class CarBookingViewModel extends BaseNotifier {
         setError();
       } else {
         reservationBookingModel = res.right;
-        // setIdle();
-        // NavService().popUntilKey(settings: const RouteSettings(name: RouteNames.mainScreen));
-        // AppMessenger.snackBar(
-        //   backgroundColor: Colors.green.shade800,
-        //   title: "Successfully".tr(),
-        //   message: "Your successfully created your booking".tr(),
-        // );
-        getPaymentURL(reservationBookingModel?.id);
+        // if (selectedPaymentMethod == "Credit card") {
+        if (selectedPaymentMethod == "CREDIT_CARD") {
+          getPaymentURL(reservationBookingModel?.id);
+        } else {
+          setIdle();
+          NavService().pushAndRemoveUntilKey(SuccessScreen(
+            isSuccess: true,
+            message: "Reservation completed successfully".localize(context),
+          ));
+        }
       }
     } catch (e) {
       bookingLoading = false;

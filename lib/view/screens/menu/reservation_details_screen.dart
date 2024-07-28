@@ -146,33 +146,34 @@ class ReservationDetailsScreen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 20),
-                  MainButton(
-                    type: ButtonType.outlined,
-                    width: double.infinity,
-                    height: 55,
-                    title: "BOOK AGAIN".localize(context),
-                    color: AppColors.goldColor,
-                    radius: 10,
-                    onPressed: () {
-                      if (isHasMultiBooking) {
-                        NavService().pushKey(const UltimateStartScreen());
-                      } else {
-                        if (isHasCarBooking) {
-                          NavService().pushKey(
-                            CarDetailsScreen(
-                              carService: CarServiceModel(id: reservation?.carReservations?[0].carService?.id ?? -1),
-                            ),
-                          );
+                  if (reservation?.status == "COMPLETED")
+                    MainButton(
+                      type: ButtonType.outlined,
+                      width: double.infinity,
+                      height: 55,
+                      title: "BOOK AGAIN".localize(context),
+                      color: AppColors.goldColor,
+                      radius: 10,
+                      onPressed: () {
+                        if (isHasMultiBooking) {
+                          NavService().pushKey(const UltimateStartScreen());
                         } else {
-                          NavService().pushKey(
-                            HotelDetailsScreen(
-                              hotelService: HotelServiceModel(id: reservation?.hotelReservations?[0].hotelService?.id ?? -1),
-                            ),
-                          );
+                          if (isHasCarBooking) {
+                            NavService().pushKey(
+                              CarDetailsScreen(
+                                carService: CarServiceModel(id: reservation?.carReservations?[0].carService?.id ?? -1),
+                              ),
+                            );
+                          } else {
+                            NavService().pushKey(
+                              HotelDetailsScreen(
+                                hotelService: HotelServiceModel(id: reservation?.hotelReservations?[0].hotelService?.id ?? -1),
+                              ),
+                            );
+                          }
                         }
-                      }
-                    },
-                  ),
+                      },
+                    ),
                 ],
               ),
             ),
