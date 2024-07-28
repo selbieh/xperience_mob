@@ -16,23 +16,6 @@ class AppHelper {
     }
   }
 
-  static String getPaymentMethodFromName(String? name) {
-    switch (name) {
-      case "Credit card":
-        return "CREDIT_CARD";
-      case "Wallet":
-        return "WALLET";
-      case "Cash on delivery":
-        return "CASH_ON_DELIVERY";
-      case "Car POS":
-        return "CAR_POS";
-      case "Points":
-        return "POINTS";
-      default:
-        return " - ";
-    }
-  }
-
   static String getRefundMethod(String? name) {
     switch (name) {
       case "CREDIT_CARD":

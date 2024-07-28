@@ -659,19 +659,20 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                   MainTextFieldDropdown<String>(
                                     hint: "Payment method".localize(context),
                                     items: [
-                                      "Credit card",
-                                      "Wallet",
-                                      "Cash on delivery",
-                                      "Car POS",
-                                      "Points",
+                                      "CREDIT_CARD",
+                                      "WALLET",
+                                      "CASH_ON_DELIVERY",
+                                      "CAR_POS",
+                                      "POINTS",
                                     ].map((item) {
                                       return DropdownMenuItem(
                                         value: item,
-                                        child: Text(item.localize(context)),
+                                        child: Text(AppHelper.getPaymentMethod(item.localize(context))),
                                       );
                                     }).toList(),
                                     onChanged: (value) {
                                       model.selectedPaymentMethod = value;
+                                      Logger.log("selectedPaymentMethod: ${model.selectedPaymentMethod}");
                                     },
                                   ),
 
@@ -815,7 +816,7 @@ class CarBookingViewModel extends BaseNotifier {
     final date = await PickerHelper.getDatePicker(
       context,
       initialDate: selectedDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (date != null) {
@@ -998,7 +999,7 @@ class CarBookingViewModel extends BaseNotifier {
           "subscription_option": selectedSubscription?.id
         }
       ],
-      "payment_method": AppHelper.getPaymentMethod(selectedPaymentMethod),
+      "payment_method": selectedPaymentMethod,
     };
     Logger.printObject(bookingBody);
     return bookingBody;

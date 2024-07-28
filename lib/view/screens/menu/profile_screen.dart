@@ -78,15 +78,18 @@ class ProfileScreen extends StatelessWidget {
                             title: "SAVE".localize(context),
                             onPressed: model.submitFun,
                           ),
-                    CustomButton(
-                      
-                      title: "DELETE ACCOUNT".localize(context),
-                      
-                      onPressed: model.submitFun,
-                    ),
                   ],
                 ),
               ),
+            ),
+          ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: CustomButton(
+              title: "DELETE ACCOUNT".localize(context),
+              color: AppColors.red,
+              textStyle: const TextStyle(fontSize: 14, color: AppColors.red),
+              onPressed: () {},
             ),
           ),
         );

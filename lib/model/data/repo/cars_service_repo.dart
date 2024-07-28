@@ -163,4 +163,19 @@ class CarsServiceRepo extends ChangeNotifier {
       return Either(left: AppFailure(message: e.toString()));
     }
   }
+
+  Future<Either<AppFailure, ReservationBookingModel>> refundCarService({
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      var res = await CarsServicesDataSource.refundCarService(body: body);
+      if (res.left != null) {
+        return Either(left: res.left);
+      } else {
+        return Either(right: res.right);
+      }
+    } catch (e) {
+      return Either(left: AppFailure(message: e.toString()));
+    }
+  }
 }

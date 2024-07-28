@@ -196,4 +196,26 @@ class CarsServicesDataSource {
       return Either(left: AppFailure(message: error.toString()));
     }
   }
+
+
+    static Future<Either<AppFailure, ReservationBookingModel>> refundCarService({
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: EndPoints.refund,
+        requestType: RequestType.post,
+        header: Headers.userHeader,
+        body: body,
+      );
+      if (res.right != null) {
+        final resData = ReservationBookingModel.fromJson(res.right);
+        return Either(right: resData);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
 }

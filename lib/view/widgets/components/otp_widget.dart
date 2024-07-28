@@ -48,7 +48,7 @@ class OTPWidgetState extends State<OTPWidget> {
   }
 
   void buildFields() {
-    for (int i = 0; i < widget.codeLength; i++) {
+    for (int fieldIndex = 0; fieldIndex < widget.codeLength; fieldIndex++) {
       var codeController = TextEditingController();
       var focusNode = FocusNode();
       controllerList.add(codeController);
@@ -58,9 +58,9 @@ class OTPWidgetState extends State<OTPWidget> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: TextFormField(
-              controller: controllerList[i],
-              focusNode: focusNodeList[i],
-              maxLength: 1,
+              controller: controllerList[fieldIndex],
+              focusNode: focusNodeList[fieldIndex],
+              maxLength: 2,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 22,
@@ -86,30 +86,33 @@ class OTPWidgetState extends State<OTPWidget> {
                 return null;
               },
               onChanged: (value) {
-                controllerList[i].text = "";
-                controllerList[i].clear();
-                controllerList[i].text = value;
-                controllerList[i].selection = TextSelection.fromPosition(const TextPosition(offset: 0));
+                controllerList[fieldIndex].text = "";
+                controllerList[fieldIndex].clear();
+                controllerList[fieldIndex].text = value;
+                controllerList[fieldIndex].selection = TextSelection.fromPosition(const TextPosition(offset: 0));
                 if (value.isEmpty) {
-                  if (i > 0) {
+                  if (fieldIndex > 0) {
                     /// When remove text go to the Previous  TextField
-                    FocusScope.of(context).requestFocus(focusNodeList[i - 1]);
+                    FocusScope.of(context).requestFocus(focusNodeList[fieldIndex - 1]);
 
                     /// When remove text move TextField Cursor to Position 1 (start)
-                    if (controllerList[i - 1].text.isNotEmpty) {
-                      controllerList[i - 1].selection = TextSelection.fromPosition(const TextPosition(offset: 1));
+                    if (controllerList[fieldIndex - 1].text.isNotEmpty) {
+                      controllerList[fieldIndex - 1].selection = TextSelection.fromPosition(const TextPosition(offset: 1));
                     }
                   }
                 } else {
-                  if (i < widget.codeLength - 1) {
+                  if (value.length > 1) {
+                    controllerList[fieldIndex].text = value[1];
+                  }
+                  if (fieldIndex < widget.codeLength - 1) {
                     /// Go to the next TextField
-                    FocusScope.of(context).requestFocus(focusNodeList[i + 1]);
+                    FocusScope.of(context).requestFocus(focusNodeList[fieldIndex + 1]);
 
                     /// Set cursor position at the start of the value in TextField
-                    if (controllerList[i + 1].text.isNotEmpty) {
-                      controllerList[i + 1].selection = TextSelection.fromPosition(const TextPosition(offset: 1));
+                    if (controllerList[fieldIndex + 1].text.isNotEmpty) {
+                      controllerList[fieldIndex + 1].selection = TextSelection.fromPosition(const TextPosition(offset: 1));
                     } else {
-                      controllerList[i + 1].selection = TextSelection.fromPosition(const TextPosition(offset: 0));
+                      controllerList[fieldIndex + 1].selection = TextSelection.fromPosition(const TextPosition(offset: 0));
                     }
                   } else {
                     FocusScope.of(context).unfocus();
