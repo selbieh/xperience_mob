@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xperience/model/data/datasource/cars_services_data_source.dart';
 import 'package:xperience/model/models/car_make_model.dart';
 import 'package:xperience/model/models/car_service_model.dart';
+import 'package:xperience/model/models/checkout_data_model.dart';
 import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/models/service_options_model.dart';
@@ -169,6 +170,21 @@ class CarsServiceRepo extends ChangeNotifier {
   }) async {
     try {
       var res = await CarsServicesDataSource.refundCarService(body: body);
+      if (res.left != null) {
+        return Either(left: res.left);
+      } else {
+        return Either(right: res.right);
+      }
+    } catch (e) {
+      return Either(left: AppFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<AppFailure, CheckoutDataModel>> getCalculateReservationData({
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      var res = await CarsServicesDataSource.getCalculateReservationData(body: body);
       if (res.left != null) {
         return Either(left: res.left);
       } else {

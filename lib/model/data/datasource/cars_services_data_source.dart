@@ -1,5 +1,6 @@
 import 'package:xperience/model/models/car_make_model.dart';
 import 'package:xperience/model/models/car_service_model.dart';
+import 'package:xperience/model/models/checkout_data_model.dart';
 import 'package:xperience/model/models/pagination_model.dart';
 import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/models/service_options_model.dart';
@@ -197,8 +198,7 @@ class CarsServicesDataSource {
     }
   }
 
-
-    static Future<Either<AppFailure, ReservationBookingModel>> refundCarService({
+  static Future<Either<AppFailure, ReservationBookingModel>> refundCarService({
     required Map<String, dynamic> body,
   }) async {
     try {
@@ -210,6 +210,27 @@ class CarsServicesDataSource {
       );
       if (res.right != null) {
         final resData = ReservationBookingModel.fromJson(res.right);
+        return Either(right: resData);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
+
+  static Future<Either<AppFailure, CheckoutDataModel>> getCalculateReservationData({
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: EndPoints.calculateReservation,
+        requestType: RequestType.post,
+        header: Headers.userHeader,
+        body: body,
+      );
+      if (res.right != null) {
+        final resData = CheckoutDataModel.fromJson(res.right);
         return Either(right: resData);
       } else {
         return Either(left: res.left);

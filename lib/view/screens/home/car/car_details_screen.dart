@@ -147,11 +147,12 @@ class CarDetailsScreen extends StatelessWidget {
                                     style: const TextStyle(color: AppColors.greyText, fontSize: 14),
                                   ),
                                   const SizedBox(height: 20),
-                                  TextExpansion(
-                                    // text: "dasdasd dasdas  d dasdasd dasdasdasd das" * 5,
-                                    text: model.carServiceModel?.description ?? "",
-                                    maxLines: 1,
-                                  ),
+                                  if ((model.carServiceModel?.description ?? "").isNotEmpty)
+                                    TextExpansion(
+                                      // text: "dasdasd dasdas  d dasdasd dasdasdasd das" * 5,
+                                      text: model.carServiceModel?.description ?? "",
+                                      maxLines: 1,
+                                    ),
                                   const SizedBox(height: 20),
                                   SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,

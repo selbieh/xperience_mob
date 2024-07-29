@@ -18,6 +18,7 @@ import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/home/car/checkout_screen.dart';
 import 'package:xperience/view/screens/home/payment/payment_screen.dart';
 import 'package:xperience/view/screens/home/payment/success_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
@@ -508,8 +509,8 @@ class CarBookingViewModel extends BaseNotifier {
 
   void submitFun() {
     if (formKey.currentState!.validate()) {
-      // generatebookingBody();
-      bookingCarService();
+      // bookingCarService();
+      NavService().pushKey(CheckoutScreen(bookingBody: generateCarBookingBody()));
     } else {
       autovalidateMode = AutovalidateMode.always;
       setState();
