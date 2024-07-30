@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
-import 'package:xperience/model/data/repo/cars_service_repo.dart';
+import 'package:xperience/model/data/repo/booking_repo.dart';
 import 'package:xperience/model/data/repo/reservations_repo.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
@@ -23,7 +23,7 @@ class MyReservationsScreen extends StatelessWidget {
     return BaseWidget<MyReservationsScreenModel>(
       model: MyReservationsScreenModel(
         reservationRepo: Provider.of<ReservationRepo>(context),
-        carsRepo: Provider.of<CarsServiceRepo>(context),
+        bookingRepo: Provider.of<BookingRepo>(context),
       ),
       initState: (model) {
         model.initScrollController();
@@ -79,7 +79,11 @@ class MyReservationsScreen extends StatelessWidget {
                                       return InkWell(
                                         child: ReservationItemWidget(
                                           reservationItem: item,
-                                          onPressedPay: () => model.getPaymentURL(item?.id ?? -1),
+                                          // onPressedPay: () => model.getPaymentURL(item?.id ?? -1),
+                                          onPressedPay: () {
+                                            Logger.printObject(item?.toJson());
+                                            NavService().pushKey(ReservationDetailsScreen(reservation: item));
+                                          },
                                         ),
                                         onTap: () {
                                           Logger.printObject(item?.toJson());
@@ -105,9 +109,9 @@ class MyReservationsScreen extends StatelessWidget {
 }
 
 class MyReservationsScreenModel extends BaseNotifier {
-  MyReservationsScreenModel({required this.reservationRepo, required this.carsRepo});
+  MyReservationsScreenModel({required this.reservationRepo, required this.bookingRepo});
   final ReservationRepo reservationRepo;
-  final CarsServiceRepo carsRepo;
+  final BookingRepo bookingRepo;
 
   ScrollController scrollController = ScrollController();
   bool isLoadingMore = false;
@@ -148,7 +152,7 @@ class MyReservationsScreenModel extends BaseNotifier {
 
   Future<void> getPaymentURL(int? reservationId) async {
     setBusy();
-    var res = await carsRepo.getPaymentURL(
+    var res = await bookingRepo.getPaymentURL(
       body: {"reservation_id": reservationId},
     );
     if (res.left != null) {

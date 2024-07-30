@@ -8,7 +8,6 @@ import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/repo/cars_service_repo.dart';
 import 'package:xperience/model/data/repo/hotels_service_repo.dart';
 import 'package:xperience/model/models/pagination_model.dart';
-import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/models/service_options_model.dart';
 import 'package:xperience/model/services/app_helper.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
@@ -17,8 +16,7 @@ import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/home/payment/payment_screen.dart';
-import 'package:xperience/view/screens/home/payment/success_screen.dart';
+import 'package:xperience/view/screens/home/car/checkout_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
@@ -288,12 +286,10 @@ class HotelBookingScreen extends StatelessWidget {
                             },
                           ),
                           const SizedBox(height: 40),
-                          model.bookingLoading
-                              ? const MainProgress()
-                              : CustomButton(
-                                  title: "CONTINUE".localize(context),
-                                  onPressed: model.submitFun,
-                                ),
+                          CustomButton(
+                            title: "CONTINUE".localize(context),
+                            onPressed: model.submitFun,
+                          ),
                           const SizedBox(height: 20),
                         ],
                       ),
@@ -337,7 +333,7 @@ class HotelBookingViewModel extends BaseNotifier {
 
   void submitFun() {
     if (formKey.currentState!.validate()) {
-      bookingHotelService();
+      NavService().pushKey(CheckoutScreen(bookingBody: generateHotelBookingBody()));
     } else {
       autovalidateMode = AutovalidateMode.always;
       setState();
@@ -442,57 +438,5 @@ class HotelBookingViewModel extends BaseNotifier {
     };
     Logger.printObject(bookingBody);
     return bookingBody;
-  }
-
-  bool bookingLoading = false;
-  ReservationBookingModel? reservationBookingModel;
-
-  Future<void> bookingHotelService() async {
-    try {
-      bookingLoading = true;
-      setState();
-      var res = await hotelRepo.bookingHotelService(
-        body: generateHotelBookingBody(),
-      );
-      bookingLoading = false;
-      if (res.left != null) {
-        failure = res.left?.message;
-        DialogsHelper.messageDialog(message: "${res.left?.message}");
-        setError();
-      } else {
-        reservationBookingModel = res.right;
-        if (selectedPaymentMethod == "Credit card") {
-          getPaymentURL(reservationBookingModel?.id);
-        } else {
-          setIdle();
-          NavService().pushAndRemoveUntilKey(SuccessScreen(
-            isSuccess: true,
-            message: "Reservation completed successfully".localize(context),
-          ));
-        }
-      }
-    } catch (e) {
-      bookingLoading = false;
-      failure = e.toString();
-      DialogsHelper.messageDialog(message: "$e");
-      setError();
-    }
-  }
-
-  Future<void> getPaymentURL(int? reservationId) async {
-    var res = await carsRepo.getPaymentURL(
-      body: {"reservation_id": reservationId},
-    );
-    if (res.left != null) {
-      failure = res.left?.message;
-      DialogsHelper.messageDialog(message: "${res.left?.message}");
-      setError();
-    } else {
-      setIdle();
-      NavService().pushKey(PaymentScreen(
-        paymentUrl: "${res.right}",
-        reservationId: reservationId ?? -1,
-      ));
-    }
   }
 }

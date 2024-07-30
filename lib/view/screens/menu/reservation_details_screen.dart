@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
-import 'package:xperience/model/data/repo/cars_service_repo.dart';
+import 'package:xperience/model/data/repo/booking_repo.dart';
 import 'package:xperience/model/models/car_service_model.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/models/reservation_model.dart';
@@ -17,6 +17,7 @@ import 'package:xperience/view/screens/home/car/car_details_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_details_screen.dart';
 import 'package:xperience/view/screens/home/payment/payment_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
+import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 
 class ReservationDetailsScreen extends StatelessWidget {
@@ -35,7 +36,7 @@ class ReservationDetailsScreen extends StatelessWidget {
 
     return BaseWidget<PrivacyPolicyScreenModel>(
       model: PrivacyPolicyScreenModel(
-        carsRepo: Provider.of<CarsServiceRepo>(context),
+        bookingRepo: Provider.of<BookingRepo>(context),
         reservation: reservation,
       ),
       builder: (_, model, child) {
@@ -44,150 +45,152 @@ class ReservationDetailsScreen extends StatelessWidget {
             title: const Text("Reservation Details").localize(context),
             backgroundColor: AppColors.primaryColorDark,
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${FormatHelper.formatStringDateTime(reservation?.createdAt ?? "", pattern: "d/M/yyyy - h:mma")}",
-                        style: const TextStyle(fontSize: 12, color: AppColors.greyText),
-                      ),
-                      Text(
-                        reservation?.status ?? "",
-                        style: const TextStyle(fontSize: 12, color: AppColors.greyText),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        isHasMultiBooking
-                            ? "Hotel & Car booking".localize(context)
-                            : isHasCarBooking
-                                ? "Car booking".localize(context)
-                                : "Hotel booking".localize(context),
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(),
-                      const SizedBox(),
-                      Column(
-                        children: [
-                          if (isHasHotelBooking)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: SvgPicture.asset("assets/svgs/ic_hotel_2.svg"),
+          body: model.isBusy
+              ? const MainProgress()
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${FormatHelper.formatStringDateTime(reservation?.createdAt ?? "", pattern: "d/M/yyyy - h:mma")}",
+                              style: const TextStyle(fontSize: 12, color: AppColors.greyText),
                             ),
-                          if (isHasCarBooking)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: SvgPicture.asset("assets/svgs/ic_car_2.svg"),
+                            Text(
+                              reservation?.status ?? "",
+                              style: const TextStyle(fontSize: 12, color: AppColors.greyText),
                             ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  if (isHasHotelBooking)
-                    Text(
-                      (reservation?.hotelReservations ?? []).isNotEmpty ? "${reservation?.hotelReservations?[0].hotelService?.name ?? ""} " : "-",
-                      style: const TextStyle(fontSize: 14, color: AppColors.greyText),
-                    ),
-                  const SizedBox(height: 20),
-                  if (isHasCarBooking)
-                    Text(
-                      (reservation?.carReservations ?? []).isNotEmpty
-                          ? "${reservation?.carReservations?[0].carService?.model ?? ""}"
-                              "${reservation?.carReservations?[0].carService?.type ?? ""}"
-                              "  - "
-                              "${reservation?.carReservations?[0].carService?.make ?? ""}"
-                          : "-",
-                      style: const TextStyle(fontSize: 14, color: AppColors.greyText),
-                    ),
-                  const SizedBox(height: 20),
-                  Text(
-                    isHasMultiBooking
-                        ? (reservation?.carReservations ?? []).isNotEmpty
-                            ? "${(double.tryParse("${reservation?.hotelReservations?[0].finalPrice}") ?? 0) + (double.tryParse("${reservation?.carReservations?[0].finalPrice}") ?? 0)} ${"EGP".localize(context)}"
-                            : "-"
-                        : isHasHotelBooking
-                            ? (reservation?.hotelReservations ?? []).isNotEmpty
-                                ? "${reservation?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
-                                : "-"
-                            : (reservation?.carReservations ?? []).isNotEmpty
-                                ? "${reservation?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              isHasMultiBooking
+                                  ? "Hotel & Car booking".localize(context)
+                                  : isHasCarBooking
+                                      ? "Car booking".localize(context)
+                                      : "Hotel booking".localize(context),
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(),
+                            const SizedBox(),
+                            Column(
+                              children: [
+                                if (isHasHotelBooking)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 5),
+                                    child: SvgPicture.asset("assets/svgs/ic_hotel_2.svg"),
+                                  ),
+                                if (isHasCarBooking)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 5),
+                                    child: SvgPicture.asset("assets/svgs/ic_car_2.svg"),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        if (isHasHotelBooking)
+                          Text(
+                            (reservation?.hotelReservations ?? []).isNotEmpty ? "${reservation?.hotelReservations?[0].hotelService?.name ?? ""} " : "-",
+                            style: const TextStyle(fontSize: 14, color: AppColors.greyText),
+                          ),
+                        const SizedBox(height: 20),
+                        if (isHasCarBooking)
+                          Text(
+                            (reservation?.carReservations ?? []).isNotEmpty
+                                ? "${reservation?.carReservations?[0].carService?.model ?? ""}"
+                                    "${reservation?.carReservations?[0].carService?.type ?? ""}"
+                                    "  - "
+                                    "${reservation?.carReservations?[0].carService?.make ?? ""}"
                                 : "-",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: AppColors.greyText,
-                      fontWeight: FontWeight.bold,
+                            style: const TextStyle(fontSize: 14, color: AppColors.greyText),
+                          ),
+                        const SizedBox(height: 20),
+                        Text(
+                          isHasMultiBooking
+                              ? (reservation?.carReservations ?? []).isNotEmpty
+                                  ? "${(double.tryParse("${reservation?.hotelReservations?[0].finalPrice}") ?? 0) + (double.tryParse("${reservation?.carReservations?[0].finalPrice}") ?? 0)} ${"EGP".localize(context)}"
+                                  : "-"
+                              : isHasHotelBooking
+                                  ? (reservation?.hotelReservations ?? []).isNotEmpty
+                                      ? "${reservation?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                                      : "-"
+                                  : (reservation?.carReservations ?? []).isNotEmpty
+                                      ? "${reservation?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                                      : "-",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: AppColors.greyText,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const SizedBox(height: 20),
+                        if (reservation?.status == "WAITING_FOR_PAYMENT")
+                          MainButton(
+                            width: double.infinity,
+                            radius: 10,
+                            title: "Pay".localize(context),
+                            onPressed: model.getPaymentURL,
+                          ),
+                        const SizedBox(height: 20),
+                        if (reservation?.status != "COMPLETED" && reservation?.status != "WAITING_FOR_PAYMENT" && reservation?.status != "CANCELLED")
+                          MainButton(
+                            type: ButtonType.outlined,
+                            width: double.infinity,
+                            height: 55,
+                            title: "REFUND".localize(context),
+                            color: AppColors.red,
+                            radius: 10,
+                            onPressed: () {
+                              if (reservation?.paymentMethod == "Points") {
+                                model.refundReservationPoints(context);
+                              } else {
+                                model.refundReservationPoints(context);
+                              }
+                            },
+                          ),
+                        const SizedBox(height: 20),
+                        if (reservation?.status == "COMPLETED")
+                          MainButton(
+                            type: ButtonType.outlined,
+                            width: double.infinity,
+                            height: 55,
+                            title: "BOOK AGAIN".localize(context),
+                            color: const Color.fromARGB(255, 177, 174, 166),
+                            radius: 10,
+                            onPressed: () {
+                              if (isHasMultiBooking) {
+                                NavService().pushKey(const UltimateStartScreen());
+                              } else {
+                                if (isHasCarBooking) {
+                                  NavService().pushKey(
+                                    CarDetailsScreen(
+                                      carService: CarServiceModel(id: reservation?.carReservations?[0].carService?.id ?? -1),
+                                    ),
+                                  );
+                                } else {
+                                  NavService().pushKey(
+                                    HotelDetailsScreen(
+                                      hotelService: HotelServiceModel(id: reservation?.hotelReservations?[0].hotelService?.id ?? -1),
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                          ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  const SizedBox(height: 20),
-                  if (reservation?.status == "WAITING_FOR_PAYMENT")
-                    MainButton(
-                      width: double.infinity,
-                      radius: 10,
-                      title: "Pay".localize(context),
-                      onPressed: model.getPaymentURL,
-                    ),
-                  const SizedBox(height: 20),
-                  if (reservation?.status != "COMPLETED" && reservation?.status != "WAITING_FOR_PAYMENT")
-                    MainButton(
-                      type: ButtonType.outlined,
-                      width: double.infinity,
-                      height: 55,
-                      title: "REFUND".localize(context),
-                      color: AppColors.red,
-                      radius: 10,
-                      onPressed: () {
-                        if (reservation?.paymentMethod == "Points") {
-                          model.refundReservationPoints(context);
-                        } else {
-                          model.refundReservationPoints(context);
-                        }
-                      },
-                    ),
-                  const SizedBox(height: 20),
-                  if (reservation?.status == "COMPLETED")
-                    MainButton(
-                      type: ButtonType.outlined,
-                      width: double.infinity,
-                      height: 55,
-                      title: "BOOK AGAIN".localize(context),
-                      color: const Color.fromARGB(255, 177, 174, 166),
-                      radius: 10,
-                      onPressed: () {
-                        if (isHasMultiBooking) {
-                          NavService().pushKey(const UltimateStartScreen());
-                        } else {
-                          if (isHasCarBooking) {
-                            NavService().pushKey(
-                              CarDetailsScreen(
-                                carService: CarServiceModel(id: reservation?.carReservations?[0].carService?.id ?? -1),
-                              ),
-                            );
-                          } else {
-                            NavService().pushKey(
-                              HotelDetailsScreen(
-                                hotelService: HotelServiceModel(id: reservation?.hotelReservations?[0].hotelService?.id ?? -1),
-                              ),
-                            );
-                          }
-                        }
-                      },
-                    ),
-                ],
-              ),
-            ),
-          ),
+                ),
         );
       },
     );
@@ -195,8 +198,8 @@ class ReservationDetailsScreen extends StatelessWidget {
 }
 
 class PrivacyPolicyScreenModel extends BaseNotifier {
-  PrivacyPolicyScreenModel({required this.carsRepo, this.reservation});
-  final CarsServiceRepo carsRepo;
+  PrivacyPolicyScreenModel({required this.bookingRepo, this.reservation});
+  final BookingRepo bookingRepo;
   final ReservationModel? reservation;
 
   Future<void> refundReservationMethod(BuildContext context) async {
@@ -220,7 +223,7 @@ class PrivacyPolicyScreenModel extends BaseNotifier {
 
   Future<void> getPaymentURL() async {
     setBusy();
-    var res = await carsRepo.getPaymentURL(
+    var res = await bookingRepo.getPaymentURL(
       body: {"reservation_id": reservation?.id},
     );
     if (res.left != null) {
@@ -241,7 +244,7 @@ class PrivacyPolicyScreenModel extends BaseNotifier {
 
   Future<void> refundCarService() async {
     setBusy();
-    var res = await carsRepo.refundCarService(
+    var res = await bookingRepo.refundCarService(
       body: {
         "reservation_id": reservation?.id,
         "refund_method": "POINTS",

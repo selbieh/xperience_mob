@@ -10,9 +10,9 @@ import 'package:xperience/model/data/repo/reservations_repo.dart';
 import 'package:xperience/model/models/reservation_model.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
-import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/home/payment/success_screen.dart';
+import 'package:xperience/view/screens/main_screen.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
@@ -76,24 +76,25 @@ class PaymentScreen extends StatelessWidget {
               if (isFromReservation) {
                 NavService().popKey(true);
               } else {
-                NavService().popUntilKey(settings: const RouteSettings(name: RouteNames.mainScreen));
+                // NavService().popUntilKey(settings: const RouteSettings(name: RouteNames.mainScreen));
+                NavService().pushAndRemoveUntilKey(const MainScreen());
               }
             }
           },
           child: Scaffold(
+            // backgroundColor: AppColors.white,
             appBar: AppBar(
               title: Text("Payment".localize(context)),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    "${model.webviewChangeCounter}",
-                    style: const TextStyle(color: Colors.green, fontSize: 20),
-                  ),
-                ),
-              ],
+              // actions: [
+              //   Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 10),
+              //     child: Text(
+              //       "${model.webviewChangeCounter}",
+              //       style: const TextStyle(color: Colors.green, fontSize: 20),
+              //     ),
+              //   ),
+              // ],
             ),
-            backgroundColor: AppColors.white,
             body: model.isBusy
                 ? const MainProgress()
                 : Stack(

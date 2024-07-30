@@ -1,7 +1,6 @@
 class CheckoutDataModel {
-  int? user;
   List<CarReservations>? carReservations;
-  List<String>? hotelReservations;
+  List<HotelReservations>? hotelReservations;
   String? status;
   String? paymentMethod;
   String? promocode;
@@ -10,7 +9,6 @@ class CheckoutDataModel {
   num? totalPointsPrice;
 
   CheckoutDataModel({
-    this.user,
     this.carReservations,
     this.hotelReservations,
     this.status,
@@ -22,14 +20,18 @@ class CheckoutDataModel {
   });
 
   CheckoutDataModel.fromJson(Map<String, dynamic> json) {
-    user = json['user'];
     if (json['car_reservations'] != null) {
       carReservations = <CarReservations>[];
       json['car_reservations'].forEach((v) {
         carReservations!.add(CarReservations.fromJson(v));
       });
     }
-    hotelReservations = json['hotel_reservations'].cast<String>();
+    if (json['hotel_reservations'] != null) {
+      hotelReservations = <HotelReservations>[];
+      json['hotel_reservations'].forEach((v) {
+        hotelReservations!.add(HotelReservations.fromJson(v));
+      });
+    }
     status = json['status'];
     paymentMethod = json['payment_method'];
     promocode = json['promocode'];
@@ -40,11 +42,12 @@ class CheckoutDataModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['user'] = user;
     if (carReservations != null) {
       data['car_reservations'] = carReservations!.map((v) => v.toJson()).toList();
     }
-    data['hotel_reservations'] = hotelReservations;
+    if (hotelReservations != null) {
+      data['hotel_reservations'] = hotelReservations!.map((v) => v.toJson()).toList();
+    }
     data['status'] = status;
     data['payment_method'] = paymentMethod;
     data['promocode'] = promocode;
@@ -66,18 +69,21 @@ class CarReservations {
   num? finalPrice;
   int? subscriptionOption;
   List<Options>? options;
+  num? subscriptionOptionPrice;
 
-  CarReservations(
-      {this.carService,
-      this.pickupTime,
-      this.pickupAddress,
-      this.dropoffAddress,
-      this.terminal,
-      this.flightNumber,
-      this.extras,
-      this.finalPrice,
-      this.subscriptionOption,
-      this.options});
+  CarReservations({
+    this.carService,
+    this.pickupTime,
+    this.pickupAddress,
+    this.dropoffAddress,
+    this.terminal,
+    this.flightNumber,
+    this.extras,
+    this.finalPrice,
+    this.subscriptionOption,
+    this.options,
+    this.subscriptionOptionPrice,
+  });
 
   CarReservations.fromJson(Map<String, dynamic> json) {
     carService = json['car_service'];
@@ -89,6 +95,7 @@ class CarReservations {
     extras = json['extras'];
     finalPrice = json['final_price'];
     subscriptionOption = json['subscription_option'];
+    subscriptionOptionPrice = json['subscription_option_price'];
     if (json['options'] != null) {
       options = <Options>[];
       json['options'].forEach((v) {
@@ -108,6 +115,48 @@ class CarReservations {
     data['extras'] = extras;
     data['final_price'] = finalPrice;
     data['subscription_option'] = subscriptionOption;
+    data['subscription_option_price'] = subscriptionOptionPrice;
+    if (options != null) {
+      data['options'] = options!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class HotelReservations {
+  int? hotelService;
+  num? hotelServicePrice;
+  String? checkInDate;
+  String? checkOutDate;
+  String? extras;
+  num? finalPrice;
+  List<Options>? options;
+
+  HotelReservations({this.hotelService, this.hotelServicePrice, this.checkInDate, this.checkOutDate, this.extras, this.finalPrice, this.options});
+
+  HotelReservations.fromJson(Map<String, dynamic> json) {
+    hotelService = json['hotel_service'];
+    hotelServicePrice = json['hotel_service_price'];
+    checkInDate = json['check_in_date'];
+    checkOutDate = json['check_out_date'];
+    extras = json['extras'];
+    finalPrice = json['final_price'];
+    if (json['options'] != null) {
+      options = <Options>[];
+      json['options'].forEach((v) {
+        options!.add(Options.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['hotel_service'] = hotelService;
+    data['hotel_service_price'] = hotelServicePrice;
+    data['check_in_date'] = checkInDate;
+    data['check_out_date'] = checkOutDate;
+    data['extras'] = extras;
+    data['final_price'] = finalPrice;
     if (options != null) {
       data['options'] = options!.map((v) => v.toJson()).toList();
     }
@@ -121,8 +170,16 @@ class Options {
   num? price;
   int? maxFree;
   String? pointsPrice;
+  String? serviceOptionName;
 
-  Options({this.serviceOption, this.quantity, this.price, this.maxFree, this.pointsPrice});
+  Options({
+    this.serviceOption,
+    this.quantity,
+    this.price,
+    this.maxFree,
+    this.pointsPrice,
+    this.serviceOptionName,
+  });
 
   Options.fromJson(Map<String, dynamic> json) {
     serviceOption = json['service_option'];
@@ -130,6 +187,7 @@ class Options {
     price = json['price'];
     maxFree = json['max_free'];
     pointsPrice = json['points_price'];
+    serviceOptionName = json['service_option_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -139,6 +197,7 @@ class Options {
     data['price'] = price;
     data['max_free'] = maxFree;
     data['points_price'] = pointsPrice;
+    data['service_option_name'] = serviceOptionName;
     return data;
   }
 }

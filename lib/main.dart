@@ -92,6 +92,45 @@ class MyApp extends StatelessWidget {
 ==================================================================================
 
  {
+      "car_reservations": [],
+      "hotel_reservations": [
+           {
+                "hotel_service": 6,
+                "hotel_service_price": 1.0,
+                "check_in_date": "2024-08-08",
+                "check_out_date": "2024-08-09",
+                "extras": "",
+                "final_price": 601.0,
+                "options": [
+                     {
+                          "service_option": 7,
+                          "service_option_name": "Shisha Service",
+                          "quantity": 2,
+                          "price": 300.0,
+                          "max_free": 1,
+                          "points_price": null
+                     },
+                     {
+                          "service_option": 8,
+                          "service_option_name": "Private bulter",
+                          "quantity": 1,
+                          "price": 300.0,
+                          "max_free": 0,
+                          "points_price": null
+                     }
+                ]
+           }
+      ],
+      "status": "WAITING_FOR_PAYMENT",
+      "payment_method": "CREDIT_CARD",
+      "promocode": null,
+      "discount": 0,
+      "final_reservation_price": 601.0,
+      "total_points_price": 0
+ }
+==================================================================================
+
+ {
       "user": 4,
       "car_reservations": [
            {
@@ -138,6 +177,26 @@ class MyApp extends StatelessWidget {
       "total_points_price": 0
  }
 ==================================================================================
+ URI: https://api.xperiences.vip/api/calculate-reservation/
+ EndPoint: /api/calculate-reservation/
+ Request Type: POST
+ Header: {Accept: application/json, Content-Type: application/json, Accept-Language: en, Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI0Nzg5NDQ0LCJpYXQiOjE3MjIxOTc0NDQsImp0aSI6Ijg4NmU0MzRjM2I2MjQyOWY4ZGIwNDBhN2FmNWEyNWM5IiwidXNlcl9pZCI6NH0.UziWE2bT_yxW-ilGPJbLZ7_Kxu1mLjz8O0QGbQV_oME}
+ Body: {hotel_reservations: [{hotel_service_id: 6, check_in_date: 2024-08-07, check_out_date: 2024-08-08, extras: , options: [{service_option: 7, quantity: 3}, {service_option: 8, quantity: 1}]}], payment_method: CREDIT_CARD}
+ QueryParams: null
+ 
+ ❌❌ Request Failed (500) ❌❌
+  {
+       "type": "server_error",
+       "errors": [
+            {
+                 "code": "error",
+                 "detail": "'HotelService' object has no attribute 'price'",
+                 "attr": null
+            }
+       ]
+  }
+==================================================================================
+
 ==================================================================================
 ==================================================================================
 

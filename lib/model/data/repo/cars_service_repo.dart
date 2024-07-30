@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xperience/model/data/datasource/cars_services_data_source.dart';
 import 'package:xperience/model/models/car_make_model.dart';
 import 'package:xperience/model/models/car_service_model.dart';
-import 'package:xperience/model/models/checkout_data_model.dart';
 import 'package:xperience/model/models/pagination_model.dart';
-import 'package:xperience/model/models/reservation_booking_model.dart';
 import 'package:xperience/model/models/service_options_model.dart';
 import 'package:xperience/model/models/subscription_option_model.dart';
 import 'package:xperience/model/services/api/app_failure.dart';
@@ -125,66 +123,6 @@ class CarsServiceRepo extends ChangeNotifier {
       var res = await CarsServicesDataSource.getServiceOptions(
         queryParams: queryParams,
       );
-      if (res.left != null) {
-        return Either(left: res.left);
-      } else {
-        return Either(right: res.right);
-      }
-    } catch (e) {
-      return Either(left: AppFailure(message: e.toString()));
-    }
-  }
-
-  Future<Either<AppFailure, ReservationBookingModel>> bookingCarService({
-    required Map<String, dynamic> body,
-  }) async {
-    try {
-      var res = await CarsServicesDataSource.bookingCarService(body: body);
-      if (res.left != null) {
-        return Either(left: res.left);
-      } else {
-        return Either(right: res.right);
-      }
-    } catch (e) {
-      return Either(left: AppFailure(message: e.toString()));
-    }
-  }
-
-  Future<Either<AppFailure, String>> getPaymentURL({
-    required Map<String, dynamic> body,
-  }) async {
-    try {
-      var res = await CarsServicesDataSource.getPaymentURL(body: body);
-      if (res.left != null) {
-        return Either(left: res.left);
-      } else {
-        return Either(right: res.right);
-      }
-    } catch (e) {
-      return Either(left: AppFailure(message: e.toString()));
-    }
-  }
-
-  Future<Either<AppFailure, ReservationBookingModel>> refundCarService({
-    required Map<String, dynamic> body,
-  }) async {
-    try {
-      var res = await CarsServicesDataSource.refundCarService(body: body);
-      if (res.left != null) {
-        return Either(left: res.left);
-      } else {
-        return Either(right: res.right);
-      }
-    } catch (e) {
-      return Either(left: AppFailure(message: e.toString()));
-    }
-  }
-
-  Future<Either<AppFailure, CheckoutDataModel>> getCalculateReservationData({
-    required Map<String, dynamic> body,
-  }) async {
-    try {
-      var res = await CarsServicesDataSource.getCalculateReservationData(body: body);
       if (res.left != null) {
         return Either(left: res.left);
       } else {

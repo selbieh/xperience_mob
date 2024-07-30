@@ -19,8 +19,7 @@ import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/picker_helper.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/home/payment/payment_screen.dart';
-import 'package:xperience/view/screens/home/payment/success_screen.dart';
+import 'package:xperience/view/screens/home/car/checkout_screen.dart';
 import 'package:xperience/view/widgets/components/horizental_stepper.dart';
 import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
@@ -753,7 +752,7 @@ class CarBookingViewModel extends BaseNotifier {
 
   void submitFun() {
     if (formKey.currentState!.validate()) {
-      ultimateBooking();
+      NavService().pushKey(CheckoutScreen(bookingBody: generateUltimateBookingBody()));
     } else {
       autovalidateMode = AutovalidateMode.always;
       setState();
@@ -978,14 +977,7 @@ class CarBookingViewModel extends BaseNotifier {
       "car_reservations": [
         {
           "car_service_id": carServiceId,
-          // "pickup_time": "2023-06-15T15:00:00Z",
           "pickup_time": "${selectedDate?.toUtc().toIso8601String()}",
-          // "pickup_address": "Giza, 6th of october city",
-          // "pickup_lat": 29.970402,
-          // "pickup_long": 30.952246,
-          // "dropoff_address": "Cairo, tahrir square",
-          // "dropoff_lat": 30.044318,
-          // "dropoff_long": 31.235752,
           "pickup_address": "test",
           "dropoff_address": "test",
           "pickup_lat": pickupLatLng?.latitude,
@@ -1007,54 +999,4 @@ class CarBookingViewModel extends BaseNotifier {
 
   bool bookingLoading = false;
   ReservationBookingModel? reservationBookingModel;
-
-  Future<void> ultimateBooking() async {
-    try {
-      bookingLoading = true;
-      setState();
-      var res = await carsRepo.bookingCarService(
-        body: generateUltimateBookingBody(),
-      );
-      bookingLoading = false;
-      if (res.left != null) {
-        failure = res.left?.message;
-        DialogsHelper.messageDialog(message: "${res.left?.message}");
-        setError();
-      } else {
-        reservationBookingModel = res.right;
-
-        if (selectedPaymentMethod == "Credit card") {
-          getPaymentURL(reservationBookingModel?.id);
-        } else {
-          setIdle();
-          NavService().pushAndRemoveUntilKey(SuccessScreen(
-            isSuccess: true,
-            message: "Reservation completed successfully".localize(context),
-          ));
-        }
-      }
-    } catch (e) {
-      bookingLoading = false;
-      failure = e.toString();
-      DialogsHelper.messageDialog(message: "$e");
-      setError();
-    }
-  }
-
-  Future<void> getPaymentURL(int? reservationId) async {
-    var res = await carsRepo.getPaymentURL(
-      body: {"reservation_id": reservationId},
-    );
-    if (res.left != null) {
-      failure = res.left?.message;
-      DialogsHelper.messageDialog(message: "${res.left?.message}");
-      setError();
-    } else {
-      setIdle();
-      NavService().pushKey(PaymentScreen(
-        paymentUrl: "${res.right}",
-        reservationId: reservationId ?? -1,
-      ));
-    }
-  }
 }

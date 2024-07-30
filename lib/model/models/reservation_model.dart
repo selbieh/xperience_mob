@@ -10,6 +10,7 @@ class ReservationModel {
   String? status;
   String? createdAt;
   String? paymentMethod;
+  String? promocode;
 
   ReservationModel({
     this.id,
@@ -20,6 +21,7 @@ class ReservationModel {
     this.status,
     this.createdAt,
     this.paymentMethod,
+    this.promocode,
   });
 
   static ReservationModel fromJsonModel(Object? json) => ReservationModel.fromJson(json as Map<String, dynamic>);
@@ -44,6 +46,7 @@ class ReservationModel {
     status = json['status'];
     createdAt = json['created_at'];
     paymentMethod = json['payment_method'];
+    promocode = json['promocode'];
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +67,8 @@ class ReservationModel {
     }
     data['status'] = status;
     data['created_at'] = createdAt;
+    data['payment_method'] = paymentMethod;
+    data['promocode'] = promocode;
     return data;
   }
 }

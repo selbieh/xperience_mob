@@ -1,3 +1,5 @@
+import 'package:xperience/model/models/checkout_data_model.dart';
+
 class ReservationBookingModel {
   int? id;
   int? user;
@@ -163,25 +165,6 @@ class CarService {
     data['number_of_seats'] = numberOfSeats;
     data['year'] = year;
     data['type'] = type;
-    return data;
-  }
-}
-
-class Options {
-  int? serviceOption;
-  int? quantity;
-
-  Options({this.serviceOption, this.quantity});
-
-  Options.fromJson(Map<String, dynamic> json) {
-    serviceOption = json['service_option'];
-    quantity = json['quantity'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['service_option'] = serviceOption;
-    data['quantity'] = quantity;
     return data;
   }
 }
