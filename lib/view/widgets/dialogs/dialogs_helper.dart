@@ -52,12 +52,13 @@ class DialogsHelper {
   }
 
   static Future<dynamic> refundMethodDialog(
-    BuildContext context,
-  ) async {
+    BuildContext context, {
+    required List<String> refundMethodsList,
+  }) async {
     return await showDialog(
       context: context,
       builder: (ctx) {
-        return const RefundMethodDialog();
+        return RefundMethodDialog(refundMethodsList: refundMethodsList);
       },
     );
   }

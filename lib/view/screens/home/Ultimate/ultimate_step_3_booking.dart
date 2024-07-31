@@ -349,7 +349,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                                 style: TextStyle(color: AppColors.grey),
                                               ).localize(context),
                                               MainTextField(
-                                                controller: model.pickUpDateController,
+                                                controller: model.pickUpLocationController,
                                                 validator: Validator.required,
                                                 hint: "Pick-Up Location".localize(context),
                                                 hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
@@ -359,7 +359,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                                   LatLng? latLng = await PickerHelper.getLocationPicker(context, targetLatLng: model.pickupLatLng);
                                                   if (latLng != null) {
                                                     model.pickupLatLng = latLng;
-                                                    model.pickUpDateController.text = "Change pickup location".tr();
+                                                    model.pickUpLocationController.text = "Change pickup location".tr();
                                                   }
                                                 },
                                               ),

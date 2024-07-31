@@ -53,7 +53,7 @@ class BookingDataSource {
     }
   }
 
-  static Future<Either<AppFailure, ReservationBookingModel>> refundCarService({
+  static Future<Either<AppFailure, ReservationBookingModel>> refundService({
     required Map<String, dynamic> body,
   }) async {
     try {

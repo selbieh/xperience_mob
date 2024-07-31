@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
-import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/data/repo/booking_repo.dart';
 import 'package:xperience/model/models/car_service_model.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
@@ -36,6 +35,7 @@ class ReservationDetailsScreen extends StatelessWidget {
 
     return BaseWidget<PrivacyPolicyScreenModel>(
       model: PrivacyPolicyScreenModel(
+        context: context,
         bookingRepo: Provider.of<BookingRepo>(context),
         reservation: reservation,
       ),
@@ -142,7 +142,7 @@ class ReservationDetailsScreen extends StatelessWidget {
                             onPressed: model.getPaymentURL,
                           ),
                         const SizedBox(height: 20),
-                        if (reservation?.status != "COMPLETED" && reservation?.status != "WAITING_FOR_PAYMENT" && reservation?.status != "CANCELLED")
+                        if (reservation?.status == "PAID")
                           MainButton(
                             type: ButtonType.outlined,
                             width: double.infinity,
@@ -151,11 +151,7 @@ class ReservationDetailsScreen extends StatelessWidget {
                             color: AppColors.red,
                             radius: 10,
                             onPressed: () {
-                              if (reservation?.paymentMethod == "Points") {
-                                model.refundReservationPoints(context);
-                              } else {
-                                model.refundReservationPoints(context);
-                              }
+                              model.handleRefund();
                             },
                           ),
                         const SizedBox(height: 20),
@@ -198,26 +194,45 @@ class ReservationDetailsScreen extends StatelessWidget {
 }
 
 class PrivacyPolicyScreenModel extends BaseNotifier {
-  PrivacyPolicyScreenModel({required this.bookingRepo, this.reservation});
+  PrivacyPolicyScreenModel({required this.context, required this.bookingRepo, this.reservation});
+  final BuildContext context;
   final BookingRepo bookingRepo;
   final ReservationModel? reservation;
 
-  Future<void> refundReservationMethod(BuildContext context) async {
-    final result = await DialogsHelper.refundMethodDialog(context);
-    if (result != null) {
-      Logger.printObject(result);
+  Future<void> handleRefund() async {
+    switch (reservation?.paymentMethod) {
+      case "CREDIT_CARD":
+        {
+          refundReservationMethod(["CREDIT_CARD", "WALLET"]);
+        }
+      case "POINTS":
+        {
+          confirmRefundReservation("POINTS");
+        }
+      case "WALLET":
+      case "CAR_POS":
+      case "CASH_ON_DELIVERY":
+        {
+          confirmRefundReservation("WALLET");
+        }
     }
   }
 
-  Future<void> refundReservationPoints(BuildContext context) async {
+  Future<void> refundReservationMethod(List<String> refundMethods) async {
+    final result = await DialogsHelper.refundMethodDialog(context, refundMethodsList: refundMethods);
+    if (result != null) {
+      refundService(result);
+    }
+  }
+
+  Future<void> confirmRefundReservation(String refundMethod) async {
     final result = await DialogsHelper.approveDialog(
       context,
       title: "Refund",
       subtitle: "Are you sure you want to refund this reservation?",
     );
     if (result != null) {
-      Logger.printObject(result);
-      refundCarService();
+      refundService(refundMethod);
     }
   }
 
@@ -242,12 +257,12 @@ class PrivacyPolicyScreenModel extends BaseNotifier {
     }
   }
 
-  Future<void> refundCarService() async {
+  Future<void> refundService(String refundMethod) async {
     setBusy();
-    var res = await bookingRepo.refundCarService(
+    var res = await bookingRepo.refundService(
       body: {
         "reservation_id": reservation?.id,
-        "refund_method": "POINTS",
+        "refund_method": refundMethod,
       },
     );
     if (res.left != null) {
@@ -256,7 +271,8 @@ class PrivacyPolicyScreenModel extends BaseNotifier {
       setError();
     } else {
       setIdle();
-      NavService().popKey();
+      NavService().popKey(true);
+      NavService().popKey(true);
     }
   }
 }

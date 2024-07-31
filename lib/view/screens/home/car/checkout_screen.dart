@@ -100,7 +100,7 @@ class CheckoutScreen extends StatelessWidget {
                                   ).localize(context),
                                   ...(model.checkoutReservationModel?.carReservations![0].options)!.map((e) {
                                     bool isCalculated = (e.quantity ?? 0) - (e.maxFree ?? 0) > 0;
-                        
+
                                     return isCalculated
                                         ? SummaryInfoItem(
                                             // title: "Water",
@@ -189,7 +189,11 @@ class CheckoutViewModel extends BaseNotifier {
       bookingLoading = true;
       setState();
       var res = await checkoutRepo.bookingServices(
-        body: bookingBody,
+        // body: bookingBody,
+        body: {
+          ...bookingBody,
+          "promocode": promocodeController.text,
+        },
       );
       bookingLoading = false;
       if (res.left != null) {

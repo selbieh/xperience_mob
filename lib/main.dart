@@ -196,6 +196,29 @@ class MyApp extends StatelessWidget {
        ]
   }
 ==================================================================================
+{
+     "hotel_reservations": [""],
+     "created_by": {
+          "id": 4,
+          "name": "Ahmed Ezzeldin2",
+          "email": "ahmedezz@test.com",
+          "mobile": "+201009658566",
+          "wallet": 0,
+          "is_staff": false,
+          "points": null
+     },
+     "status": "PAID",
+     "created_at": "2024-07-30T19:51:50.881270Z",
+     "payment_method": "CREDIT_CARD",
+     "promocode": {
+          "id": 2,
+          "code": "5545",
+          "discount_type": "FIXED",
+          "discount_value": "50.00",
+          "is_active": true,
+          "expiration_date": "2024-12-29T00:00:00Z"
+     }
+}
 
 ==================================================================================
 ==================================================================================

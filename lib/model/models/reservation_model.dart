@@ -10,7 +10,7 @@ class ReservationModel {
   String? status;
   String? createdAt;
   String? paymentMethod;
-  String? promocode;
+  PromocodeModel? promocode;
 
   ReservationModel({
     this.id,
@@ -46,7 +46,7 @@ class ReservationModel {
     status = json['status'];
     createdAt = json['created_at'];
     paymentMethod = json['payment_method'];
-    promocode = json['promocode'];
+    promocode = json['promocode'] != null ? PromocodeModel.fromJson(json['promocode']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -68,7 +68,10 @@ class ReservationModel {
     data['status'] = status;
     data['created_at'] = createdAt;
     data['payment_method'] = paymentMethod;
-    data['promocode'] = promocode;
+    if (promocode != null) {
+      data['promocode'] = promocode!.toJson();
+    }
+
     return data;
   }
 }
@@ -315,6 +318,44 @@ class HotelOptions {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['service_option'] = serviceOption;
     data['quantity'] = quantity;
+    return data;
+  }
+}
+
+class PromocodeModel {
+  int? id;
+  String? code;
+  String? discountType;
+  String? discountValue;
+  bool? isActive;
+  String? expirationDate;
+
+  PromocodeModel({
+    this.id,
+    this.code,
+    this.discountType,
+    this.discountValue,
+    this.isActive,
+    this.expirationDate,
+  });
+
+  PromocodeModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    code = json['code'];
+    discountType = json['discount_type'];
+    discountValue = json['discount_value'];
+    isActive = json['is_active'];
+    expirationDate = json['expiration_date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['code'] = code;
+    data['discount_type'] = discountType;
+    data['discount_value'] = discountValue;
+    data['is_active'] = isActive;
+    data['expiration_date'] = expirationDate;
     return data;
   }
 }

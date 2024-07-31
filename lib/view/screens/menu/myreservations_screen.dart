@@ -82,12 +82,20 @@ class MyReservationsScreen extends StatelessWidget {
                                           // onPressedPay: () => model.getPaymentURL(item?.id ?? -1),
                                           onPressedPay: () {
                                             Logger.printObject(item?.toJson());
-                                            NavService().pushKey(ReservationDetailsScreen(reservation: item));
+                                            NavService().pushKey(ReservationDetailsScreen(reservation: item)).then((value) {
+                                              if (value != null) {
+                                                model.refreshCarServices();
+                                              }
+                                            });
                                           },
                                         ),
                                         onTap: () {
                                           Logger.printObject(item?.toJson());
-                                          NavService().pushKey(ReservationDetailsScreen(reservation: item));
+                                          NavService().pushKey(ReservationDetailsScreen(reservation: item)).then((value) {
+                                            if (value != null) {
+                                              model.refreshCarServices();
+                                            }
+                                          });
                                         },
                                       );
                                     },

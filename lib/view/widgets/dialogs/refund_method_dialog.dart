@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:xperience/model/services/app_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/widgets/components/main_textfield_dropdown.dart';
 
 class RefundMethodDialog extends StatelessWidget {
-  const RefundMethodDialog({Key? key}) : super(key: key);
+  const RefundMethodDialog({required this.refundMethodsList, Key? key}) : super(key: key);
+  final List<String> refundMethodsList;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +29,10 @@ class RefundMethodDialog extends StatelessWidget {
                 Column(
                   children: [
                     MainTextFieldDropdown<String>(
-                      items: [
-                        "dsadas1",
-                        "dsadas2",
-                        "dsadas3",
-                      ].map((item) {
+                      items: refundMethodsList.map((item) {
                         return DropdownMenuItem(
                           value: item,
-                          child: Text(item),
+                          child: Text(AppHelper.getPaymentMethod(item)),
                         );
                       }).toList(),
                       hint: "Refund method".localize(context),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:panorama_viewer/panorama_viewer.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
@@ -19,7 +18,6 @@ import 'package:xperience/view/screens/home/car/complete_info_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_booking_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
-import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 import 'package:xperience/view/widgets/hotel_feature_border_item.dart';
 
@@ -210,20 +208,20 @@ class HotelDetailsScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("Choose Check-in Date & Check-out Date").localize(context),
-                              const SizedBox(height: 10),
-                              MainTextField(
-                                controller: model.checkInOutController,
-                                hint: "Check-in date - Check-out date".localize(context),
-                                hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
-                                isReadOnly: true,
-                                borderWidth: 0.5,
-                                prefixIcon: Padding(
-                                  padding: const EdgeInsets.all(14),
-                                  child: SvgPicture.asset("assets/svgs/ic_calendar_fill.svg"),
-                                ),
-                                onTap: () => model.selectCheckInOutDate(context),
-                              ),
+                              // const Text("Choose Check-in Date & Check-out Date").localize(context),
+                              // const SizedBox(height: 10),
+                              // MainTextField(
+                              //   controller: model.checkInOutController,
+                              //   hint: "Check-in date - Check-out date".localize(context),
+                              //   hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                              //   isReadOnly: true,
+                              //   borderWidth: 0.5,
+                              //   prefixIcon: Padding(
+                              //     padding: const EdgeInsets.all(14),
+                              //     child: SvgPicture.asset("assets/svgs/ic_calendar_fill.svg"),
+                              //   ),
+                              //   onTap: () => model.selectCheckInOutDate(context),
+                              // ),
                               const SizedBox(height: 20),
                               if (isFromUltimate == false)
                                 Center(

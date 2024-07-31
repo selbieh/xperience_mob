@@ -36,11 +36,11 @@ class BookingRepo extends ChangeNotifier {
     }
   }
 
-  Future<Either<AppFailure, ReservationBookingModel>> refundCarService({
+  Future<Either<AppFailure, ReservationBookingModel>> refundService({
     required Map<String, dynamic> body,
   }) async {
     try {
-      var res = await BookingDataSource.refundCarService(body: body);
+      var res = await BookingDataSource.refundService(body: body);
       if (res.left != null) {
         return Either(left: res.left);
       } else {

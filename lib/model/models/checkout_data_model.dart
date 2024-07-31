@@ -169,7 +169,7 @@ class Options {
   int? quantity;
   num? price;
   int? maxFree;
-  String? pointsPrice;
+  num? pointsPrice;
   String? serviceOptionName;
 
   Options({

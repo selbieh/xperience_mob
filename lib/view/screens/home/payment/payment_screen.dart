@@ -174,15 +174,15 @@ class PaymentScreen2ViewModel extends BaseNotifier {
       setError();
     } else {
       ReservationModel? reservation = res.right;
-      if (reservation?.status == "CONFIRMED") {
+      if (reservation?.status == "PAID") {
         NavService().pushAndRemoveUntilKey(SuccessScreen(
           isSuccess: true,
           message: "Payment completed successfully".localize(context),
         ));
       } else {
-        NavService().pushAndRemoveUntilKey(SuccessScreen(
-          isSuccess: true,
-          message: "We received your request, please wait for your transaction.".localize(context),
+        NavService().pushAndRemoveUntilKey(const SuccessScreen(
+          isSuccess: false,
+          // message: "We received your request, please wait for your transaction.".localize(context),
         ));
       }
       setIdle();
