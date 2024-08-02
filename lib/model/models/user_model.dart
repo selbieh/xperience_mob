@@ -29,16 +29,18 @@ class UserInfo {
   String? name;
   String? email;
   String? mobile;
-  int? wallet;
   bool? isStaff;
+  num? wallet;
+  num? points;
 
   UserInfo({
     this.id,
     this.name,
     this.email,
     this.mobile,
-    this.wallet,
     this.isStaff,
+    this.wallet,
+    this.points,
   });
 
   UserInfo.fromJson(Map<String, dynamic> json) {
@@ -46,8 +48,9 @@ class UserInfo {
     name = json['name'];
     email = json['email'];
     mobile = json['mobile'];
-    wallet = json['wallet'];
     isStaff = json['is_staff'];
+    wallet = json['wallet'];
+    points = json['points'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,8 +59,9 @@ class UserInfo {
     data['name'] = name;
     data['email'] = email;
     data['mobile'] = mobile;
-    data['wallet'] = wallet;
     data['is_staff'] = isStaff;
+    data['wallet'] = wallet;
+    data['points'] = points;
     return data;
   }
 }

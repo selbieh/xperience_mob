@@ -1,5 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/base/base_notifier.dart';
@@ -29,7 +31,7 @@ class MainScreen extends StatelessWidget {
           body: model.listTabs[model.pageIndex],
           bottomNavigationBar: SizedBox(
             // height: Platform.isIOS ? 70 : 70,
-            height: 70,
+            height: Platform.isIOS ? 100 : 75,
             child: BottomNavigationBar(
               items: [
                 BottomNavigationBarItem(

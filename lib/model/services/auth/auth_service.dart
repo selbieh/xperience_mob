@@ -207,6 +207,27 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  ///============================================================================== Get Profile
+  Future<Either<AppFailure, UserInfo>> getUserProfile({
+    required int userId,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: "${EndPoints.profile}$userId/",
+        requestType: RequestType.get,
+        header: Headers.userHeader,
+      );
+      if (res.right != null) {
+        final userProfile = UserInfo.fromJson(res.right);
+        return Either(right: userProfile);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
+
   ///============================================================================================================
   ///============================================================================================================
 }
