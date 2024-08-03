@@ -9,7 +9,6 @@ import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/login_screen.dart';
-import 'package:xperience/view/screens/auth/splash_screen.dart';
 import 'package:xperience/view/screens/menu/info_screen.dart';
 import 'package:xperience/view/screens/menu/help_screen.dart';
 import 'package:xperience/view/screens/menu/myreservations_screen.dart';
@@ -186,9 +185,8 @@ class MenuDrawerScreen extends StatelessWidget {
                   radius: 10,
                   onPressed: () async {
                     if (model.auth.isLogged) {
-                      // await model.auth.signOut();
-                      model.auth.signOut();
-                      NavService().pushAndRemoveUntilKey(const SplashScreen());
+                      await model.auth.signOut();
+                      NavService().pushAndRemoveUntilKey(const LoginScreen());
                     } else {
                       NavService().pushKey(const LoginScreen());
                     }
@@ -206,11 +204,5 @@ class MenuDrawerScreen extends StatelessWidget {
 
 class MenuDrawerViewModel extends BaseNotifier {
   MenuDrawerViewModel({required this.auth});
-
   final AuthService auth;
-
-  void logout() async {
-    await auth.signOut();
-    NavService().pushAndRemoveUntilKey(const SplashScreen());
-  }
 }

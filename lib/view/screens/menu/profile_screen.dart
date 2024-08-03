@@ -1,11 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
+import 'package:xperience/model/services/app_messenger.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
+import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/auth/login_screen.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
@@ -18,7 +23,10 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<ProfileScreenModel>(
-      model: ProfileScreenModel(auth: Provider.of<AuthService>(context)),
+      model: ProfileScreenModel(
+        context: context,
+        auth: Provider.of<AuthService>(context),
+      ),
       builder: (_, model, child) {
         return Scaffold(
           appBar: AppBar(
@@ -83,13 +91,20 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
           ),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: CustomButton(
-              title: "DELETE ACCOUNT".localize(context),
-              color: AppColors.red,
-              textStyle: const TextStyle(fontSize: 14, color: AppColors.red),
-              onPressed: () {},
+          bottomNavigationBar: SizedBox(
+            height: 100,
+            child: Align(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: model.isDeleteLoading
+                    ? const MainProgress()
+                    : CustomButton(
+                        title: "DELETE ACCOUNT".localize(context),
+                        color: AppColors.red,
+                        textStyle: const TextStyle(fontSize: 14, color: AppColors.red),
+                        onPressed: model.confirmDeleteAccount,
+                      ),
+              ),
             ),
           ),
         );
@@ -99,18 +114,20 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class ProfileScreenModel extends BaseNotifier {
-  ProfileScreenModel({required this.auth}) {
+  ProfileScreenModel({required this.context, required this.auth}) {
     phoneController.text = auth.userModel?.user?.mobile ?? "";
     nameController.text = auth.userModel?.user?.name ?? "";
     emailController.text = auth.userModel?.user?.email ?? "";
   }
   final AuthService auth;
+  final BuildContext context;
 
   final formKey = GlobalKey<FormState>();
   var autovalidateMode = AutovalidateMode.disabled;
   final phoneController = TextEditingController();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
+  bool isDeleteLoading = false;
 
   void submitFun() {
     if (formKey.currentState!.validate()) {
@@ -139,6 +156,39 @@ class ProfileScreenModel extends BaseNotifier {
         type: MessageDialogType.success,
         message: "Profile updated successfully".tr(),
       );
+    }
+  }
+
+  Future<void> confirmDeleteAccount() async {
+    final result = await DialogsHelper.approveDialog(
+      context,
+      title: "Delete Account",
+      subtitle: "Are you sure you want to delete your account?",
+    );
+    if (result != null) {
+      deleteUserProfile();
+    }
+  }
+
+  Future<void> deleteUserProfile() async {
+    isDeleteLoading = true;
+    setState();
+    final res = await auth.deleteUserProfile(
+      userId: auth.userModel?.user?.id ?? -1,
+    );
+    if (res.left != null) {
+      isDeleteLoading = false;
+      setError();
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
+    } else {
+      await auth.signOut();
+      NavService().pushAndRemoveUntilKey(const LoginScreen());
+      AppMessenger.snackBar(
+        context: context,
+        message: "Account deleted successfully".localize(context),
+      );
+      isDeleteLoading = false;
+      setIdle();
     }
   }
 }

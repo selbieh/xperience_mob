@@ -39,7 +39,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     )
                   : ListView(
                       children: [
-                        if (model.infoRepo.termsOfUse?.content != null)
+                        if (model.infoRepo.privacyPolicy?.content != null)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Html(

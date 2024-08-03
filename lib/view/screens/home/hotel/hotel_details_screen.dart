@@ -18,6 +18,7 @@ import 'package:xperience/view/screens/home/car/complete_info_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_booking_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
+import 'package:xperience/view/widgets/components/text_expansion.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 import 'package:xperience/view/widgets/hotel_feature_border_item.dart';
 
@@ -130,6 +131,13 @@ class HotelDetailsScreen extends StatelessWidget {
                                     "Per night",
                                     style: TextStyle(color: AppColors.greyText, fontSize: 14),
                                   ).localize(context),
+                                  const SizedBox(height: 20),
+                                  if ((model.hotelServiceModel?.description ?? "").isNotEmpty)
+                                    TextExpansion(
+                                      // text: "dasdasd dasdas  d dasdasd dasdasdasd das" * 5,
+                                      text: model.hotelServiceModel?.description ?? "",
+                                      maxLines: 1,
+                                    ),
                                   const SizedBox(height: 20),
                                   const Text(
                                     "Features",

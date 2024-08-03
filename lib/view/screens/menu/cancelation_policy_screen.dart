@@ -39,7 +39,7 @@ class CancelationPolicyScreen extends StatelessWidget {
                     )
                   : ListView(
                       children: [
-                        if (model.infoRepo.termsOfUse?.content != null)
+                        if (model.infoRepo.cancellationPolicy?.content != null)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Html(

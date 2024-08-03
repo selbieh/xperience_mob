@@ -183,8 +183,9 @@ class WalletViewModel extends BaseNotifier {
       userId: auth.userModel?.user?.id ?? -1,
     );
     if (res.left != null) {
-      setError();
+      failure = res.left?.message;
       DialogsHelper.messageDialog(message: "${res.left?.message}");
+      setError();
     } else {
       userInfo = res.right;
       setIdle();

@@ -112,7 +112,12 @@ class PaymentScreen extends StatelessWidget {
                           model.webviewChangeCounter++;
                           String fullUrl = "${url?.host}${url?.path}/?${url?.query}";
                           Logger.printObject({"InAppWebViewControllerURL": fullUrl});
-                          // https://secure-egypt.paytabs.com/payment/page/5C7BC50082E4929950748C8CC7F9D009134C8DCCA5BC68952635C7C1/result
+                          /*
+                          (1) ---> https://secure-egypt.paytabs.com/payment/wr/5C5DE02E82E5312443D70FC3CEC8CF395837E7AB5F5AA6B16F4BFDAF 
+                          (2) ---> https://secure-egypt.paytabs.com/payment/page/5C5DE02E82E5312443D70FC3CEC8CF395837E7AB5F5AA6B16F4BFDAF/start
+                          (3) ---> https://secure-egypt.paytabs.com/payment/page/5C5DE02E82E5312443D70FC3CEC8CF395837E7AB5F5AA6B16F4BFDAF/result
+                          */
+                          //
                           // if (fullUrl.contains("status=Paid")) {
                           //   NavService().pushAndRemoveUntilKey(const SuccessScreen(isSuccess: true));
                           // } else if (fullUrl.contains("status=Fail")) {
@@ -157,6 +162,12 @@ class PaymentScreen2ViewModel extends BaseNotifier {
   bool isCanPop = false;
   double progress = 0;
   int webviewChangeCounter = 0;
+
+  @override
+  void dispose() {
+    inAppWebViewController.dispose();
+    super.dispose();
+  }
 
   checkReservationStatus() async {
     setBusy();

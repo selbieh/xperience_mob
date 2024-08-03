@@ -5,6 +5,7 @@ import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/data/repo/notifications_repo.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/widgets/components/main_error_widget.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 import 'package:xperience/view/widgets/notification_item_widget.dart';
@@ -31,36 +32,41 @@ class NotificationsScreen extends StatelessWidget {
           ),
           body: model.isBusy
               ? const MainProgress()
-              : RefreshIndicator(
-                  color: AppColors.goldColor,
-                  onRefresh: model.refreshNotifications,
-                  child: (model.notificationsRepo.notificationsPaginated?.results ?? []).isEmpty
-                      ? Center(child: Text("No notifications found".tr()))
-                      : SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                          controller: model.scrollController,
-                          child: Column(
-                            children: [
-                              ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: (model.notificationsRepo.notificationsPaginated?.results ?? []).length,
-                                separatorBuilder: (context, index) => const SizedBox(height: 10),
-                                itemBuilder: (context, index) {
-                                  var item = model.notificationsRepo.notificationsPaginated?.results?[index];
-                                  return NotificationItemWidget(notification: item);
-                                },
+              : model.hasError
+                  ? MainErrorWidget(
+                      error: model.failure,
+                      onRetry: model.getNotifications,
+                    )
+                  : RefreshIndicator(
+                      color: AppColors.goldColor,
+                      onRefresh: model.refreshNotifications,
+                      child: (model.notificationsRepo.notificationsPaginated?.results ?? []).isEmpty
+                          ? Center(child: Text("No notifications found".tr()))
+                          : SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                              controller: model.scrollController,
+                              child: Column(
+                                children: [
+                                  ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: (model.notificationsRepo.notificationsPaginated?.results ?? []).length,
+                                    separatorBuilder: (context, index) => const SizedBox(height: 10),
+                                    itemBuilder: (context, index) {
+                                      var item = model.notificationsRepo.notificationsPaginated?.results?[index];
+                                      return NotificationItemWidget(notification: item);
+                                    },
+                                  ),
+                                  if (model.isLoadingMore)
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 15),
+                                      child: MainProgress(),
+                                    ),
+                                  const SizedBox(height: 20),
+                                ],
                               ),
-                              if (model.isLoadingMore)
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 15),
-                                  child: MainProgress(),
-                                ),
-                              const SizedBox(height: 20),
-                            ],
-                          ),
-                        ),
-                ),
+                            ),
+                    ),
         );
       },
     );

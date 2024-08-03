@@ -151,9 +151,6 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  ///================================================================================================
-  ///================================================================================================
-
   ///============================================================================== Update Profile
   Future<Either<AppFailure, UserModel>> updateUserProfile({
     required int userId,
@@ -220,6 +217,26 @@ class AuthService extends ChangeNotifier {
       if (res.right != null) {
         final userProfile = UserInfo.fromJson(res.right);
         return Either(right: userProfile);
+      } else {
+        return Either(left: res.left);
+      }
+    } catch (error) {
+      return Either(left: AppFailure(message: error.toString()));
+    }
+  }
+
+  ///============================================================================== Delete Profile
+  Future<Either<AppFailure, bool>> deleteUserProfile({
+    required int userId,
+  }) async {
+    try {
+      final res = await HttpService.request(
+        endPoint: "${EndPoints.profile}$userId/",
+        requestType: RequestType.delete,
+        header: Headers.userHeader,
+      );
+      if (res.right != null) {
+        return Either(right: true);
       } else {
         return Either(left: res.left);
       }
