@@ -49,13 +49,13 @@ class DefaultFirebaseOptions {
     storageBucket: dotenv.env["ANDROID_STORAGE_BUCKET"] ?? "",
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: "AAAAAAAAAAAAAAAAAAAAAAAA",
-    appId: "AAAAAAAAAAAAAAAAAAAAAAAA",
-    messagingSenderId: "AAAAAAAAAAAAAAAAAAAAAAAA",
-    projectId: "AAAAAAAAAAAAAAAAAAAAAAAA",
-    storageBucket: "AAAAAAAAAAAAAAAAAAAAAAAA",
-    iosClientId: "AAAAAAAAAAAAAAAAAAAAAAAA",
-    iosBundleId: "AAAAAAAAAAAAAAAAAAAAAAAA",
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env["IOS_API_KEY"] ?? "",
+    appId: dotenv.env["GOOGLE_APP_ID"] ?? "",
+    messagingSenderId: dotenv.env["IOS_GCM_SENDER_ID"] ?? "",
+    projectId: dotenv.env["IOS_PROJECT_ID"] ?? "",
+    storageBucket: dotenv.env["IOS_STORAGE_BUCKET"] ?? "",
+    iosClientId: dotenv.env["IOS_CLIENT_ID"] ?? "",
+    iosBundleId: dotenv.env["IOS_BUNDLE_ID"] ?? "",
   );
 }

@@ -25,9 +25,9 @@ void main() async {
     await dotenv.load(fileName: ".env");
     await Future.wait([
       SharedPref.initialize(),
-      // Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) {
-      //   FirebaseNotificationService.initializeFirebaseMessagingListener();
-      // }),
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) {
+        FirebaseNotificationService.initializeFirebaseMessagingListener();
+      }),
     ]);
     setupLocator();
   } catch (error) {

@@ -45,6 +45,8 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Need location when in use</string>
 		<!-- ====================================================== -->
 		<!-- The below schemes is added for url_launcher -->
 		<key>LSApplicationQueriesSchemes</key>
