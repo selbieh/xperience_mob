@@ -11,6 +11,8 @@ class ReservationModel {
   String? createdAt;
   String? paymentMethod;
   PromocodeModel? promocode;
+  num? finalReservationPrice;
+  int? totalPointsPrice;
 
   ReservationModel({
     this.id,
@@ -22,6 +24,8 @@ class ReservationModel {
     this.createdAt,
     this.paymentMethod,
     this.promocode,
+    this.finalReservationPrice,
+    this.totalPointsPrice,
   });
 
   static ReservationModel fromJsonModel(Object? json) => ReservationModel.fromJson(json as Map<String, dynamic>);
@@ -47,6 +51,8 @@ class ReservationModel {
     createdAt = json['created_at'];
     paymentMethod = json['payment_method'];
     promocode = json['promocode'] != null ? PromocodeModel.fromJson(json['promocode']) : null;
+    finalReservationPrice = json['final_reservation_price'];
+    totalPointsPrice = json['total_points_price'];
   }
 
   Map<String, dynamic> toJson() {
@@ -71,7 +77,8 @@ class ReservationModel {
     if (promocode != null) {
       data['promocode'] = promocode!.toJson();
     }
-
+    data['final_reservation_price'] = finalReservationPrice;
+    data['total_points_price'] = totalPointsPrice;
     return data;
   }
 }

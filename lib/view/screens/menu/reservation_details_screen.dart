@@ -115,17 +115,18 @@ class ReservationDetailsScreen extends StatelessWidget {
                           ),
                         const SizedBox(height: 20),
                         Text(
-                          isHasMultiBooking
-                              ? (reservation?.carReservations ?? []).isNotEmpty
-                                  ? "${(double.tryParse("${reservation?.hotelReservations?[0].finalPrice}") ?? 0) + (double.tryParse("${reservation?.carReservations?[0].finalPrice}") ?? 0)} ${"EGP".localize(context)}"
-                                  : "-"
-                              : isHasHotelBooking
-                                  ? (reservation?.hotelReservations ?? []).isNotEmpty
-                                      ? "${reservation?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
-                                      : "-"
-                                  : (reservation?.carReservations ?? []).isNotEmpty
-                                      ? "${reservation?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
-                                      : "-",
+                          // isHasMultiBooking
+                          //     ? (reservation?.carReservations ?? []).isNotEmpty
+                          //         ? "${(double.tryParse("${reservation?.hotelReservations?[0].finalPrice}") ?? 0) + (double.tryParse("${reservation?.carReservations?[0].finalPrice}") ?? 0)} ${"EGP".localize(context)}"
+                          //         : "-"
+                          //     : isHasHotelBooking
+                          //         ? (reservation?.hotelReservations ?? []).isNotEmpty
+                          //             ? "${reservation?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                          //             : "-"
+                          //         : (reservation?.carReservations ?? []).isNotEmpty
+                          //             ? "${reservation?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                          //             : "-",
+                          "${reservation?.finalReservationPrice} ${"EGP".localize(context)}",
                           style: const TextStyle(
                             fontSize: 18,
                             color: AppColors.greyText,

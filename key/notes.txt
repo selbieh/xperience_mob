@@ -1,0 +1,33 @@
+==============================================================================================================================
+storePassword=xperience
+keyPassword=xperience
+keyAlias=upload
+storeFile=xperienceKeystore.jks
+
+==============================================================================================================================
+codemaker@Codemaker-Mac-mini xperience % keytool -genkey -v -keystore ~/xperienceKeystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+Enter keystore password:  
+Re-enter new password: 
+What is your first and last name?
+  [Unknown]:  Ahmed Ezzeldin 
+What is the name of your organizational unit?
+  [Unknown]:  Dev
+What is the name of your organization?
+  [Unknown]:  FreeDev
+What is the name of your City or Locality?
+  [Unknown]:  Cairo
+What is the name of your State or Province?
+  [Unknown]:  Cairo
+What is the two-letter country code for this unit?
+  [Unknown]:  EG
+Is CN=Ahmed Ezzeldin, OU=Dev, O=FreeDev, L=Cairo, ST=Cairo, C=EG correct?
+  [no]:  yes        
+
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 10,000 days
+        for: CN=Ahmed Ezzeldin, OU=Dev, O=FreeDev, L=Cairo, ST=Cairo, C=EG
+[Storing /Users/codemaker/xperienceKeystore.jks]
+codemaker@Codemaker-Mac-mini xperience % 
+
+==============================================================================================================================
+==============================================================================================================================
+==============================================================================================================================

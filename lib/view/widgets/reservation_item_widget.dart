@@ -111,17 +111,18 @@ class ReservationItemWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        isHasMultiBooking
-                            ? (reservationItem?.carReservations ?? []).isNotEmpty
-                                ? "${(double.tryParse("${reservationItem?.hotelReservations?[0].finalPrice}") ?? 0) + (double.tryParse("${reservationItem?.carReservations?[0].finalPrice}") ?? 0)} ${"EGP".localize(context)}"
-                                : "-"
-                            : isHasHotelBooking
-                                ? (reservationItem?.hotelReservations ?? []).isNotEmpty
-                                    ? "${reservationItem?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
-                                    : "-"
-                                : (reservationItem?.carReservations ?? []).isNotEmpty
-                                    ? "${reservationItem?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
-                                    : "-",
+                        // isHasMultiBooking
+                        //     ? (reservationItem?.carReservations ?? []).isNotEmpty
+                        //         ? "${(double.tryParse("${reservationItem?.hotelReservations?[0].finalPrice}") ?? 0) + (double.tryParse("${reservationItem?.carReservations?[0].finalPrice}") ?? 0)} ${"EGP".localize(context)}"
+                        //         : "-"
+                        //     : isHasHotelBooking
+                        //         ? (reservationItem?.hotelReservations ?? []).isNotEmpty
+                        //             ? "${reservationItem?.hotelReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                        //             : "-"
+                        //         : (reservationItem?.carReservations ?? []).isNotEmpty
+                        //             ? "${reservationItem?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
+                        //             : "-",
+                        "${reservationItem?.finalReservationPrice} ${"EGP".localize(context)}",
                         style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.greyText,
