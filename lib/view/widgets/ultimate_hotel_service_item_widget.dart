@@ -116,12 +116,12 @@ class UltimateHotelServiceItemWidget extends StatelessWidget {
                               title: "${hotelService?.numberOfBeds ?? 0} Beds",
                               padding: const EdgeInsets.symmetric(vertical: 5),
                             ),
-                            const SizedBox(width: 20),
-                            const FeatureItem(
-                              icon: "assets/svgs/ic_breakfast.svg",
-                              title: "Breakfast",
-                              padding: EdgeInsets.symmetric(vertical: 5),
-                            ),
+                            // const SizedBox(width: 20),
+                            // const FeatureItem(
+                            //   icon: "assets/svgs/ic_breakfast.svg",
+                            //   title: "Breakfast",
+                            //   padding: EdgeInsets.symmetric(vertical: 5),
+                            // ),
                           ],
                         ),
                         Text(

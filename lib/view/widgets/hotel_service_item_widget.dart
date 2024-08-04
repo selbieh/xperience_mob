@@ -54,15 +54,18 @@ class HotelServiceItemWidget extends StatelessWidget {
                   Text(
                     // "Eastern El-Galala Aquapark ",
                     hotelService?.name ?? "",
+                    maxLines: 2,
                     style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    // "Ain Sokhna",
-                    hotelService?.description ?? "",
-                    style: const TextStyle(fontSize: 12, color: AppColors.grey),
+                  FittedBox(
+                    child: Text(
+                      // "Ain Sokhna",
+                      hotelService?.description ?? "",
+                      style: const TextStyle(fontSize: 12, color: AppColors.grey),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Wrap(
@@ -84,25 +87,28 @@ class HotelServiceItemWidget extends StatelessWidget {
                         title: "${hotelService?.numberOfBeds ?? 0} Beds",
                         padding: const EdgeInsets.symmetric(vertical: 5),
                       ),
-                      const SizedBox(width: 20),
-                      const FeatureItem(
-                        icon: "assets/svgs/ic_breakfast.svg",
-                        title: "Breakfast",
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                      ),
+                      // const SizedBox(width: 20),
+                      // const FeatureItem(
+                      //   icon: "assets/svgs/ic_breakfast.svg",
+                      //   title: "Breakfast",
+                      //   padding: EdgeInsets.symmetric(vertical: 5),
+                      // ),
                     ],
                   ),
                   Row(
                     children: [
                       Expanded(
                         flex: 2,
-                        child: Text(
-                          // "EGP 5,590 per night",
-                          "${hotelService?.dayPrice ?? 0} ${"EGP".localize(context)} ${"per night".localize(context)}",
-                          style: const TextStyle(fontSize: 12, color: AppColors.grey),
-                          maxLines: 2,
+                        child: FittedBox(
+                          child: Text(
+                            // "EGP 5,590 per night",
+                            "${hotelService?.dayPrice ?? 0} ${"EGP".localize(context)} ${"per night".localize(context)}",
+                            style: const TextStyle(fontSize: 12, color: AppColors.grey),
+                            maxLines: 2,
+                          ),
                         ),
                       ),
+                      const SizedBox(width: 10),
                       BookNowButton(
                         title: "BOOK NOW".localize(context),
                         onPressed: onPressed,

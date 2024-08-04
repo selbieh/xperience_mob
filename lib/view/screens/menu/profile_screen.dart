@@ -10,7 +10,7 @@ import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:xperience/view/screens/auth/login_screen.dart';
+import 'package:xperience/view/screens/auth/splash_screen.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/main_textfield.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
@@ -182,7 +182,8 @@ class ProfileScreenModel extends BaseNotifier {
       DialogsHelper.messageDialog(message: "${res.left?.message}");
     } else {
       await auth.signOut();
-      NavService().pushAndRemoveUntilKey(const LoginScreen());
+      // NavService().pushAndRemoveUntilKey(const LoginScreen());
+      NavService().pushAndRemoveUntilKey(const SplashScreen());
       AppMessenger.snackBar(
         context: context,
         message: "Account deleted successfully".localize(context),

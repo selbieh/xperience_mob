@@ -203,45 +203,46 @@ class HotelDetailsScreen extends StatelessWidget {
                         // ),
                         // =================================================================================================
                         const SizedBox(height: 20),
-                        Container(
-                          width: double.infinity,
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColorLight,
-                            // color: const Color(0xFF292d4a),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.grey, width: 0.5),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // const Text("Choose Check-in Date & Check-out Date").localize(context),
-                              // const SizedBox(height: 10),
-                              // MainTextField(
-                              //   controller: model.checkInOutController,
-                              //   hint: "Check-in date - Check-out date".localize(context),
-                              //   hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
-                              //   isReadOnly: true,
-                              //   borderWidth: 0.5,
-                              //   prefixIcon: Padding(
-                              //     padding: const EdgeInsets.all(14),
-                              //     child: SvgPicture.asset("assets/svgs/ic_calendar_fill.svg"),
-                              //   ),
-                              //   onTap: () => model.selectCheckInOutDate(context),
-                              // ),
-                              const SizedBox(height: 20),
-                              if (isFromUltimate == false)
-                                Center(
-                                  child: BookNowButton(
-                                    title: "BOOK PROPERTY".localize(context),
-                                    onPressed: model.goToBooking,
+                        if (isFromUltimate == false)
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryColorLight,
+                              // color: const Color(0xFF292d4a),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: AppColors.grey, width: 0.5),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // const Text("Choose Check-in Date & Check-out Date").localize(context),
+                                // const SizedBox(height: 10),
+                                // MainTextField(
+                                //   controller: model.checkInOutController,
+                                //   hint: "Check-in date - Check-out date".localize(context),
+                                //   hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                                //   isReadOnly: true,
+                                //   borderWidth: 0.5,
+                                //   prefixIcon: Padding(
+                                //     padding: const EdgeInsets.all(14),
+                                //     child: SvgPicture.asset("assets/svgs/ic_calendar_fill.svg"),
+                                //   ),
+                                //   onTap: () => model.selectCheckInOutDate(context),
+                                // ),
+                                const SizedBox(height: 20),
+                                // if (isFromUltimate == false)
+                                  Center(
+                                    child: BookNowButton(
+                                      title: "BOOK PROPERTY".localize(context),
+                                      onPressed: model.goToBooking,
+                                    ),
                                   ),
-                                ),
-                              // const SizedBox(height: 20),
-                            ],
+                                // const SizedBox(height: 20),
+                              ],
+                            ),
                           ),
-                        ),
                         // const SizedBox(height: 20),
                         const SizedBox(height: 100),
                       ],
