@@ -12,7 +12,7 @@ class ReservationModel {
   String? paymentMethod;
   PromocodeModel? promocode;
   num? finalReservationPrice;
-  int? totalPointsPrice;
+  num? totalPointsPrice;
 
   ReservationModel({
     this.id,
@@ -181,7 +181,7 @@ class CreatedBy {
   String? name;
   String? email;
   String? mobile;
-  int? wallet;
+  num? wallet;
   bool? isStaff;
 
   CreatedBy({this.id, this.name, this.email, this.mobile, this.wallet, this.isStaff});

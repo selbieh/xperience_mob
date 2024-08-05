@@ -122,7 +122,9 @@ class ReservationItemWidget extends StatelessWidget {
                         //         : (reservationItem?.carReservations ?? []).isNotEmpty
                         //             ? "${reservationItem?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
                         //             : "-",
-                        "${reservationItem?.finalReservationPrice} ${"EGP".localize(context)}",
+                        reservationItem?.paymentMethod == "POINTS"
+                            ? "${reservationItem?.totalPointsPrice} ${"Points".localize(context)}"
+                            : "${reservationItem?.finalReservationPrice} ${"EGP".localize(context)}",
                         style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.greyText,

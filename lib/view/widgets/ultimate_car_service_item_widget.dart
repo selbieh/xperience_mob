@@ -83,8 +83,8 @@ class UltimateCarServiceItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 MainImage.network(
-                  imagePath:
-                      "https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/695deff6-4f71-47aa-803f-661efa168c87/7dd59989-82ce-4b6b-80bf-20f4bb2f7381.png",
+                  // imagePath: "https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/695deff6-4f71-47aa-803f-661efa168c87/7dd59989-82ce-4b6b-80bf-20f4bb2f7381.png",
+                  imagePath: "${carService?.image}",
                   height: 0.25.w,
                   width: 0.35.w,
                   borderRadius: BorderRadius.circular(5),

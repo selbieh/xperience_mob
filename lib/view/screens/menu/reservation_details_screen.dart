@@ -126,7 +126,10 @@ class ReservationDetailsScreen extends StatelessWidget {
                           //         : (reservation?.carReservations ?? []).isNotEmpty
                           //             ? "${reservation?.carReservations?[0].finalPrice} ${"EGP".localize(context)}"
                           //             : "-",
-                          "${reservation?.finalReservationPrice} ${"EGP".localize(context)}",
+                          // "${reservation?.finalReservationPrice} ${"EGP".localize(context)}",
+                          reservation?.paymentMethod == "POINTS"
+                              ? "${reservation?.totalPointsPrice} ${"Points".localize(context)}"
+                              : "${reservation?.finalReservationPrice} ${"EGP".localize(context)}",
                           style: const TextStyle(
                             fontSize: 18,
                             color: AppColors.greyText,

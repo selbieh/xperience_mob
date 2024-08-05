@@ -844,6 +844,7 @@ class CarBookingViewModel extends BaseNotifier {
         "offset": "0",
         "limit": "1000",
         "type": planType,
+        "car_service": "$carServiceId",
       },
     );
     if (res.left != null) {
@@ -852,6 +853,9 @@ class CarBookingViewModel extends BaseNotifier {
       setError();
     } else {
       subscriptionOptions = res.right;
+      if ((subscriptionOptions?.results ?? []).isNotEmpty) {
+        selectedSubscription = subscriptionOptions?.results?[0];
+      }
       setIdle();
     }
   }
