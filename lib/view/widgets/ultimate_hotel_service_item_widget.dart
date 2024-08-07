@@ -126,7 +126,8 @@ class UltimateHotelServiceItemWidget extends StatelessWidget {
                         ),
                         Text(
                           // "EGP 5,590 per night",
-                          "${hotelService?.dayPrice ?? 0} ${"EGP".localize(context)} ${"per night".localize(context)}",
+                          // "${hotelService?.dayPrice ?? 0} ${"EGP".localize(context)} ${"per night".localize(context)}",
+                          "\$${hotelService?.dollarDayPrice ?? 0} ${"per night".localize(context)}",
                           style: const TextStyle(fontSize: 12, color: AppColors.grey),
                           maxLines: 2,
                         ),

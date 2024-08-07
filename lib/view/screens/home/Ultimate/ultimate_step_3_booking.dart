@@ -131,6 +131,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                       children: List.generate(
                                         model.hotelOptionsExtras.length,
                                         (index) {
+                                          final option = model.hotelOptionsExtras[index];
                                           return ListTile(
                                             dense: true,
                                             contentPadding: const EdgeInsets.all(0),
@@ -148,7 +149,8 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                             ),
                                             title: Text(
                                               // "Meet & Greet",
-                                              model.hotelOptionsExtras[index].name ?? "",
+                                              // model.hotelOptionsExtras[index].name ?? "",
+                                              "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                               style: const TextStyle(fontSize: 14),
                                               maxLines: 2,
                                             ),
@@ -197,6 +199,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                       children: List.generate(
                                         model.hotelOptionsBeverages.length,
                                         (index) {
+                                          final option = model.hotelOptionsBeverages[index];
                                           return ListTile(
                                             dense: true,
                                             contentPadding: const EdgeInsets.all(0),
@@ -209,7 +212,8 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                               },
                                             ),
                                             title: Text(
-                                              model.hotelOptionsBeverages[index].name ?? "",
+                                              // model.hotelOptionsBeverages[index].name ?? "",
+                                              "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                               style: const TextStyle(fontSize: 14),
                                               maxLines: 2,
                                             ),
@@ -229,6 +233,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                       children: List.generate(
                                         model.hotelOptionsScent.length,
                                         (index) {
+                                          final option = model.hotelOptionsScent[index];
                                           return ListTile(
                                             dense: true,
                                             contentPadding: const EdgeInsets.all(0),
@@ -241,7 +246,8 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                               },
                                             ),
                                             title: Text(
-                                              model.hotelOptionsScent[index].name ?? "",
+                                              // model.hotelOptionsScent[index].name ?? "",
+                                              "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                               style: const TextStyle(fontSize: 14),
                                               maxLines: 2,
                                             ),
@@ -261,6 +267,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                       children: List.generate(
                                         model.hotelOptionsSnacks.length,
                                         (index) {
+                                          final option = model.hotelOptionsSnacks[index];
                                           return ListTile(
                                             dense: true,
                                             contentPadding: const EdgeInsets.all(0),
@@ -273,7 +280,8 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                               },
                                             ),
                                             title: Text(
-                                              model.hotelOptionsSnacks[index].name ?? "",
+                                              // model.hotelOptionsSnacks[index].name ?? "",
+                                              "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                               style: const TextStyle(fontSize: 14),
                                               maxLines: 2,
                                             ),
@@ -488,6 +496,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                       children: List.generate(
                                         model.carOptionsExtras.length,
                                         (index) {
+                                          final option = model.carOptionsExtras[index];
                                           return ListTile(
                                             dense: true,
                                             contentPadding: const EdgeInsets.all(0),
@@ -505,7 +514,8 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                             ),
                                             title: Text(
                                               // "Meet & Greet",
-                                              model.carOptionsExtras[index].name ?? "",
+                                              // model.carOptionsExtras[index].name ?? "",
+                                              "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                               style: const TextStyle(fontSize: 14),
                                               maxLines: 2,
                                             ),
@@ -554,6 +564,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                       children: List.generate(
                                         model.carOptionsBeverages.length,
                                         (index) {
+                                          final option = model.carOptionsBeverages[index];
                                           return ListTile(
                                             dense: true,
                                             contentPadding: const EdgeInsets.all(0),
@@ -566,7 +577,8 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                               },
                                             ),
                                             title: Text(
-                                              model.carOptionsBeverages[index].name ?? "",
+                                              // model.carOptionsBeverages[index].name ?? "",
+                                              "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                               style: const TextStyle(fontSize: 14),
                                               maxLines: 2,
                                             ),
@@ -586,6 +598,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                       children: List.generate(
                                         model.carOptionsScent.length,
                                         (index) {
+                                          final option = model.carOptionsScent[index];
                                           return ListTile(
                                             dense: true,
                                             contentPadding: const EdgeInsets.all(0),
@@ -598,7 +611,8 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                               },
                                             ),
                                             title: Text(
-                                              model.carOptionsScent[index].name ?? "",
+                                              // model.carOptionsScent[index].name ?? "",
+                                              "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                               style: const TextStyle(fontSize: 14),
                                               maxLines: 2,
                                             ),
@@ -618,6 +632,7 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                       children: List.generate(
                                         model.carOptionsSnacks.length,
                                         (index) {
+                                          final option = model.carOptionsSnacks[index];
                                           return ListTile(
                                             dense: true,
                                             contentPadding: const EdgeInsets.all(0),
@@ -630,7 +645,8 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                               },
                                             ),
                                             title: Text(
-                                              model.carOptionsSnacks[index].name ?? "",
+                                              // model.carOptionsSnacks[index].name ?? "",
+                                              "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                               style: const TextStyle(fontSize: 14),
                                               maxLines: 2,
                                             ),

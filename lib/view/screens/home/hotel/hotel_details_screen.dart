@@ -121,7 +121,8 @@ class HotelDetailsScreen extends StatelessWidget {
                                 children: [
                                   const SizedBox(height: 20),
                                   Text(
-                                    "${model.hotelServiceModel?.dayPrice} ${"EGP".localize(context)}",
+                                    // "${model.hotelServiceModel?.dayPrice} ${"EGP".localize(context)}",
+                                    "\$${model.hotelServiceModel?.dollarDayPrice}",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
@@ -144,41 +145,15 @@ class HotelDetailsScreen extends StatelessWidget {
                                     style: TextStyle(fontSize: 16),
                                   ).localize(context),
                                   const SizedBox(height: 10),
-                                  const SingleChildScrollView(
+                                  SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
-                                      children: [
-                                        HotelFeatureBoarderItem(
-                                          icon: "assets/svgs/ic_wifi.svg",
-                                          title: "WIFI",
-                                        ),
-                                        SizedBox(width: 10),
-                                        HotelFeatureBoarderItem(
-                                          icon: "assets/svgs/ic_sea_view.svg",
-                                          title: "Sea View",
-                                        ),
-                                        SizedBox(width: 10),
-                                        HotelFeatureBoarderItem(
-                                          icon: "assets/svgs/ic_breakfast.svg",
-                                          title: "Breakfast",
-                                        ),
-                                        SizedBox(width: 10),
-                                        HotelFeatureBoarderItem(
-                                          icon: "assets/svgs/ic_wifi.svg",
-                                          title: "WIFI",
-                                        ),
-                                        SizedBox(width: 10),
-                                        HotelFeatureBoarderItem(
-                                          icon: "assets/svgs/ic_sea_view.svg",
-                                          title: "Sea View",
-                                        ),
-                                        SizedBox(width: 10),
-                                        HotelFeatureBoarderItem(
-                                          icon: "assets/svgs/ic_breakfast.svg",
-                                          title: "Breakfast",
-                                        ),
-                                        SizedBox(width: 10),
-                                      ],
+                                      children: (model.hotelServiceModel?.features ?? []).map((e) {
+                                        return HotelFeatureBoarderItem(
+                                          title: e.name ?? "-",
+                                          image: e.image,
+                                        );
+                                      }).toList(),
                                     ),
                                   ),
                                 ],
@@ -233,12 +208,12 @@ class HotelDetailsScreen extends StatelessWidget {
                                 // ),
                                 const SizedBox(height: 20),
                                 // if (isFromUltimate == false)
-                                  Center(
-                                    child: BookNowButton(
-                                      title: "BOOK PROPERTY".localize(context),
-                                      onPressed: model.goToBooking,
-                                    ),
+                                Center(
+                                  child: BookNowButton(
+                                    title: "BOOK PROPERTY".localize(context),
+                                    onPressed: model.goToBooking,
                                   ),
+                                ),
                                 // const SizedBox(height: 20),
                               ],
                             ),

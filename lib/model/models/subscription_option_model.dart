@@ -4,6 +4,9 @@ class SubscriptionOptionModel {
   String? price;
   CarService? carService;
   String? type;
+  num? points;
+  num? pointsPrice;
+  String? dollarPrice;
 
   SubscriptionOptionModel({
     this.id,
@@ -11,6 +14,9 @@ class SubscriptionOptionModel {
     this.price,
     this.carService,
     this.type,
+    this.points,
+    this.pointsPrice,
+    this.dollarPrice,
   });
 
   static SubscriptionOptionModel fromJsonModel(Object? json) => SubscriptionOptionModel.fromJson(json as Map<String, dynamic>);
@@ -20,6 +26,9 @@ class SubscriptionOptionModel {
     price = json['price'];
     carService = json['car_service'] != null ? CarService.fromJson(json['car_service']) : null;
     type = json['type'];
+    points = json['points'];
+    pointsPrice = json['points_price'];
+    dollarPrice = json['dollar_price'];
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +40,9 @@ class SubscriptionOptionModel {
       data['car_service'] = carService!.toJson();
     }
     data['type'] = type;
+    data['points'] = points;
+    data['points_price'] = pointsPrice;
+    data['dollar_price'] = dollarPrice;
     return data;
   }
 }

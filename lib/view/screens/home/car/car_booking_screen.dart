@@ -191,7 +191,8 @@ class CarBookingScreen extends StatelessWidget {
                                         border: Border.all(color: AppColors.grey, width: 0.5),
                                       ),
                                       child: Text(
-                                        "${e.durationHours ?? "-"} ${"Hours".localize(context)}",
+                                        // "${e.durationHours ?? "-"} ${"Hours".localize(context)}",
+                                        "${e.durationHours ?? "-"} ${"Hours".localize(context)} (\$${e.dollarPrice ?? "-"})",
                                         style: const TextStyle(fontSize: 12),
                                       ),
                                     ),
@@ -262,6 +263,7 @@ class CarBookingScreen extends StatelessWidget {
                               children: List.generate(
                                 model.optionsExtras.length,
                                 (index) {
+                                  final option = model.optionsExtras[index];
                                   return ListTile(
                                     dense: true,
                                     contentPadding: const EdgeInsets.all(0),
@@ -279,7 +281,8 @@ class CarBookingScreen extends StatelessWidget {
                                     ),
                                     title: Text(
                                       // "Meet & Greet",
-                                      model.optionsExtras[index].name ?? "",
+                                      // model.optionsExtras[index].name ?? "",
+                                      "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                       style: const TextStyle(fontSize: 14),
                                       maxLines: 2,
                                     ),
@@ -328,6 +331,7 @@ class CarBookingScreen extends StatelessWidget {
                               children: List.generate(
                                 model.optionsBeverages.length,
                                 (index) {
+                                  final option = model.optionsBeverages[index];
                                   return ListTile(
                                     dense: true,
                                     contentPadding: const EdgeInsets.all(0),
@@ -340,7 +344,8 @@ class CarBookingScreen extends StatelessWidget {
                                       },
                                     ),
                                     title: Text(
-                                      model.optionsBeverages[index].name ?? "",
+                                      // model.optionsBeverages[index].name ?? "",
+                                      "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                       style: const TextStyle(fontSize: 14),
                                       maxLines: 2,
                                     ),
@@ -360,6 +365,7 @@ class CarBookingScreen extends StatelessWidget {
                               children: List.generate(
                                 model.optionsScent.length,
                                 (index) {
+                                  final option = model.optionsScent[index];
                                   return ListTile(
                                     dense: true,
                                     contentPadding: const EdgeInsets.all(0),
@@ -372,7 +378,8 @@ class CarBookingScreen extends StatelessWidget {
                                       },
                                     ),
                                     title: Text(
-                                      model.optionsScent[index].name ?? "",
+                                      // model.optionsScent[index].name ?? "",
+                                      "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                       style: const TextStyle(fontSize: 14),
                                       maxLines: 2,
                                     ),
@@ -392,6 +399,7 @@ class CarBookingScreen extends StatelessWidget {
                               children: List.generate(
                                 model.optionsSnacks.length,
                                 (index) {
+                                  final option = model.optionsSnacks[index];
                                   return ListTile(
                                     dense: true,
                                     contentPadding: const EdgeInsets.all(0),
@@ -404,7 +412,8 @@ class CarBookingScreen extends StatelessWidget {
                                       },
                                     ),
                                     title: Text(
-                                      model.optionsSnacks[index].name ?? "",
+                                      // model.optionsSnacks[index].name ?? "",
+                                      "${option.name ?? "-"} \$${option.dollarPrice ?? "0"}",
                                       style: const TextStyle(fontSize: 14),
                                       maxLines: 2,
                                     ),

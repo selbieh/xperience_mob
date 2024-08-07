@@ -7,6 +7,7 @@ class ServiceOptionsModel {
   String? name;
   int? maxFree;
   String? price;
+  String? dollarPrice;
   bool? active;
   int? count;
   bool? isSelected;
@@ -20,6 +21,7 @@ class ServiceOptionsModel {
     this.name,
     this.maxFree,
     this.price,
+    this.dollarPrice,
     this.active,
     this.count,
     this.isSelected,
@@ -36,6 +38,7 @@ class ServiceOptionsModel {
     name = json['name'];
     maxFree = json['max_free'];
     price = json['price'];
+    dollarPrice = json['dollar_price'];
     active = json['active'];
     count = 0;
     isSelected = false;
@@ -51,6 +54,7 @@ class ServiceOptionsModel {
     data['name'] = name;
     data['max_free'] = maxFree;
     data['price'] = price;
+    data['dollar_price'] = dollarPrice;
     data['active'] = active;
     return data;
   }
