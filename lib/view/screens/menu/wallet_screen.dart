@@ -121,46 +121,46 @@ class WalletScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            const Text(
-                              "My transaction",
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                            ).localize(context),
-                            const SizedBox(height: 10),
-                            Column(
-                              children: List.generate(10, (index) {
-                                return Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 10),
-                                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primaryColorLight,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "Ride Trip",
-                                              // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                            ).localize(context),
-                                            const SizedBox(height: 5),
-                                            const Text(
-                                              "May 6 , 2022",
-                                              style: TextStyle(color: AppColors.grey, fontSize: 12),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const Text("- \$103.56"),
-                                    ],
-                                  ),
-                                );
-                              }),
-                            ),
+                            // const Text(
+                            //   "My transaction",
+                            //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                            // ).localize(context),
+                            // const SizedBox(height: 10),
+                            // Column(
+                            //   children: List.generate(10, (index) {
+                            //     return Container(
+                            //       margin: const EdgeInsets.symmetric(vertical: 10),
+                            //       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                            //       decoration: BoxDecoration(
+                            //         color: AppColors.primaryColorLight,
+                            //         borderRadius: BorderRadius.circular(50),
+                            //       ),
+                            //       child: Row(
+                            //         mainAxisSize: MainAxisSize.max,
+                            //         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //         children: [
+                            //           Expanded(
+                            //             child: Column(
+                            //               crossAxisAlignment: CrossAxisAlignment.start,
+                            //               children: [
+                            //                 const Text(
+                            //                   "Ride Trip",
+                            //                   // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            //                 ).localize(context),
+                            //                 const SizedBox(height: 5),
+                            //                 const Text(
+                            //                   "May 6 , 2022",
+                            //                   style: TextStyle(color: AppColors.grey, fontSize: 12),
+                            //                 ),
+                            //               ],
+                            //             ),
+                            //           ),
+                            //           const Text("- \$103.56"),
+                            //         ],
+                            //       ),
+                            //     );
+                            //   }),
+                            // ),
                           ],
                         ),
                       ),
