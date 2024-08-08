@@ -86,11 +86,10 @@ class MyApp extends StatelessWidget {
 
 /*
 ================================================================================== Todo
- - price in EGP for payment and reservations
- - Car services price 
- ----------------------------------------------
- - Splash screen and app icon
- - OTP Code
+- 
+
+
+  
 
 
 

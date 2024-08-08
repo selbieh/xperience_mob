@@ -8,10 +8,8 @@ import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/shared_preference.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/view/screens/auth/onbording_screen.dart';
 import 'package:xperience/view/screens/main_screen.dart';
-import 'package:xperience/view/widgets/animations/fade_transition_widget.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -21,7 +19,9 @@ class SplashScreen extends StatelessWidget {
     SizeConfig.init(context);
 
     return BaseWidget<SplashScreenViewModel>(
-      model: SplashScreenViewModel(auth: Provider.of<AuthService>(context)),
+      model: SplashScreenViewModel(
+        auth: Provider.of<AuthService>(context),
+      ),
       initState: (model) {
         model.delayFun();
       },
@@ -34,10 +34,13 @@ class SplashScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // SvgPicture.asset("assets/svgs/xperience_logo.svg"),
-                  FadeTransitionWidget(
-                    milliseconds: 1500,
-                    curve: Curves.easeInOut,
-                    child: SvgPicture.asset("assets/svgs/xperience_logo.svg"),
+                  // FadeTransitionWidget(
+                  //   milliseconds: 1500,
+                  //   curve: Curves.easeInOut,
+                  //   child: SvgPicture.asset("assets/svgs/xperience_logo.svg"),
+                  // ),
+                  Image.asset(
+                    "assets/images/finaltransparancy.gif",
                   ),
                 ],
               ),
@@ -54,7 +57,7 @@ class SplashScreenViewModel extends BaseNotifier {
   final AuthService auth;
 
   void delayFun() {
-    Future.delayed(const Duration(milliseconds: 2000), () async {
+    Future.delayed(const Duration(milliseconds: 4500), () async {
       await auth.loadUser();
       if (SharedPref.sharedPref?.getBool(SharedPrefKeys.isFirstLaunch) ?? false) {
         NavService().pushReplacementKey(const OnboardingScreen());

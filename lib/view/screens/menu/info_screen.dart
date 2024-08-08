@@ -7,6 +7,7 @@ import 'package:xperience/model/services/launcher.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/menu/about_screen.dart';
 import 'package:xperience/view/screens/menu/cancelation_policy_screen.dart';
 import 'package:xperience/view/screens/menu/faq_screen.dart';
 import 'package:xperience/view/screens/menu/privacy_policy_screen.dart';
@@ -41,12 +42,12 @@ class InfoScreen extends StatelessWidget {
                           },
                         ),
                         const Divider(height: 0, thickness: 0.2),
-                        // aboutItem(
-                        //   "About".localize(context),
-                        //   () {
-                        //     NavService().pushKey(const AboutScreen());
-                        //   },
-                        // ),
+                        aboutItem(
+                          "About us".localize(context),
+                          () {
+                            NavService().pushKey(const AboutUsScreen());
+                          },
+                        ),
                         const Divider(height: 0, thickness: 0.2),
                         aboutItem(
                           "Terms of use".localize(context),

@@ -98,8 +98,7 @@ class OTPScreenModel extends BaseNotifier {
 
   void submitFun() async {
     if (formKey.currentState!.validate()) {
-      // sendOtp();
-      sendOtpTemp();
+      sendOtp();
     } else {
       autovalidateMode = AutovalidateMode.always;
       setState();
@@ -113,23 +112,6 @@ class OTPScreenModel extends BaseNotifier {
         "mobile": mobile,
         "token": pinCode,
       },
-    );
-    if (res.left != null) {
-      setError();
-      DialogsHelper.messageDialog(message: "${res.left?.message}");
-    } else {
-      setIdle();
-      NavService().pushAndRemoveUntilKey(
-        const MainScreen(),
-        settings: const RouteSettings(name: RouteNames.mainScreen),
-      );
-    }
-  }
-
-  Future<void> sendOtpTemp() async {
-    setBusy();
-    final res = await auth.phoneVerify(
-      body: {"mobile": mobile},
     );
     if (res.left != null) {
       setError();

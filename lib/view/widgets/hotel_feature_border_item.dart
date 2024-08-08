@@ -29,7 +29,11 @@ class HotelFeatureBoarderItem extends StatelessWidget {
         children: [
           // SvgPicture.asset(image),
           if (image != null) ...[
-            Image.network("$image"),
+            Image.network(
+              "$image",
+              height: 25,
+              width: 30,
+            ),
             const SizedBox(width: 10),
           ],
           Text(

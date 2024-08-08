@@ -425,7 +425,8 @@ class UltimateStep3BookingScreen extends StatelessWidget {
                                                 border: Border.all(color: AppColors.grey, width: 0.5),
                                               ),
                                               child: Text(
-                                                "${e.durationHours ?? "-"} ${"Hours".localize(context)}",
+                                                // "${e.durationHours ?? "-"} ${"Hours".localize(context)}",
+                                                "${e.durationHours ?? "-"} ${"Hours".localize(context)} (\$${e.dollarPrice ?? "-"})",
                                                 style: const TextStyle(fontSize: 12),
                                               ),
                                             ),

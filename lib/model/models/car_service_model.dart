@@ -157,6 +157,7 @@ class ImagesModel {
   int? id;
   String? image;
   int? carService;
+  bool? belongToParent;
 
   ImagesModel({this.id, this.image, this.carService});
 
@@ -164,6 +165,7 @@ class ImagesModel {
     id = json['id'];
     image = json['image'];
     carService = json['car_service'];
+    belongToParent = json['belong_to_parent'];
   }
 
   Map<String, dynamic> toJson() {
@@ -171,6 +173,7 @@ class ImagesModel {
     data['id'] = id;
     data['image'] = image;
     data['car_service'] = carService;
+    data['belong_to_parent'] = belongToParent;
     return data;
   }
 }

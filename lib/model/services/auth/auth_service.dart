@@ -127,30 +127,6 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  ///================================================================================================
-  ///================================================================================================
-  ///============================================================================== Phone verify Temp
-  Future<Either<AppFailure, UserModel>> phoneVerifyTemp({required Map<String, dynamic> body}) async {
-    try {
-      final res = await HttpService.request(
-        endPoint: EndPoints.token,
-        requestType: RequestType.post,
-        header: Headers.guestHeader,
-        body: body,
-      );
-      if (res.right != null) {
-        final resUser = UserModel.fromJson(res.right);
-        await saveUser(resUser);
-        await registrDeviceFcm();
-        return Either(right: resUser);
-      } else {
-        return Either(left: res.left);
-      }
-    } catch (error) {
-      return Either(left: AppFailure(message: error.toString()));
-    }
-  }
-
   ///============================================================================== Update Profile
   Future<Either<AppFailure, UserModel>> updateUserProfile({
     required int userId,

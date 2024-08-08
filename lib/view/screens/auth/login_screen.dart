@@ -12,6 +12,7 @@ import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/otp_screen.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
+import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 import 'package:xperience/view/widgets/have_problem_widget.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -143,9 +144,8 @@ class LoginScreenViewModel extends BaseNotifier {
     );
     if (res.left != null) {
       setError();
-      // failure = res.left?.message;
-      // DialogsHelper.messageDialog(message: "${res.left?.message}");
-      NavService().pushKey(OTPScreen(mobile: "${phoneController?.value.international}")); // Temp
+      failure = res.left?.message;
+      DialogsHelper.messageDialog(message: "${res.left?.message}");
     } else {
       setIdle();
       NavService().pushKey(OTPScreen(mobile: "${phoneController?.value.international}"));

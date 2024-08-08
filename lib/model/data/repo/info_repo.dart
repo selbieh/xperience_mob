@@ -11,6 +11,7 @@ class InfoRepo extends ChangeNotifier {
   PolicyModel? privacyPolicy;
   PolicyModel? cancellationPolicy;
   PolicyModel? termsOfUse;
+  PolicyModel? aboutUs;
 
   Future<Either<AppFailure, PaginationModel<FaqModel>>> getFaqs() async {
     try {
@@ -57,6 +58,22 @@ class InfoRepo extends ChangeNotifier {
       } else {
         termsOfUse = res.right;
         return Either(right: termsOfUse);
+      }
+    } catch (e) {
+      return Either(left: AppFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<AppFailure, PolicyModel>> getAboutUs() async {
+    try {
+      var res = await InfoDataSource.getPrivacy(
+        queryParams: {"key": "about"},
+      );
+      if (res.left != null) {
+        return Either(left: res.left);
+      } else {
+        aboutUs = res.right;
+        return Either(right: aboutUs);
       }
     } catch (e) {
       return Either(left: AppFailure(message: e.toString()));

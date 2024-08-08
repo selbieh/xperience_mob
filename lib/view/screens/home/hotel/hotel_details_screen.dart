@@ -6,6 +6,7 @@ import 'package:xperience/model/base/base_widget.dart';
 import 'package:xperience/model/config/logger.dart';
 import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/data/repo/hotels_service_repo.dart';
+import 'package:xperience/model/models/car_service_model.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
@@ -17,6 +18,8 @@ import 'package:xperience/view/screens/home/car/car_panorama_preview_screen.dart
 import 'package:xperience/view/screens/home/car/complete_info_screen.dart';
 import 'package:xperience/view/screens/home/hotel/hotel_booking_screen.dart';
 import 'package:xperience/view/widgets/booknow_button.dart';
+import 'package:xperience/view/widgets/components/main_image.dart';
+import 'package:xperience/view/widgets/components/main_image_slider.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/components/text_expansion.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
@@ -56,6 +59,18 @@ class HotelDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // const SizedBox(height: 20),
+                        if (model.hotelParentImages.isNotEmpty)
+                          MainImageSlider(
+                            items: model.hotelParentImages
+                                .map((e) => MainImage.network(
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      fit: BoxFit.cover,
+                                      imagePath: e,
+                                      radius: 0,
+                                    ))
+                                .toList(),
+                          ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -63,10 +78,14 @@ class HotelDetailsScreen extends StatelessWidget {
                             if (model.selectedImageIndex != -1)
                               InkWell(
                                 child: SizedBox(
-                                  height: 0.25.h,
+                                  height: 0.20.h,
                                   width: double.infinity,
-                                  child: PanoramaViewer(
-                                    child: Image.network(model.hotelServiceModel?.images?[model.selectedImageIndex ?? 0].image ?? ""),
+                                  child: Scaffold(
+                                    body: PanoramaViewer(
+                                      latSegments: 1000,
+                                      // child: Image.network("https://xperience-media.fra1.digitaloceanspaces.com/xperience-media/hotel_images/Hotel2.jpg"),
+                                      child: Image.network(model.hotelServiceModel?.images?[model.selectedImageIndex ?? 0].image ?? ""),
+                                    ),
                                   ),
                                 ),
                                 onTap: () {
@@ -237,6 +256,12 @@ class HotelDetailsViewModel extends BaseNotifier {
 
   int? selectedImageIndex = -1;
   HotelServiceModel? hotelServiceModel;
+  List<String> hotelParentImages = [
+    // "https://www.bubbledock.com/wp-content/uploads/2020/05/SONATA-hero-option1-764A5360-edit.jpg",
+    // "https://imgd.aeplcdn.com/664x374/n/cw/ec/45390/gls-exterior-right-front-three-quarter-2.jpeg?q=85",
+    // "https://www.indiacarnews.com/wp-content/uploads/2020/10/Upcoming-7-seater-SUVs-MPVs-India.jpg",
+    // "https://cf.ltkcdn.net/cars/images/std/223247-800x600r1-Car-Parked.jpg",
+  ];
   String selectedPlan = "RIDE";
   List<String> plansList = [
     "RIDE",
@@ -278,6 +303,15 @@ class HotelDetailsViewModel extends BaseNotifier {
       setError();
     } else {
       hotelServiceModel = res.right;
+      List<ImagesModel> hotel360Images = [];
+      for (var item in hotelServiceModel?.images ?? <ImagesModel>[]) {
+        if (item.belongToParent == true && item.image != null) {
+          hotelParentImages.add(item.image ?? "");
+        } else {
+          hotel360Images.add(item);
+        }
+      }
+      hotelServiceModel?.images = hotel360Images;
       if ((hotelServiceModel?.images ?? []).isNotEmpty) {
         selectedImageIndex = 0;
       }

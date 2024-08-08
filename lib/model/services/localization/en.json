@@ -171,7 +171,6 @@
     "Error": "Error",
     "Congratulations": "Congratulations",
     "Go to home": "Go to home",
-    "=================================================================================================": "AAAAAAAA",
     "Book Fully Service!": "Book Fully Service!",
     "OFF": "OFF",
     "Next 3 Rides": "Next 3 Rides",
@@ -187,5 +186,8 @@
     "Refunded": "Refunded",
     "Completed": "Completed",
     "Reservation completed successfully": "Reservation completed successfully",
+    "About us": "About us",
+    "=================================================================================================": "AAAAAAAA",
+    "AAAAAAAA": "AAAAAAA",
     "LAST": "LAST"
 }

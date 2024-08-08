@@ -175,5 +175,17 @@
     "OFF": "خصم",
     "Next 3 Rides": "الرحلات الثلاث التالية",
     "Pay": "ادفع",
+    "Credit card": "بطاقة ائتمان",
+    "Cash on delivery": "الدفع عند الاستلام",
+    "Car POS": "جهاز نقاط البيع في السيارة",
+    "Waiting for payment": "في انتظار الدفع",
+    "Waiting for confirmation": "في انتظار التأكيد",
+    "Paid": "مدفوع",
+    "Confirmed": "مؤكد",
+    "Cancelled": "ملغي",
+    "Refunded": "تم الاسترداد",
+    "Completed": "مكتمل",
+    "Reservation completed successfully": "تم إكمال الحجز بنجاح",
+    "About us": "معلومات عنا",
     "LAST": "الأخير"
 }

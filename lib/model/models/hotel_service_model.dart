@@ -55,10 +55,15 @@ class HotelServiceModel {
     numberOfRooms = json['number_of_rooms'];
     numberOfBeds = json['number_of_beds'];
     dayPrice = json['day_price'];
+
     if (json['features'] != null) {
       features = <Features>[];
       json['features'].forEach((v) {
-        features!.add(Features.fromJson(v));
+        if (v is int) {
+          features!.add(Features(id: v));
+        } else {
+          features!.add(Features.fromJson(v));
+        }
       });
     }
     if (json['images'] != null) {
