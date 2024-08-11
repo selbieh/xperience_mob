@@ -7,6 +7,7 @@ import 'package:xperience/model/data/repo/booking_repo.dart';
 import 'package:xperience/model/models/car_service_model.dart';
 import 'package:xperience/model/models/hotel_service_model.dart';
 import 'package:xperience/model/models/reservation_model.dart';
+import 'package:xperience/model/services/app_helper.dart';
 import 'package:xperience/model/services/format_helper.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
@@ -61,9 +62,10 @@ class ReservationDetailsScreen extends StatelessWidget {
                               style: const TextStyle(fontSize: 12, color: AppColors.greyText),
                             ),
                             Text(
-                              reservation?.status ?? "",
+                              // reservation?.status ?? "",
+                              AppHelper.getReservationStatus(reservation?.status),
                               style: const TextStyle(fontSize: 12, color: AppColors.greyText),
-                            ),
+                            ).localize(context),
                           ],
                         ),
                         const SizedBox(height: 20),

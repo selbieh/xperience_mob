@@ -182,7 +182,6 @@ class ProfileScreenModel extends BaseNotifier {
       DialogsHelper.messageDialog(message: "${res.left?.message}");
     } else {
       await auth.signOut();
-      // NavService().pushAndRemoveUntilKey(const LoginScreen());
       NavService().pushAndRemoveUntilKey(const SplashScreen());
       AppMessenger.snackBar(
         context: context,

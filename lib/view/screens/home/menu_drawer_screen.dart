@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:xperience/model/base/base_notifier.dart';
 import 'package:xperience/model/base/base_widget.dart';
@@ -32,52 +31,20 @@ class MenuDrawerScreen extends StatelessWidget {
       ),
       builder: (_, model, child) {
         return Drawer(
-          // backgroundColor: AppColors.primaryColorLight,
-          backgroundColor: AppColors.primaryColorDark,
+          // backgroundColor: AppColors.primaryColorDark,
+          backgroundColor: AppColors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0),
           ),
           child: Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 50),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 0.25.w),
-                child: SvgPicture.asset("assets/svgs/xperience_logo.svg"),
+                // child: SvgPicture.asset("assets/svgs/xperience_logo.svg"),
+                child: Image.asset("assets/images/xperience_logo.png"),
               ),
-              const SizedBox(height: 20),
-              // if (model.auth.isLogged)
-              // InkWell(
-              //   child: Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              //     child: Row(
-              //       children: [
-              //         Container(
-              //           decoration: BoxDecoration(
-              //             shape: BoxShape.circle,
-              //             border: Border.all(color: AppColors.goldColor, width: 3),
-              //           ),
-              //           child: const MainImage.network(
-              //             height: 45,
-              //             width: 45,
-              //             radius: 25,
-              //             imagePath: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-              //           ),
-              //         ),
-              //         const SizedBox(width: 10),
-              //         Expanded(
-              //           child: Text(
-              //             model.auth.userModel?.user?.name ?? "-",
-              //             maxLines: 1,
-              //             style: const TextStyle(color: AppColors.goldColor),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              //   onTap: () {
-              //     // NavService().pushKey(const WalletScreen());
-              //   },
-              // ),
+              const SizedBox(height: 10), 
               if (model.auth.isLogged)
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

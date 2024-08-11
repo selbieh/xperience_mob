@@ -160,6 +160,24 @@ https://dashboard.xperiences.vip/dashboard
       "dollar_day_price": "4.00"
  }
 ==================================================================================
+ URI: https://api.xperiences.vip/api/calculate-reservation/
+ EndPoint: /api/calculate-reservation/
+ Request Type: POST
+ Header: {Accept: application/json, Content-Type: application/json, Accept-Language: en, Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1ODI5NTU0LCJpYXQiOjE3MjMyMzc1NTQsImp0aSI6Ijk3YWFjZWFkYzdmODQxOGM5YWZkMmZmYzUxYjJiOWE1IiwidXNlcl9pZCI6NH0.sdUGaZOCpGTnp0r9wMbCUo16Z9P6wCr7h5ure0zL1tw}
+ Body: {car_reservations: [{car_service_id: 4, pickup_time: 2024-08-10T16:00:00.000Z, pickup_address: test, dropoff_address: test, pickup_lat: 30.117565579822852, pickup_long: 31.23552728444338, dropoff_lat: 29.764457703434775, dropoff_long: 31.415303684771064, extras: , options: [{service_option: 6, quantity: 1}, {service_option: 9, quantity: 3}, {service_option: 1, quantity: 1}, {service_option: 3, quantity: 1}, {service_option: 5, quantity: 1}], subscription_option: 3}], payment_method: CREDIT_CARD}
+ QueryParams: null
+
+ ❌❌ Request Failed (400) ❌❌
+  {
+       "car_reservations": [
+            {
+                 "subscription_option": [
+                      "You Should Choose a duration option."
+                 ]
+            }
+       ]
+  }
+==================================================================================
 ==================================================================================
 ==================================================================================
 

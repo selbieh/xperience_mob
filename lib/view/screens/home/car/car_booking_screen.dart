@@ -58,7 +58,7 @@ class CarBookingScreen extends StatelessWidget {
             actions: [
               MainButton(
                 type: ButtonType.text,
-                title: "Reset",
+                title: "Reset".localize(context),
                 color: AppColors.goldColor,
                 onPressed: () {
                   model.resetForm();
@@ -157,6 +157,23 @@ class CarBookingScreen extends StatelessWidget {
                                           }
                                         },
                                       ),
+                                      if (planType == "AIRPORT") ...[
+                                        const SizedBox(height: 20),
+                                        MainTextField(
+                                          controller: model.terminalController,
+                                          validator: Validator.required,
+                                          hint: "Terminal".localize(context),
+                                          hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                                          borderWidth: 0.5,
+                                        ),
+                                        MainTextField(
+                                          controller: model.flightNumberController,
+                                          validator: Validator.required,
+                                          hint: "Flight number".localize(context),
+                                          hintStyle: const TextStyle(fontSize: 14, color: AppColors.white),
+                                          borderWidth: 0.5,
+                                        ),
+                                      ]
                                     ],
                                   ),
                                 ),
@@ -497,6 +514,8 @@ class CarBookingViewModel extends BaseNotifier {
   final pickUpDateController = TextEditingController();
   final pickUpTimeController = TextEditingController();
   final extrasController = TextEditingController();
+  final terminalController = TextEditingController();
+  final flightNumberController = TextEditingController();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   SubscriptionOptionModel? selectedSubscription;
@@ -658,8 +677,8 @@ class CarBookingViewModel extends BaseNotifier {
           "pickup_long": pickupLatLng?.longitude,
           "dropoff_lat": dropOffLatLng?.latitude,
           "dropoff_long": dropOffLatLng?.longitude,
-          // "terminal": "",
-          // "flight_number": "",
+          "terminal": terminalController.text,
+          "flight_number": flightNumberController.text,
           "extras": extrasController.text,
           "options": optionsList,
           "subscription_option": selectedSubscription?.id

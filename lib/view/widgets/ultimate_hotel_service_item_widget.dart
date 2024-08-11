@@ -105,7 +105,7 @@ class UltimateHotelServiceItemWidget extends StatelessWidget {
                             FeatureItem(
                               icon: "assets/svgs/ic_room_door.svg",
                               // title: "2 Rooms",
-                              title: "${hotelService?.numberOfRooms ?? 0} Rooms",
+                              title: "${hotelService?.numberOfRooms ?? 0} ${"Rooms".localize(context)}",
                               padding: const EdgeInsets.symmetric(vertical: 5),
                             ),
                             // SizedBox(width: 20),
@@ -113,7 +113,7 @@ class UltimateHotelServiceItemWidget extends StatelessWidget {
                             FeatureItem(
                               icon: "assets/svgs/ic_hotel.svg",
                               // title: "4 Beds",
-                              title: "${hotelService?.numberOfBeds ?? 0} Beds",
+                              title: "${hotelService?.numberOfBeds ?? 0} ${"Beds".localize(context)}",
                               padding: const EdgeInsets.symmetric(vertical: 5),
                             ),
                             // const SizedBox(width: 20),

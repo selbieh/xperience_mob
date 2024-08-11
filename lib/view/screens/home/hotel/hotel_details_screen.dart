@@ -305,15 +305,18 @@ class HotelDetailsViewModel extends BaseNotifier {
       hotelServiceModel = res.right;
       List<ImagesModel> hotel360Images = [];
       for (var item in hotelServiceModel?.images ?? <ImagesModel>[]) {
-        if (item.belongToParent == true && item.image != null) {
-          hotelParentImages.add(item.image ?? "");
-        } else {
-          hotel360Images.add(item);
+        if (item.image != null) {
+          if (item.is3d == true) {
+            hotel360Images.add(item);
+          } else {
+            hotelParentImages.add(item.image ?? "");
+          }
         }
       }
       hotelServiceModel?.images = hotel360Images;
       if ((hotelServiceModel?.images ?? []).isNotEmpty) {
         selectedImageIndex = 0;
+        setState();
       }
       setIdle();
     }

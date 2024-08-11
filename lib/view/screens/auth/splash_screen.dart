@@ -10,6 +10,7 @@ import 'package:xperience/model/services/router/nav_service.dart';
 import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/shared_preference.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
+import 'package:xperience/view/screens/auth/login_screen.dart';
 import 'package:xperience/view/screens/auth/onbording_screen.dart';
 import 'package:xperience/view/screens/main_screen.dart';
 
@@ -36,17 +37,10 @@ class SplashScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // SvgPicture.asset("assets/svgs/xperience_logo.svg"),
-                  // FadeTransitionWidget(
-                  //   milliseconds: 1500,
-                  //   curve: Curves.easeInOut,
-                  //   child: SvgPicture.asset("assets/svgs/xperience_logo.svg"),
-                  // ),
                   const SizedBox(),
                   Image.asset(
                     "assets/images/finaltransparancy.gif",
                   ),
-
                   if (model.isLocalAuthAutinticaed == false)
                     Center(
                       child: IconButton(
@@ -82,16 +76,9 @@ class SplashScreenViewModel extends BaseNotifier {
         NavService().pushReplacementKey(const OnboardingScreen());
       } else {
         if (auth.isLogged) {
-          // NavService().pushReplacementKey(
-          //   const MainScreen(),
-          //   settings: const RouteSettings(name: RouteNames.mainScreen),
-          // );
           handleBiometricAuthentication();
         } else {
-          NavService().pushReplacementKey(
-            const MainScreen(),
-            settings: const RouteSettings(name: RouteNames.mainScreen),
-          );
+          NavService().pushReplacementKey(const LoginScreen(isGuest: true));
         }
       }
     });

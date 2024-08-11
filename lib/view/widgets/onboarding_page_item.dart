@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xperience/model/config/size_config.dart';
 
 class OnboardingPageItem extends StatelessWidget {
@@ -48,7 +47,8 @@ class OnboardingPageItem extends StatelessWidget {
               children: [
                 const SizedBox(width: double.infinity),
                 SizedBox(height: 0.30.h),
-                SvgPicture.asset("assets/svgs/xperience_logo.svg", width: 80),
+                // SvgPicture.asset("assets/svgs/xperience_logo.svg", width: 80),
+                 Image.asset("assets/images/xperience_logo.png", width: 100),
                 const SizedBox(height: 10),
                 Text(
                   title,

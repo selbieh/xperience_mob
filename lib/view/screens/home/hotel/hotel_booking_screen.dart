@@ -53,7 +53,7 @@ class HotelBookingScreen extends StatelessWidget {
             actions: [
               MainButton(
                 type: ButtonType.text,
-                title: "Reset",
+                title: "Reset".localize(context),
                 color: AppColors.goldColor,
                 onPressed: () {
                   model.resetForm();

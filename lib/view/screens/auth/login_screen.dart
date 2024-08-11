@@ -8,15 +8,19 @@ import 'package:xperience/model/config/size_config.dart';
 import 'package:xperience/model/services/auth/auth_service.dart';
 import 'package:xperience/model/services/localization/app_language.dart';
 import 'package:xperience/model/services/router/nav_service.dart';
+import 'package:xperience/model/services/router/route_names.dart';
 import 'package:xperience/model/services/theme/app_colors.dart';
 import 'package:xperience/view/screens/auth/otp_screen.dart';
+import 'package:xperience/view/screens/main_screen.dart';
+import 'package:xperience/view/widgets/components/main_button.dart';
 import 'package:xperience/view/widgets/components/main_progress.dart';
 import 'package:xperience/view/widgets/custom_button.dart';
 import 'package:xperience/view/widgets/dialogs/dialogs_helper.dart';
 import 'package:xperience/view/widgets/have_problem_widget.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({this.isGuest = false, Key? key}) : super(key: key);
+  final bool isGuest;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +108,21 @@ class LoginScreen extends StatelessWidget {
                             title: "SEND OTP".localize(context),
                             onPressed: model.submitFun,
                           ),
+                    if (isGuest) ...[
+                      const SizedBox(height: 60),
+                      MainButton(
+                        width: double.infinity,
+                        radius: 10,
+                        height: 50,
+                        title: "CONTINUE AS GUEST".localize(context),
+                        onPressed: () {
+                          NavService().pushKey(
+                            const MainScreen(),
+                            settings: const RouteSettings(name: RouteNames.mainScreen),
+                          );
+                        },
+                      ),
+                    ],
                   ],
                 ),
               ),

@@ -20,8 +20,8 @@ class FAQScreen extends StatelessWidget {
       ),
       initState: (model) {
         if ((model.infoRepo.faqsPaginated?.results ?? []).isEmpty) {
-          model.getCarServices();
         }
+          model.getCarServices();
       },
       builder: (_, model, child) {
         return Scaffold(

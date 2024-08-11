@@ -18,17 +18,17 @@ class ApproveDialog extends StatelessWidget {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       title: Text(
-        locale.get(title),
+        title.localize(context),
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
-      content: Text(locale.get(subtitle)),
+      content: Text(subtitle.localize(context)),
       actions: <Widget>[
         TextButton(
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.resolveWith<Color>(
                 (states) => AppColors.goldColor),
           ),
-          child: Text(locale.get("Discard")),
+          child: const Text("Discard").localize(context),
           onPressed: () {
             Navigator.of(context).pop();
           },
